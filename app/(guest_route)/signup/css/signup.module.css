@@ -1,0 +1,147 @@
+@media screen and (min-width: 601px) {
+  .wrapper {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+  .wrapper:before, .wrapper:after {
+    display: block;
+    flex-grow: 1;
+    height: 18px;
+    box-sizing: border-box;
+    content: "";
+  }
+}
+
+.outer_container {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  text-align: center;
+  padding: 24px 24px 36px;
+}
+@media screen and (min-width: 450px) {
+  .outer_container {
+    padding: 48px 40px 36px;
+  }
+}
+@media screen and (min-width: 601px) {
+  .outer_container {
+    display: block;
+    width: 450px;
+    margin: 0 auto;
+    border: 1px solid #dadce0;
+    border-radius: 8px;
+  }
+}
+
+.inner_container {
+  padding-top: 30px;
+}
+.inner_container .input_container {
+  display: flex;
+  flex-direction: column;
+}
+.inner_container .input_container > div:not(:first-of-type) {
+  padding-top: 24px;
+}
+.inner_container .input_container .name_box {
+  text-align: left;
+}
+.inner_container .input_container .email_box {
+  display: flex;
+  flex-direction: column;
+  justify-content: left;
+  height: 130px;
+}
+.inner_container .input_container .email_box input {
+  width: 100%;
+}
+.inner_container .input_container .email_box .email_err_message {
+  margin-bottom: 10px;
+}
+.inner_container .input_container .email_box .email_err_message button {
+  width: -moz-fit-content;
+  width: fit-content;
+}
+.inner_container .input_container .email_box .request_authbox {
+  display: flex;
+  gap: 1rem;
+}
+.inner_container .input_container .email_box .request_authbox input {
+  flex: 5;
+  height: 28px;
+}
+.inner_container .input_container .email_box .request_authbox button {
+  flex: 1;
+}
+.inner_container .input_container .input_box {
+  margin-bottom: 10px;
+}
+
+.input_tag {
+  height: 56px;
+  margin: 1px 1px 0 1px;
+  padding: 13px 15px;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  box-shadow: 0 0 3px #eee;
+  color: #202124;
+}
+
+.error_text {
+  text-align: left;
+}
+.error_text span {
+  margin: 0 0 0 30px;
+  color: #d93025;
+}
+
+.password_box {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 1rem;
+}
+.password_box .wrap_password_input {
+  display: flex;
+  flex-direction: column;
+}
+.password_box .wrap_password_input .input_box {
+  display: flex;
+  gap: 1rem;
+}
+.password_box .wrap_password_input .input_box input {
+  flex: 1;
+  width: 100%;
+}
+.password_box .password_checkbox {
+  width: -moz-fit-content;
+  width: fit-content;
+  text-align: left;
+  font-size: 17px;
+  cursor: pointer;
+}
+.password_box .password_checkbox input {
+  width: auto;
+  height: auto;
+}
+
+.submit_box {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+.submit_box .login_link {
+  line-height: 1.38;
+  letter-spacing: -0.3px;
+  font-weight: 400;
+  color: #616568;
+  border-bottom: 1px solid #858a8d;
+  text-decoration: none;
+  cursor: pointer;
+}/*# sourceMappingURL=signup.module.css.map */

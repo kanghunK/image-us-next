@@ -1,10 +1,14 @@
-import React from "react";
-import RootLayout from "./layout";
-import Login from "./login/page";
-import Room from "./room/page";
+"use client";
 
-export default function Homepage() {
-    const isLoggedIn = true;
+import useAuth from "@/states/stores/data";
+import { redirect } from "next/navigation";
 
-    return <RootLayout>{isLoggedIn ? <Room /> : <Login />}</RootLayout>;
+export default function HomePage() {
+    const { data } = useAuth();
+
+    if (data?.isLoggedIn) {
+        redirect("/room");
+    } else {
+        redirect("/login");
+    }
 }

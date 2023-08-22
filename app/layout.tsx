@@ -1,11 +1,9 @@
-import Head from "next/head";
-import Link from "next/link";
-import { ReactChildren } from "@/lib/types";
+"use client";
+
+import { RootLayoutChildren } from "@/lib/types";
 import "./globals.css";
 
-export default function RootLayout({ children }: ReactChildren) {
-    const isLoggedIn = true;
-
+export default function RootLayout({ children }: RootLayoutChildren) {
     return (
         <html lang="en">
             <body>

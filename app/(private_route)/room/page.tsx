@@ -3,10 +3,11 @@
 import Image from "next/image";
 import { Button } from "@/components/shared/button";
 import { useRouter } from "next/navigation";
-import { lobster } from "../fonts";
+import { lobster } from "../../fonts";
 
 import cameraImage from "../public/camera_image.png";
 import styles from "./room.module.scss";
+import RootLayout from "../../layout";
 
 export default function Room() {
     const router = useRouter();
