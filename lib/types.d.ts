@@ -1,3 +1,3 @@
-export interface ReactChildren {
+export interface RootLayoutChildren {
     children: React.ReactNode;
 }
