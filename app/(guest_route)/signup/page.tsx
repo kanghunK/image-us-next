@@ -5,7 +5,7 @@ import { AxiosError } from "axios";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
-import { Button } from "@/components/shared/button";
+import { Button } from "@/components/shared/Button";
 import axios from "@/lib/api";
 import useInput from "@/hooks/useInput";
 import styles from "./signup.module.scss";

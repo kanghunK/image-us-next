@@ -7,7 +7,7 @@ import { IconContext } from "react-icons/lib";
 import { RiKakaoTalkFill } from "react-icons/ri";
 import { SiNaver } from "react-icons/si";
 
-import { Button } from "@/components/shared/button";
+import { Button } from "@/components/shared/Button";
 import useAuth from "@/states/stores/data";
 import Loading from "../../loading";
 import styles from "./login.module.scss";
