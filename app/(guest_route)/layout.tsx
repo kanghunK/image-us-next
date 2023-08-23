@@ -15,5 +15,5 @@ export default function GuestLayout({ children }: Props) {
         redirect("/room");
     }
 
-    return <>{children}</>;
+    return <main style={{ height: "inherit" }}>{children}</main>;
 }

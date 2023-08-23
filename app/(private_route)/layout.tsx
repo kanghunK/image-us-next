@@ -3,6 +3,7 @@
 import React, { ReactNode } from "react";
 import { redirect } from "next/navigation";
 import useAuth from "@/states/stores/data";
+import NavigationBar from "@/components/NavigationBar";
 
 interface Props {
     children: ReactNode;
@@ -15,5 +16,10 @@ export default function PrivateLayout({ children }: Props) {
         redirect("/login");
     }
 
-    return <>{children}</>;
+    return (
+        <>
+            <NavigationBar />
+            <main style={{ height: "inherit" }}>{children}</main>
+        </>
+    );
 }
