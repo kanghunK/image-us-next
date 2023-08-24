@@ -2,7 +2,7 @@
 
 import React, { ReactNode } from "react";
 import { redirect } from "next/navigation";
-import useAuth from "@/states/stores/data";
+import { useAuth } from "@/states/stores/userData";
 
 interface Props {
     children: ReactNode;

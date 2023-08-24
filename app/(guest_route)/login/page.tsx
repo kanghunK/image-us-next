@@ -8,7 +8,7 @@ import { RiKakaoTalkFill } from "react-icons/ri";
 import { SiNaver } from "react-icons/si";
 
 import { Button } from "@/components/shared/Button";
-import useAuth from "@/states/stores/data";
+import { useAuth } from "@/states/stores/userData";
 import styles from "./login.module.scss";
 
 export default function Login() {

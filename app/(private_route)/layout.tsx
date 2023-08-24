@@ -2,7 +2,7 @@
 
 import React, { ReactNode } from "react";
 import { redirect } from "next/navigation";
-import useAuth from "@/states/stores/data";
+import { useAuth } from "@/states/stores/userData";
 import NavigationBar from "@/components/NavigationBar";
 import localStoragePersistor from "@/states/persistors/local-storage";
 

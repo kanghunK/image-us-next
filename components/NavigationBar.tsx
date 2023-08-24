@@ -9,7 +9,7 @@ import Link from "next/link";
 import { DUserInfo } from "@/lib/types";
 import { CgLogOff } from "react-icons/cg";
 import { LiaInfoCircleSolid } from "react-icons/lia";
-import useAuth from "@/states/stores/data";
+import { useAuth } from "@/states/stores/userData";
 
 interface NavProps {
     userInfo: {

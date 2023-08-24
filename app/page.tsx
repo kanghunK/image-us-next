@@ -1,6 +1,6 @@
 "use client";
 
-import useAuth from "@/states/stores/data";
+import { useAuth } from "@/states/stores/userData";
 import { redirect } from "next/navigation";
 
 export default function HomePage() {
