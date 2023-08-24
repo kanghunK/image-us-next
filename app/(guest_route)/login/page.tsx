@@ -9,14 +9,13 @@ import { SiNaver } from "react-icons/si";
 
 import { Button } from "@/components/shared/Button";
 import useAuth from "@/states/stores/data";
-import Loading from "../../loading";
 import styles from "./login.module.scss";
 
 export default function Login() {
     const searchParams = useSearchParams();
     const emailParam = searchParams.get("email");
     const passwordParam = searchParams.get("password");
-    const { login, isLoading } = useAuth();
+    const { login } = useAuth();
 
     const [emailValue, setEmailValue] = useState<string>("");
     const [passwordValue, setPwValue] = useState<string>("");
@@ -81,10 +80,6 @@ export default function Login() {
 
     if (emailParam && passwordParam) {
         login({ email: emailParam, password: passwordParam });
-    }
-
-    if (isLoading) {
-        return <Loading />;
     }
 
     return (
