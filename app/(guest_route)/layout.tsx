@@ -11,6 +11,10 @@ interface Props {
 export default function GuestLayout({ children }: Props) {
     const { data } = useAuth();
 
+    if (data === null) {
+        return <div>로딩중...</div>;
+    }
+
     if (data?.isLoggedIn) {
         redirect("/room");
     }
