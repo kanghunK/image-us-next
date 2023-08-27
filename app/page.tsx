@@ -8,14 +8,14 @@ export default function HomePage() {
     const { data, loginError } = useAuth();
 
     useEffect(() => {
-        console.log("로그", data, loginError);
-
         if (data?.isLoggedIn) {
             redirect("/room");
         } else if (data?.isLoggedIn === false) {
             redirect("/login");
         }
     }, [data]);
+
+    if (loginError) throw loginError;
 
     return <div>로딩중...</div>;
 }
