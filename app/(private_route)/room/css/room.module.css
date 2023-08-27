@@ -1,20 +1,8 @@
-.main_background {
-  display: flex;
-  flex-direction: column;
+.card_wrapper {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 300px));
   justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 100%;
-  min-width: 350px;
-  min-height: 450px;
-  background-color: #fff;
-}
-.main_background .logo_text {
-  font-size: 3.5rem;
-  margin: 0;
-}
-.main_background .btn_group {
-  display: flex;
-  margin-top: 8rem;
-  gap: 5rem;
+  gap: 1.5rem;
+  margin-top: 50px;
+  padding: 0 2rem;
 }/*# sourceMappingURL=room.module.css.map */
