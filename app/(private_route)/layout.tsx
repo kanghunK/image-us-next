@@ -7,9 +7,10 @@ import NavigationBar from "@/components/NavigationBar";
 
 interface Props {
     children: ReactNode;
+    modal: ReactNode;
 }
 
-export default function PrivateLayout({ children }: Props) {
+export default function PrivateLayout({ children, modal }: Props) {
     const { data, loginError } = useAuth();
 
     if (loginError) throw loginError;
@@ -24,11 +25,24 @@ export default function PrivateLayout({ children }: Props) {
     }
 
     return (
-        <>
+        <div
+            style={{
+                display: "flex",
+                flexDirection: "column",
+                height: "inherit",
+            }}
+        >
             <NavigationBar userInfo={data} />
-            <main style={{ height: "inherit", overflow: "hidden" }}>
+            <main
+                style={{
+                    flex: "1 0 auto",
+                    padding: "0 2rem",
+                    overflow: "hidden",
+                }}
+            >
                 {children}
             </main>
-        </>
+            {modal}
+        </div>
     );
 }

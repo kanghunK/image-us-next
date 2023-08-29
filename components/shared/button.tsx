@@ -8,7 +8,7 @@ const buttonBgColor = {
     success: "#28a745",
     error: "#dc3545",
     warning: "#ffc107",
-    default: "#0d6efd",
+    default: "#2364d2",
 };
 const buttonHoverBgColor = {
     success: "#218838",

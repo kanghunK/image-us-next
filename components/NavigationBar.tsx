@@ -5,11 +5,11 @@ import { IconContext } from "react-icons/lib";
 import { FaRegUser } from "react-icons/fa";
 import styled from "@emotion/styled";
 import { usePathname, useRouter } from "next/navigation";
-import Link from "next/link";
 import { DUserInfo } from "@/lib/types";
 import { CgLogOff } from "react-icons/cg";
 import { LiaInfoCircleSolid } from "react-icons/lia";
 import { useAuth } from "@/states/stores/userData";
+import { BsCalendar2Plus } from "react-icons/bs";
 
 interface NavProps {
     userInfo: {
@@ -23,38 +23,34 @@ export default function NavigationBar({ userInfo }: NavProps) {
     const currentPath = usePathname().split("/")[1];
     const { logout } = useAuth();
 
-    const [showMenu, setShowMenu] = useState(false);
     const [showUserMenu, setShowUserMenu] = useState(false);
     const pageTitle = { room: "Room", my_page: "MyPage" };
 
+    const onClickCreateRoom = () => {
+        router.push("room/create_room");
+    };
+
     return (
         <Wrapper>
-            <NavTitle
-                onClick={() => setShowMenu((prev) => !prev)}
-                clicked={showMenu}
-            >
+            <NavTitle>
                 <span className="text">
                     {pageTitle.hasOwnProperty(currentPath)
                         ? pageTitle[currentPath as keyof typeof pageTitle]
                         : "unknown"}
                 </span>
-                {showMenu && (
-                    <ul className="nav_menu">
-                        <li className="first_item">
-                            <Link href="/room">방 목록</Link>
-                        </li>
-                        <li>
-                            <Link href="/my_page">마이페이지</Link>
-                        </li>
-                    </ul>
-                )}
             </NavTitle>
             <IconContext.Provider
                 value={{
                     size: "16px",
                 }}
             >
-                <div className="user_info">
+                <div className="active_btn_group">
+                    <div
+                        className="create_room_btn"
+                        onClick={onClickCreateRoom}
+                    >
+                        <BsCalendar2Plus />
+                    </div>
                     <div
                         className="user_icon"
                         onClick={() => setShowUserMenu((prev) => !prev)}
@@ -100,11 +96,23 @@ const Wrapper = styled.nav`
         }
     }
 
-    .user_info {
+    .active_btn_group {
         display: flex;
         align-items: center;
         position: absolute;
         right: 5%;
+
+        .create_room_btn {
+            padding: 10px;
+            margin-right: 25px;
+            border-radius: 50%;
+            background-color: lightgray;
+            cursor: pointer;
+
+            &:hover {
+                background-color: darkgray;
+            }
+        }
 
         .user_icon {
             display: inline-block;
@@ -154,9 +162,9 @@ const Wrapper = styled.nav`
     }
 `;
 
-const NavTitle = styled.div<{ clicked: boolean }>`
+const NavTitle = styled.div`
     position: relative;
-    cursor: pointer;
+    user-select: none;
 
     .text {
         margin-left: 10px;
@@ -169,9 +177,7 @@ const NavTitle = styled.div<{ clicked: boolean }>`
         border-top: 2px solid #121212;
         border-right: 2px solid #121212;
         display: inline-block;
-        transition: transform 0.5s;
-        transform: ${({ clicked }) =>
-            clicked ? "rotate(135deg)" : "rotate(45deg)"};
+        transform: rotate(45deg);
     }
 
     .nav_menu {
