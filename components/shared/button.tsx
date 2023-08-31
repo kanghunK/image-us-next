@@ -8,13 +8,13 @@ const buttonBgColor = {
     success: "#28a745",
     error: "#dc3545",
     warning: "#ffc107",
-    default: "#2364d2",
+    default: "#446cb3",
 };
 const buttonHoverBgColor = {
     success: "#218838",
     error: "#c82333",
     warning: "#e0a800",
-    default: "#025ce2",
+    default: "#365690",
 };
 
 const Button = styled.button`
@@ -45,6 +45,16 @@ const Button = styled.button`
     cursor: pointer;
 
     transition: 0.5s;
+
+    &:hover,
+    &:active,
+    &:focus {
+        background: ${buttonHoverBgColor.default};
+        outline: 0;
+    }
+    &:disabled {
+        opacity: 0.5;
+    }
 
     &.success {
         background: ${buttonBgColor.success};
