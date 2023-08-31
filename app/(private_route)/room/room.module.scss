@@ -1,8 +1,54 @@
+.subtitle {
+    h2 {
+        position: relative;
+
+        margin-left: 3rem;
+        font-family: "Raleway", sans-serif;
+        font-weight: 300;
+        font-size: 28px;
+        font-weight: 500;
+        letter-spacing: 0;
+        line-height: 1.5em;
+        padding-bottom: 15px;
+        color: #080808;
+    }
+    h2:before {
+        content: "";
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        height: 5px;
+        width: 55px;
+        background-color: #111;
+    }
+    h2:after {
+        content: "";
+        position: absolute;
+        left: 0;
+        bottom: 2px;
+        height: 1px;
+        width: 95%;
+        max-width: 255px;
+        background-color: #333;
+    }
+
+    @media screen and (max-width: 770px) {
+        display: flex;
+        justify-content: center;
+
+        h2 {
+            display: inline-block;
+            width: 250px;
+            margin-left: 0;
+        }
+    }
+}
+
 .card_wrapper {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(100px, 300px));
     justify-content: center;
-    gap: 1.5rem;
+    gap: 3rem;
     margin-top: 50px;
     padding: 0 2rem;
 }
