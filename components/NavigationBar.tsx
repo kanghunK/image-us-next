@@ -85,6 +85,7 @@ const Wrapper = styled.nav`
     align-items: center;
     height: 50px;
     border-bottom: 1px solid hsl(210, 8%, 85%);
+    box-sizing: border-box;
 
     ul {
         padding: 0;

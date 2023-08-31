@@ -27,15 +27,13 @@ export default function PrivateLayout({ children, modal }: Props) {
     return (
         <div
             style={{
-                display: "flex",
-                flexDirection: "column",
                 height: "inherit",
             }}
         >
             <NavigationBar userInfo={data} />
             <main
                 style={{
-                    flex: "1 0 auto",
+                    height: "calc(100% - 50px)",
                     padding: "0 2rem",
                     overflow: "hidden",
                 }}
