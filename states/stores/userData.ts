@@ -222,11 +222,32 @@ export function useRoom() {
         setLoading(false);
     };
 
+    const exitRoom = async (id: number) => {
+        setLoading(true);
+
+        const tokenData = localStoragePersistor.onGet(TOKEN_KEY);
+        const userInfoData = localStoragePersistor.onGet(AUTH_KEY);
+
+        await axios.delete(`/user/${userInfoData.user_info.id}/room`, {
+            headers: {
+                Authorization: tokenData.access_token,
+            },
+            data: {
+                delete_user_room_id: id,
+            },
+        });
+
+        roomListMutate();
+
+        setLoading(false);
+    };
+
     return {
         data,
         isLoading,
         error,
         createRoom,
+        exitRoom,
     };
 }
 
@@ -294,11 +315,37 @@ export function useFriend() {
         },
     });
 
-    const { error } = swrDefaultResponse;
+    const { mutate: friendDataMutate, error } = swrDefaultResponse;
+
+    const inviteMemberToRoom = async (
+        roomId: string,
+        inviteMemberlist: number[]
+    ) => {
+        setLoading(true);
+
+        const tokenData = localStoragePersistor.onGet(TOKEN_KEY);
+
+        await axios.post(
+            `/room/${roomId}/user`,
+            {
+                invite_userlist: inviteMemberlist,
+            },
+            {
+                headers: {
+                    Authorization: tokenData.access_token,
+                },
+            }
+        );
+
+        friendDataMutate();
+
+        setLoading(false);
+    };
 
     return {
         data,
         isLoading,
         error,
+        inviteMemberToRoom,
     };
 }

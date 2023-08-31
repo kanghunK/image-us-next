@@ -1,46 +1,61 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import styled from "@emotion/styled";
 import { RoomData } from "@/lib/types";
 import { IconContext } from "react-icons/lib";
 import { BsThreeDots } from "react-icons/bs";
+import { useRouter } from "next/navigation";
+import { FaUserPlus } from "react-icons/fa";
+import { ImExit } from "react-icons/im";
+import ExitRoomBtn from "./ExitRoomBtn";
 
 interface CardProps {
     roomData: RoomData;
 }
 
 export default function Card({ roomData }: CardProps) {
-    const [showGetoutBox, setShowGetoutBox] = useState(false);
+    const router = useRouter();
+
+    const onClickNavigateRoom = useCallback(
+        (roomId: number) => () => {
+            router.push(`room/${roomId}`);
+        },
+        [router]
+    );
 
     return (
         <Wrapper>
             <div className="card_body">
-                <div className="title">{roomData.title}</div>
-                <div>
-                    {roomData.userlist.slice(0, 3).map((data) => (
-                        <span key={data.id} className="member">
-                            {data.name}
-                        </span>
-                    ))}
-                    ...
-                </div>
                 <div
-                    className="icon"
-                    onClick={() => setShowGetoutBox((prev) => !prev)}
+                    className="main_info"
+                    onClick={onClickNavigateRoom(roomData.id)}
                 >
+                    <div className="title">{roomData.title}</div>
+                    <div>
+                        {roomData.userlist.slice(0, 3).map((data) => (
+                            <span key={data.id} className="member">
+                                {data.name}
+                            </span>
+                        ))}
+                        ...
+                    </div>
+                </div>
+                <div className="btn_group">
                     <IconContext.Provider
                         value={{
-                            size: "28px",
+                            size: "22px",
+                            color: "rgba(0, 0, 0, 0.45)",
                         }}
                     >
-                        <BsThreeDots />
-                    </IconContext.Provider>
-                    {showGetoutBox && (
-                        <div className="ellipsis_btn">
-                            <div>
-                                <span>방에서 나가기</span>
-                            </div>
+                        <ExitRoomBtn roomId={roomData.id} />
+                        <div
+                            className="invite_icon"
+                            onClick={() =>
+                                router.push(`room/${roomData.id}/invite_member`)
+                            }
+                        >
+                            <FaUserPlus />
                         </div>
-                    )}
+                    </IconContext.Provider>
                 </div>
             </div>
         </Wrapper>
@@ -57,83 +72,57 @@ const Wrapper = styled.div`
     box-shadow: 0px 1px 1px 1px rgba(0, 0, 0, 0.2);
 
     .card_body {
-        padding: 24px;
-        border-radius: 0 0 8px 8px;
+        display: flex;
+        border-radius: 8px;
+        overflow: hidden;
 
-        &::after {
-            content: "";
-            display: block;
-            clear: both;
-        }
+        .main_info {
+            flex: 1 0 auto;
+            padding: 15px 0;
+            text-align: center;
+            cursor: pointer;
 
-        .title {
-            margin-bottom: 8px;
-            font-weight: 600;
-            font-size: 24px;
-            color: rgba(0, 0, 0, 0.88);
-        }
+            &:hover {
+                background-color: wheat;
+            }
 
-        .member {
-            color: rgba(0, 0, 0, 0.45);
+            .title {
+                margin-bottom: 8px;
+                font-weight: 600;
+                font-size: 24px;
+                color: rgba(0, 0, 0, 0.88);
+            }
 
-            &:not(:last-child) {
-                margin-right: 5px;
+            .member {
+                color: rgba(0, 0, 0, 0.45);
+
+                &:not(:last-child) {
+                    margin-right: 5px;
+                }
             }
         }
 
-        .icon {
-            position: relative;
-            display: inline-block;
-            float: right;
-            line-height: 0;
-            cursor: pointer;
+        .btn_group {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-evenly;
+            align-items: center;
+            width: 50px;
 
-            .ellipsis_btn {
-                position: absolute;
-                top: 36px;
-                left: -16px;
-                width: 105px;
-                padding: 10px;
-                z-index: 1;
+            border-left: 1px solid #f0f0f0;
 
-                line-height: normal;
-                text-align: center;
-                border-radius: 8px;
-                box-shadow: 0px 1px 1px 1px rgba(0, 0, 0, 0.2);
-                background-color: #f3eed9;
+            .invite_icon {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                flex: 1;
+                width: 100%;
                 cursor: pointer;
 
                 &:hover {
-                    background-color: #e75c5c;
-
-                    &::after {
-                        border-bottom-color: #e75c5c;
-                    }
-                }
-
-                &::after {
-                    content: "";
-                    position: absolute;
-                    top: 0;
-                    left: 30%;
-                    width: 0;
-                    height: 0;
-                    border: 12px solid transparent;
-                    border-bottom-color: #f3eed9;
-                    border-top: 0;
-                    margin-left: -19.5px;
-                    margin-top: -12px;
+                    background-color: #f0f0f0;
                 }
             }
         }
-    }
-
-    .card_action {
-        display: flex;
-
-        list-style: none;
-        background: #fff;
-        border-top: 1px solid #f0f0f0;
-        border-radius: 0 0 8px 8px;
     }
 `;
