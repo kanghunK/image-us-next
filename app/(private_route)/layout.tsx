@@ -2,6 +2,7 @@
 
 import React, { ReactNode, useEffect, useState } from "react";
 import { redirect } from "next/navigation";
+import { Scrollbars } from "react-custom-scrollbars-2";
 import { useAuth } from "@/states/stores/userData";
 import NavigationBar from "@/components/NavigationBar";
 
@@ -34,11 +35,9 @@ export default function PrivateLayout({ children, modal }: Props) {
             <main
                 style={{
                     height: "calc(100% - 50px)",
-                    padding: "0 2rem",
-                    overflow: "hidden",
                 }}
             >
-                {children}
+                <Scrollbars>{children}</Scrollbars>
             </main>
             {modal}
         </div>
