@@ -1,5 +1,11 @@
+import { AxiosRequestConfig } from "axios";
+
 export interface RootLayoutChildren {
     children: React.ReactNode;
+}
+
+export interface AxiosCustomRequestConfig extends AxiosRequestConfig {
+    retryCount: number;
 }
 
 // database
@@ -26,6 +32,13 @@ export interface DRoomData {
     userlist: DUserInfo[];
 }
 
+export interface DImageData {
+    id: number;
+    link: string;
+    user_id: number;
+    created_at: string | null;
+}
+
 // client
 export interface RoomData {
     id: number;
@@ -40,4 +53,13 @@ export interface RoomData {
 export interface UserInfo {
     isLoggedIn: boolean;
     user_info: DUserInfo;
+}
+
+export interface ImageInfo {
+    id: number;
+    user_id: number | null;
+    link: string;
+    fileName: string;
+    created_at: string | null;
+    user_name?: string | null;
 }
