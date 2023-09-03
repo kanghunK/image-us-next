@@ -4,8 +4,8 @@ import axios from "@/lib/api";
 import localStoragePersistor from "../persistors/local-storage";
 import { DFriendData, DRoomData, RoomData } from "@/lib/types";
 
+export const TOKEN_KEY = "@user/token";
 const AUTH_KEY = "@user/auth";
-const TOKEN_KEY = "@user/token";
 const ROOM_KEY = "@user/room";
 const FRIEND_KEY = "@user/friend";
 
