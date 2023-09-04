@@ -6,16 +6,25 @@ import { IconContext } from "react-icons/lib";
 import { AiOutlineDelete } from "react-icons/ai";
 import { BiDownload, BiExpand } from "react-icons/bi";
 import DeleteImageBtn from "./DeleteImageBtn";
+import { usePathname, useRouter } from "next/navigation";
 
 interface Props {
     imageData: ImageInfo;
 }
 
 export default function ImageCard({ imageData }: Props) {
+    const router = useRouter();
+    const currentPath = usePathname();
+
     console.log(imageData);
     return (
         <Wrapper>
-            <div className="image_box">
+            <div
+                className="image_box"
+                onClick={() =>
+                    router.push(`${currentPath}/detail_photo/${imageData.id}`)
+                }
+            >
                 <Image
                     src={imageData.link}
                     alt={imageData.fileName + " 이미지"}
