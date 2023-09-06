@@ -65,7 +65,7 @@ export default function Card({ roomData }: CardProps) {
 const Wrapper = styled.div`
     position: relative;
 
-    width: 300px;
+    width: 250px;
     border: 1px solid #f0f0f0;
     border-radius: 8px;
     background: #fff;

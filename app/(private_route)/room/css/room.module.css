@@ -43,9 +43,9 @@
 
 .card_wrapper {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(100px, 300px));
+  grid-template-columns: repeat(auto-fit, minmax(100px, 250px));
   justify-content: center;
-  gap: 3rem;
+  width: 100%;
+  gap: 2rem;
   margin: 50px 0;
-  padding: 0 2rem;
 }/*# sourceMappingURL=room.module.css.map */
