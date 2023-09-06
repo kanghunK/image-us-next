@@ -212,11 +212,41 @@ export function useImage({ roomId }: { roomId: string }) {
         }
     };
 
+    const uploadImage = async (uploadImageFile: FormData) => {
+        try {
+            const tokenData = localStoragePersistor.onGet(TOKEN_KEY);
+            if (!tokenData) throw new Error();
+
+            await customAxios.post(`/room/${roomId}/image`, uploadImageFile, {
+                headers: {
+                    Authorization: tokenData.access_token,
+                },
+            });
+        } catch (error) {
+            if (error instanceof AxiosError) {
+                if (error.response?.status === 401) {
+                    const errorObj = new Error(
+                        "올바른 접속이 아님으로 로그아웃됩니다.."
+                    );
+                    errorObj.name = "InvalidUserData";
+                    throw errorObj;
+                } else {
+                    const errorObj = new Error(
+                        "이미지 업로드에 실패하였습니다..다시 시도해주세요"
+                    );
+                    errorObj.name = "failUploadImage";
+                    throw errorObj;
+                }
+            }
+        }
+    };
+
     return {
         data,
         isLoading,
         imageLoadError,
         loadImagelist,
         deleteImage,
+        uploadImage,
     };
 }
