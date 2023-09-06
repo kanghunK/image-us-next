@@ -9,41 +9,33 @@ import { DUserInfo } from "@/lib/types";
 import { CgLogOff } from "react-icons/cg";
 import { CiViewList } from "react-icons/ci";
 import { LiaInfoCircleSolid } from "react-icons/lia";
-import { useAuth } from "@/states/stores/userData";
+import { useAuth, useRoom } from "@/states/stores/userData";
 import { BsCalendar2Plus } from "react-icons/bs";
 import { Button } from "./shared/Button";
+import { FiUserPlus } from "react-icons/fi";
+import { BiUpload } from "react-icons/bi";
+import { AiOutlineMenuUnfold } from "react-icons/ai";
 
 interface NavProps {
     userInfo: {
         isLoggedIn: boolean;
         user_info: DUserInfo;
     };
+    pageTitle: string;
+    pageMatchNum: number | null;
 }
 
-export default function NavigationBar({ userInfo }: NavProps) {
+export default function NavigationBar({
+    pageTitle,
+    pageMatchNum,
+    userInfo,
+}: NavProps) {
     const router = useRouter();
-    const params = useParams();
-    const currentPathArray = usePathname().split("/");
+    const currentPath = usePathname();
     const { logout } = useAuth();
 
-    const [pageTitle, setPageTitle] = useState("unknwon");
     const [showUserMenu, setShowUserMenu] = useState(false);
     const userIconRef = useRef(null);
-
-    useEffect(() => {
-        if (currentPathArray.includes("room")) {
-            console.log(currentPathArray);
-            if (params.id && currentPathArray.length === 3) {
-                setPageTitle(`${params.id} 방`);
-            } else {
-                setPageTitle("방 목록");
-            }
-        } else if (currentPathArray.includes("my_page")) {
-            setPageTitle("마이 페이지");
-        } else {
-            setPageTitle("unknown");
-        }
-    }, [currentPathArray, params]);
 
     const onClickCreateRoom = () => {
         router.push("/room/create_room");
@@ -57,7 +49,7 @@ export default function NavigationBar({ userInfo }: NavProps) {
                 }}
             >
                 <LeftButton>
-                    {pageTitle === "방 목록" ? (
+                    {pageMatchNum === 1 ? (
                         <div
                             className="create_room_btn"
                             onClick={onClickCreateRoom}
@@ -76,17 +68,35 @@ export default function NavigationBar({ userInfo }: NavProps) {
                         </button>
                     )}
                 </LeftButton>
-                <NavTitle>
-                    <span className="text">{pageTitle}</span>
-                </NavTitle>
-                <UserIconGroup>
+                <h2>{pageTitle}</h2>
+                <IconGroup>
+                    {pageMatchNum === 2 && (
+                        <>
+                            <div
+                                className="upload_icon icon_d"
+                                onClick={() =>
+                                    router.push(currentPath + "/upload_image")
+                                }
+                            >
+                                <BiUpload />
+                            </div>
+                            <div
+                                className="invite_icon icon_d"
+                                onClick={() =>
+                                    router.push(currentPath + "/invite_member")
+                                }
+                            >
+                                <FiUserPlus />
+                            </div>
+                        </>
+                    )}
+                    <div className="user_name">{userInfo.user_info.name}</div>
                     <div
-                        className="user_icon"
+                        className="user_icon icon_d"
                         onClick={() => setShowUserMenu((prev) => !prev)}
                     >
                         <FaRegUser />
                     </div>
-                    <div>{userInfo.user_info.name}</div>
                     {showUserMenu && (
                         <>
                             <div
@@ -108,7 +118,7 @@ export default function NavigationBar({ userInfo }: NavProps) {
                             </div>
                         </>
                     )}
-                </UserIconGroup>
+                </IconGroup>
             </IconContext.Provider>
         </Wrapper>
     );
@@ -116,11 +126,17 @@ export default function NavigationBar({ userInfo }: NavProps) {
 
 const Wrapper = styled.nav`
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
+    padding: 0 1.5rem;
     height: 50px;
+
     border-bottom: 1px solid hsl(210, 8%, 85%);
     box-sizing: border-box;
+
+    h2 {
+        margin: 0;
+    }
 
     ul {
         padding: 0;
@@ -134,12 +150,10 @@ const Wrapper = styled.nav`
 `;
 
 const LeftButton = styled.div`
-    position: absolute;
-    left: 10%;
+    display: flex;
 
     .create_room_btn {
         padding: 7px;
-        margin-right: 25px;
         border-radius: 50%;
         background-color: lightgray;
         cursor: pointer;
@@ -201,60 +215,16 @@ const LeftButton = styled.div`
 `;
 
 const NavTitle = styled.div`
-    position: relative;
+    margin: 0 1.5rem;
     user-select: none;
-
-    .text {
-        margin-left: 10px;
-    }
-
-    &::before {
-        content: "";
-        width: 8px;
-        height: 8px;
-        border-top: 2px solid #121212;
-        border-right: 2px solid #121212;
-        display: inline-block;
-        transform: rotate(45deg);
-    }
-
-    .nav_menu {
-        position: absolute;
-        top: 30px;
-        z-index: 1;
-        width: 120px;
-
-        text-align: center;
-        border-radius: 8px;
-        box-shadow: 0px 1px 1px 1px rgba(0, 0, 0, 0.2);
-        background-color: white;
-        overflow: hidden;
-
-        li:not(:last-child) {
-            border-bottom: 1px solid #f2f2f2;
-        }
-
-        li {
-            padding: 12px;
-
-            a {
-                color: black;
-            }
-
-            &:hover {
-                background-color: #e6e6e6;
-            }
-        }
-    }
+    white-space: nowrap;
 `;
 
-const UserIconGroup = styled.div`
+const IconGroup = styled.div`
     display: flex;
     align-items: center;
-    position: absolute;
-    right: 5%;
 
-    .user_icon {
+    .icon_d {
         display: inline-block;
         margin-left: auto;
         margin-right: 15px;
@@ -266,6 +236,10 @@ const UserIconGroup = styled.div`
         &:hover {
             background-color: darkgray;
         }
+    }
+
+    .user_name {
+        margin: 0 1rem;
     }
 
     .backdrop {
