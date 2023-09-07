@@ -52,7 +52,6 @@ const Container = styled.div`
     justify-content: center;
 
     width: 100%;
-    border-bottom: 1px solid #f0f0f0;
 
     &:hover {
         background-color: #f07070;
