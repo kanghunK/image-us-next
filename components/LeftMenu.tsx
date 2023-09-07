@@ -4,16 +4,16 @@ import { BiArrowFromRight } from "react-icons/bi";
 import { useRoom } from "@/states/stores/userData";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import RoomList from "./RoomList";
+import MyPageMenu from "./MyPageMenu";
 
 interface Props {
     show: boolean;
+    pageMatchNum: number;
     setLeftMenu: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export default function LeftMenu({ show, setLeftMenu }: Props) {
-    const pathname = usePathname();
-    const { data: roomList } = useRoom();
-
+export default function LeftMenu({ show, setLeftMenu, pageMatchNum }: Props) {
     const handleCloseMenu = useCallback(
         () => setLeftMenu(false),
         [setLeftMenu]
@@ -26,30 +26,10 @@ export default function LeftMenu({ show, setLeftMenu }: Props) {
                     <BiArrowFromRight />
                 </div>
             )}
-            {!roomList ? (
-                <div>로딩중...</div>
+            {pageMatchNum === 2 ? (
+                <RoomList show={show} />
             ) : (
-                <Container show={show}>
-                    <h3>방 목록</h3>
-                    {roomList.map((item) => {
-                        const isActive = pathname === `/room/${item.id}`;
-
-                        return (
-                            <div key={item.id}>
-                                <Link
-                                    href={`/room/${item.id}`}
-                                    className={
-                                        isActive
-                                            ? "active check_box"
-                                            : "check_box"
-                                    }
-                                >
-                                    {item.title}
-                                </Link>
-                            </div>
-                        );
-                    })}
-                </Container>
+                <MyPageMenu show={show} />
             )}
         </Wrapper>
     );
@@ -95,40 +75,5 @@ const Wrapper = styled.div<{ show: boolean }>`
     @media screen and (max-width: 460px) {
         position: absolute;
         z-index: 10;
-    }
-`;
-
-export const Container = styled.div<{ show: boolean }>`
-    display: flex;
-    flex-direction: column;
-    position: relative;
-
-    gap: 1rem;
-    padding: 0 1rem;
-    margin: 2rem 0;
-    transition: opacity 0s 0.2s;
-
-    ${({ show }) =>
-        !show &&
-        `
-    transition-delay: 0.1s;
-    opacity: 0;
-    `}
-
-    .check_box {
-        display: block;
-
-        height: 35px;
-        line-height: 35px;
-
-        text-align: center;
-        border-radius: 5px;
-        text-decoration: none;
-        color: rgb(255, 255, 255, 0.7);
-
-        &.active,
-        &:hover {
-            background-color: #0058aa;
-        }
     }
 `;

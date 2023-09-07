@@ -88,10 +88,13 @@ export default function PrivateLayout({ children, modal }: Props) {
                 pageMatchNum={pageMatchNum}
             />
             <ContentSection>
-                <LeftMenu
-                    show={openedLeftMenu}
-                    setLeftMenu={setOpenedLeftMenu}
-                />
+                {(pageMatchNum === 2 || pageMatchNum === 0) && (
+                    <LeftMenu
+                        show={openedLeftMenu}
+                        setLeftMenu={setOpenedLeftMenu}
+                        pageMatchNum={pageMatchNum}
+                    />
+                )}
                 <main
                     style={{
                         flex: "1 0 auto",
