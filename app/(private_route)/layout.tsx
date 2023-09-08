@@ -16,7 +16,7 @@ interface Props {
 
 export default function PrivateLayout({ children, modal }: Props) {
     const params = useParams();
-    const { data, loginError } = useAuth();
+    const { authData, loginError } = useAuth();
     const { data: roomlist } = useRoom();
     const currentPath = usePathname();
 
@@ -67,12 +67,11 @@ export default function PrivateLayout({ children, modal }: Props) {
 
     if (loginError) throw loginError;
 
-    if (data === null) {
-        console.log("private_route", data);
+    if (authData === null) {
         return <div>로딩중...</div>;
     }
 
-    if (data?.isLoggedIn === false) {
+    if (authData?.isLoggedIn === false) {
         redirect("/login");
     }
 
@@ -83,7 +82,7 @@ export default function PrivateLayout({ children, modal }: Props) {
             }}
         >
             <NavigationBar
-                userInfo={data}
+                userInfo={authData}
                 pageTitle={pageTitle}
                 pageMatchNum={pageMatchNum}
             />

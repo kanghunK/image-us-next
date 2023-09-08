@@ -1,21 +1,21 @@
 "use client";
 
 import { useEffect } from "react";
-import { useAuth } from "@/states/stores/userData";
+import { useAuth, useUserData } from "@/states/stores/userData";
 import { redirect } from "next/navigation";
 
 export default function HomePage() {
-    const { data, loginError } = useAuth();
+    const [userData] = useUserData();
+
+    console.log("유저 데이터", userData);
 
     useEffect(() => {
-        if (data?.isLoggedIn) {
+        if (userData?.isLoggedIn) {
             redirect("/room");
-        } else if (data?.isLoggedIn === false) {
+        } else {
             redirect("/login");
         }
-    }, [data]);
+    }, [userData]);
 
-    if (loginError) throw loginError;
-
-    return <div>로딩중...</div>;
+    return <div>페이지 이동중...</div>;
 }

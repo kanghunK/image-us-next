@@ -9,13 +9,15 @@ interface Props {
 }
 
 export default function GuestLayout({ children }: Props) {
-    const { data } = useAuth();
+    const { authData, loginError } = useAuth();
 
-    if (data === null) {
+    if (loginError) throw loginError;
+
+    if (authData === null) {
         return <div>로딩중...</div>;
     }
 
-    if (data?.isLoggedIn) {
+    if (authData?.isLoggedIn) {
         redirect("/room");
     }
 
