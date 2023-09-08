@@ -64,6 +64,12 @@ export interface ImageInfo {
     user_name?: string | null;
 }
 
+export interface MyPageInfo {
+    imageLen: number;
+    roomListLen: number;
+    friendlistLen: number;
+}
+
 // global state
 
 export interface TokenData {
