@@ -8,8 +8,8 @@ import { RiKakaoTalkFill } from "react-icons/ri";
 import { SiNaver } from "react-icons/si";
 
 import { Button } from "@/components/shared/Button";
-import { useAuth } from "@/states/stores/userData";
 import styles from "./login.module.scss";
+import { useAuth } from "@/hooks/useAuth";
 
 export default function Login() {
     const searchParams = useSearchParams();
@@ -27,17 +27,20 @@ export default function Login() {
         "([!#-'*+/-9=?A-Z^-~-]+(.[!#-'*+/-9=?A-Z^-~-]+)*|\"([]!#-[^-~ \t]|(\\[\t -~]))+\")@([!#-'*+/-9=?A-Z^-~-]+(.[!#-'*+/-9=?A-Z^-~-]+)*|[[\t -Z^-~]*])"
     );
 
-    const emailValidation = useCallback((value: string) => {
-        if (!value) {
-            setEmailErrorMessage("이메일을 입력해주세요.");
-            return false;
-        } else if (!emailRegex.test(value)) {
-            setEmailErrorMessage("이메일 형식에 맞지 않습니다.");
-            return false;
-        }
-        setEmailErrorMessage("");
-        return true;
-    }, []);
+    const emailValidation = useCallback(
+        (value: string) => {
+            if (!value) {
+                setEmailErrorMessage("이메일을 입력해주세요.");
+                return false;
+            } else if (!emailRegex.test(value)) {
+                setEmailErrorMessage("이메일 형식에 맞지 않습니다.");
+                return false;
+            }
+            setEmailErrorMessage("");
+            return true;
+        },
+        [emailRegex]
+    );
 
     const pwValidation = useCallback((value: string) => {
         if (!value) {

@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import { useAuth, useUserData } from "@/states/stores/userData";
+import { useUserData } from "@/states/stores/userData";
 import { redirect } from "next/navigation";
 
 export default function HomePage() {

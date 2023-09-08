@@ -3,11 +3,12 @@
 import React, { ReactNode, useEffect, useState } from "react";
 import { redirect, useParams, usePathname } from "next/navigation";
 import { Scrollbars } from "react-custom-scrollbars-2";
-import { useAuth, useRoom } from "@/states/stores/userData";
+import { useRoom } from "@/states/stores/userData";
 import NavigationBar from "@/components/NavigationBar";
 import { AiOutlineMenuUnfold } from "react-icons/ai";
 import styled from "@emotion/styled";
 import LeftMenu from "@/components/LeftMenu";
+import { useAuth } from "@/hooks/useAuth";
 
 interface Props {
     children: ReactNode;

@@ -1,6 +1,6 @@
 "use client";
 
-import { useAuth } from "@/states/stores/userData";
+import { useAuth } from "@/hooks/useAuth";
 
 export default function Error({
     error,

@@ -9,12 +9,12 @@ import { DUserInfo } from "@/lib/types";
 import { CgLogOff } from "react-icons/cg";
 import { CiViewList } from "react-icons/ci";
 import { LiaInfoCircleSolid } from "react-icons/lia";
-import { useAuth, useRoom } from "@/states/stores/userData";
 import { BsCalendar2Plus } from "react-icons/bs";
 import { Button } from "./shared/Button";
 import { FiUserPlus } from "react-icons/fi";
 import { BiUpload } from "react-icons/bi";
 import { AiOutlineMenuUnfold } from "react-icons/ai";
+import { useAuth } from "@/hooks/useAuth";
 
 interface NavProps {
     userInfo: {
