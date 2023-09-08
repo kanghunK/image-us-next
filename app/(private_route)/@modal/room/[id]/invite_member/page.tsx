@@ -4,9 +4,10 @@ import React, { useEffect, useState } from "react";
 import styled from "@emotion/styled";
 import Modal from "@/components/shared/Modal";
 import { Button } from "@/components/shared/Button";
-import { useFriend, useRoom } from "@/states/stores/userData";
 import { DFriendData, RoomData } from "@/lib/types";
 import { useRouter } from "next/navigation";
+import { useRoom } from "@/hooks/useRoom";
+import { useFriend } from "@/hooks/useFriend";
 
 export default function InviteMemberModal({
     params,

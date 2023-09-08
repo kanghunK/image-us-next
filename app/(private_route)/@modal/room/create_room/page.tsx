@@ -14,7 +14,8 @@ import { Button } from "@/components/shared/Button";
 import { IconContext } from "react-icons/lib";
 import { ImCheckboxUnchecked } from "react-icons/im";
 import { useRouter } from "next/navigation";
-import { useFriend, useRoom } from "@/states/stores/userData";
+import { useRoom } from "@/hooks/useRoom";
+import { useFriend } from "@/hooks/useFriend";
 
 type AddCheckFriendData = DFriendData & { check: boolean };
 
