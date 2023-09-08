@@ -1,11 +1,11 @@
 "use client";
 
 import React from "react";
-import { useRoom } from "@/states/stores/userData";
 import styled from "@emotion/styled";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Scrollbars from "react-custom-scrollbars-2";
+import { useRoom } from "@/hooks/useRoom";
 
 export default function RoomList({ show }: { show: boolean }) {
     const pathname = usePathname();

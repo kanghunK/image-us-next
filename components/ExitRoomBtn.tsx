@@ -1,7 +1,7 @@
 import React from "react";
 import { ImExit } from "react-icons/im";
-import { useRoom } from "@/states/stores/userData";
 import NoticeModal from "./shared/NoticeModal";
+import { useRoom } from "@/hooks/useRoom";
 
 interface Props {
     roomId: number;

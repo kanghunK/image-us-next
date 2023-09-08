@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useCallback } from "react";
-import { useRoom } from "@/states/stores/userData";
 import Card from "@/components/Card";
 import { RoomData } from "@/lib/types";
 import styles from "./room.module.scss";
@@ -9,6 +8,7 @@ import styled from "@emotion/styled";
 import { FiUserPlus } from "react-icons/fi";
 import { BsCalendar2Plus } from "react-icons/bs";
 import { useRouter } from "next/navigation";
+import { useRoom } from "@/hooks/useRoom";
 
 export default function Room() {
     const router = useRouter();

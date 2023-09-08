@@ -1,35 +1,17 @@
-"use client";
-
 import { AxiosError } from "axios";
-import useStore, { createStore } from "swr-global-state";
-import axios from "@/lib/api";
-import localStoragePersistor from "../persistors/local-storage";
-import { DFriendData, TokenData, UserData } from "@/lib/types";
+import useStore from "swr-global-state";
+import customAxios from "@/lib/api";
+import { DRoomData, RoomData } from "@/lib/types";
+import localStoragePersistor from "@/states/persistors/local-storage";
+import { ROOM_KEY, TOKEN_KEY, USERDATA_KEY } from "@/states/stores/userData";
 
-export const TOKEN_KEY = "@user/token";
-export const USERDATA_KEY = "@user/info";
-export const ROOM_KEY = "@user/room";
-export const FRIEND_KEY = "@user/friend";
-
-export const useToken = createStore<TokenData | null>({
-    key: TOKEN_KEY,
-    initial: null,
-    persistor: localStoragePersistor,
-});
-
-export const useUserData = createStore<UserData | null>({
-    key: USERDATA_KEY,
-    initial: null,
-    persistor: localStoragePersistor,
-});
-
-export function useFriend() {
+export function useRoom() {
     const [isLoading, setLoading] = useStore({
-        key: `${FRIEND_KEY}-loading`,
+        key: `${ROOM_KEY}-loading`,
         initial: true,
     });
-    const [data, , swrDefaultResponse] = useStore<DFriendData[] | null, any>({
-        key: FRIEND_KEY,
+    const [data, , swrDefaultResponse] = useStore<RoomData[] | null, any>({
+        key: ROOM_KEY,
         initial: null,
         persistor: {
             onSet: localStoragePersistor.onSet,
@@ -41,8 +23,8 @@ export function useFriend() {
 
                     if (!tokenData || !userInfoData) throw new Error();
 
-                    const response = await axios.get(
-                        `/user/${userInfoData.user_info.id}/friendlist`,
+                    const response = await customAxios.get(
+                        `/user/${userInfoData.user_info.id}/roomlist`,
                         {
                             headers: {
                                 Authorization: tokenData.access_token,
@@ -50,8 +32,18 @@ export function useFriend() {
                         }
                     );
 
-                    return response.data.friendlist;
-                } catch (err: unknown) {
+                    const roomlist: RoomData[] = response.data.roomlist.map(
+                        (roomData: DRoomData) => {
+                            const userlist = roomData.userlist.map((data) => ({
+                                id: data.id,
+                                name: data.name,
+                            }));
+                            return { ...roomData, userlist };
+                        }
+                    );
+
+                    return roomlist;
+                } catch (error: unknown) {
                     if (window.navigator.onLine) {
                         if (error instanceof AxiosError) {
                             if (error.status === 401) {
@@ -88,21 +80,22 @@ export function useFriend() {
         },
     });
 
-    const { mutate: friendDataMutate, error } = swrDefaultResponse;
+    const { mutate: roomListMutate, error } = swrDefaultResponse;
 
-    const inviteMemberToRoom = async (
-        roomId: string,
-        inviteMemberlist: number[]
-    ) => {
+    const createRoom = async ({
+        userlist,
+        title,
+    }: {
+        userlist: number[];
+        title: string;
+    }) => {
         setLoading(true);
 
         const tokenData = localStoragePersistor.onGet(TOKEN_KEY);
 
-        await axios.post(
-            `/room/${roomId}/user`,
-            {
-                invite_userlist: inviteMemberlist,
-            },
+        await customAxios.post(
+            "/room",
+            { userlist, title },
             {
                 headers: {
                     Authorization: tokenData.access_token,
@@ -110,7 +103,26 @@ export function useFriend() {
             }
         );
 
-        friendDataMutate();
+        roomListMutate();
+        setLoading(false);
+    };
+
+    const exitRoom = async (id: number) => {
+        setLoading(true);
+
+        const tokenData = localStoragePersistor.onGet(TOKEN_KEY);
+        const userInfoData = localStoragePersistor.onGet(USERDATA_KEY);
+
+        await customAxios.delete(`/user/${userInfoData.user_info.id}/room`, {
+            headers: {
+                Authorization: tokenData.access_token,
+            },
+            data: {
+                delete_user_room_id: id,
+            },
+        });
+
+        roomListMutate();
 
         setLoading(false);
     };
@@ -119,6 +131,7 @@ export function useFriend() {
         data,
         isLoading,
         error,
-        inviteMemberToRoom,
+        createRoom,
+        exitRoom,
     };
 }
