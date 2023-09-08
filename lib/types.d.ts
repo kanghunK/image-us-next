@@ -63,3 +63,15 @@ export interface ImageInfo {
     created_at: string | null;
     user_name?: string | null;
 }
+
+// global state
+
+export interface TokenData {
+    access_token: string;
+    refresh_token: string;
+    access_token_expire_time: string;
+    refresh_token_expire_time: string;
+    user_id: number;
+}
+
+export interface UserData extends UserInfo {}
