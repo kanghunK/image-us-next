@@ -52,7 +52,7 @@ export interface RoomData {
 
 export interface UserInfo {
     isLoggedIn: boolean;
-    user_info: DUserInfo;
+    user_info?: DUserInfo;
 }
 
 export interface ImageInfo {
@@ -80,4 +80,6 @@ export interface TokenData {
     user_id: number;
 }
 
-export interface UserData extends UserInfo {}
+export interface UserData extends UserInfo {
+    friends?: DFriendData[];
+}
