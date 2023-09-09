@@ -1,9 +1,6 @@
 import React, { useCallback } from "react";
-import styled from "@emotion/styled";
 import { BiArrowFromRight } from "react-icons/bi";
-import { useRoom } from "@/states/stores/userData";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
+import styled from "@emotion/styled";
 import RoomList from "./RoomList";
 import MyPageMenu from "./MyPageMenu";
 
