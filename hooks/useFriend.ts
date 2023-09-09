@@ -2,10 +2,19 @@ import { AxiosError } from "axios";
 import useStore from "swr-global-state";
 import { DFriendData } from "@/lib/types";
 import localStoragePersistor from "@/states/persistors/local-storage";
-import { FRIEND_KEY, TOKEN_KEY, USERDATA_KEY } from "@/states/stores/userData";
+import {
+    FRIEND_KEY,
+    TOKEN_KEY,
+    USERDATA_KEY,
+    useUserData,
+} from "@/states/stores/userData";
 import customAxios from "@/lib/api";
 
 export function useFriend() {
+    const [, setUserData] = useUserData();
+    const token = localStoragePersistor.onGet(TOKEN_KEY);
+    // const [token] = useToken();
+
     const [isLoading, setLoading] = useStore({
         key: `${FRIEND_KEY}-loading`,
         initial: true,
@@ -32,7 +41,13 @@ export function useFriend() {
                         }
                     );
 
-                    return response.data.friendlist;
+                    const friendList: DFriendData[] = response.data.friendlist;
+                    setUserData((prev) => ({
+                        ...prev,
+                        friends: [...friendList],
+                    }));
+
+                    return friendList;
                 } catch (err: unknown) {
                     if (window.navigator.onLine) {
                         if (error instanceof AxiosError) {
@@ -95,6 +110,11 @@ export function useFriend() {
         friendDataMutate();
 
         setLoading(false);
+    };
+
+    const deleteMember = async () => {
+        try {
+        } catch (error) {}
     };
 
     return {
