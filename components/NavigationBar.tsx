@@ -5,7 +5,7 @@ import { IconContext } from "react-icons/lib";
 import { FaRegUser } from "react-icons/fa";
 import styled from "@emotion/styled";
 import { useParams, usePathname, useRouter } from "next/navigation";
-import { DUserInfo } from "@/lib/types";
+import { DUserInfo, UserInfo } from "@/lib/types";
 import { CgLogOff } from "react-icons/cg";
 import { CiViewList } from "react-icons/ci";
 import { LiaInfoCircleSolid } from "react-icons/lia";
@@ -17,10 +17,7 @@ import { AiOutlineMenuUnfold } from "react-icons/ai";
 import { useAuth } from "@/hooks/useAuth";
 
 interface NavProps {
-    userInfo: {
-        isLoggedIn: boolean;
-        user_info: DUserInfo;
-    };
+    userInfo: UserInfo;
     pageTitle: string;
     pageMatchNum: number | null;
 }
@@ -90,7 +87,7 @@ export default function NavigationBar({
                             </div>
                         </>
                     )}
-                    <div className="user_name">{userInfo.user_info.name}</div>
+                    <div className="user_name">{userInfo.user_info?.name}</div>
                     <div
                         className="user_icon icon_d"
                         onClick={() => setShowUserMenu((prev) => !prev)}
@@ -106,7 +103,10 @@ export default function NavigationBar({
                             <div className="user_icon_menu" ref={userIconRef}>
                                 <div
                                     className="menu_item"
-                                    onClick={() => router.push("/my_page")}
+                                    onClick={() => {
+                                        setShowUserMenu(false);
+                                        router.push("/my_page");
+                                    }}
                                 >
                                     <LiaInfoCircleSolid />
                                     <span className="text">마이페이지</span>

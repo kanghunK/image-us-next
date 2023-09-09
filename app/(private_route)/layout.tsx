@@ -101,11 +101,12 @@ export default function PrivateLayout({ children, modal }: Props) {
                         position: "relative",
                     }}
                 >
-                    {pageMatchNum === 2 && !openedLeftMenu && (
-                        <MenuIcon onClick={onClickLeftMenu}>
-                            <AiOutlineMenuUnfold />
-                        </MenuIcon>
-                    )}
+                    {(pageMatchNum === 2 || pageMatchNum === 0) &&
+                        !openedLeftMenu && (
+                            <MenuIcon onClick={onClickLeftMenu}>
+                                <AiOutlineMenuUnfold />
+                            </MenuIcon>
+                        )}
                     <Scrollbars>{children}</Scrollbars>
                 </main>
             </ContentSection>
