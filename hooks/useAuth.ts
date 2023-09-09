@@ -7,14 +7,14 @@ import {
     ROOM_KEY,
     TOKEN_KEY,
     USERDATA_KEY,
-    useToken,
     useUserData,
 } from "@/states/stores/userData";
 import customAxios from "@/lib/api";
 
 export function useAuth() {
-    const [userData, setUserData] = useUserData();
-    const [token, setToken] = useToken();
+    const [, setUserData] = useUserData();
+    // const token = localStoragePersistor.onGet(TOKEN_KEY);
+    // const [token, setToken] = useToken();
 
     const [isLoading, setLoading] = useStore({
         key: `${USERDATA_KEY}-loading`,
@@ -27,10 +27,11 @@ export function useAuth() {
             onSet: localStoragePersistor.onSet,
             onGet: async (key) => {
                 try {
+                    const token = localStoragePersistor.onGet(TOKEN_KEY);
+
                     if (!token) {
                         return {
                             isLoggedIn: false,
-                            user_info: null,
                         };
                     }
 
@@ -97,7 +98,8 @@ export function useAuth() {
                 password,
             });
 
-            await setToken(tokenData.data);
+            localStoragePersistor.onSet(TOKEN_KEY, tokenData.data);
+            // await setToken(tokenData.data);
 
             await loginMutate();
             setLoading(false);
@@ -116,13 +118,15 @@ export function useAuth() {
         window.localStorage.removeItem(ROOM_KEY);
         window.localStorage.removeItem(FRIEND_KEY);
 
-        await setToken(null);
+        // await setToken(null);
         await loginMutate();
         setLoading(false);
     };
 
     const changeName = async (changeName: string) => {
         try {
+            const token = localStoragePersistor.onGet(TOKEN_KEY);
+
             if (!token) throw new Error();
 
             await customAxios.post(
@@ -136,6 +140,8 @@ export function useAuth() {
                     },
                 }
             );
+
+            loginMutate();
         } catch (err) {
             if (err instanceof AxiosError) {
                 if (err.response?.status === 401) {

@@ -28,7 +28,8 @@ export default function Mypage() {
                                 <div className="change_name">
                                     <div>
                                         <strong>
-                                            {userData?.user_info.name}
+                                            {userData?.user_info?.name ??
+                                                "USER"}
                                         </strong>
                                     </div>
                                     <div className="btn_group">
@@ -61,9 +62,10 @@ export default function Mypage() {
                                     <div className="btn_group">
                                         <Button
                                             type="button"
-                                            onClick={() =>
-                                                changeName(nameInput)
-                                            }
+                                            onClick={async () => {
+                                                await changeName(nameInput);
+                                                setNameBoxState(false);
+                                            }}
                                         >
                                             완료
                                         </Button>
@@ -84,13 +86,13 @@ export default function Mypage() {
                     <tr>
                         <th>이메일</th>
                         <td>
-                            <strong>{userData?.user_info.email}</strong>
+                            <strong>{userData?.user_info?.email}</strong>
                         </td>
                     </tr>
                     <tr>
                         <th>가입 유형</th>
                         <td>
-                            <div>{userData?.user_info.user_type}</div>
+                            <div>{userData?.user_info?.user_type}</div>
                         </td>
                     </tr>
                 </tbody>
