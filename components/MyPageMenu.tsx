@@ -8,7 +8,6 @@ export default function MyPageMenu({ show }: { show: boolean }) {
 
     return (
         <Container show={show}>
-            {/* <h3>방 목록</h3> */}
             <Link href={`/my_page`}>
                 <div
                     className={`link_item ${

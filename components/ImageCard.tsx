@@ -16,7 +16,6 @@ export default function ImageCard({ imageData }: Props) {
     const router = useRouter();
     const currentPath = usePathname();
 
-    console.log(imageData);
     return (
         <Wrapper>
             <div
