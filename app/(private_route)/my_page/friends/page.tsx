@@ -28,7 +28,11 @@ export default function Friends() {
                 </thead>
                 <tbody>
                     {!friendList ? (
-                        <div>loading...</div>
+                        <tr>
+                            <td colSpan={4}>
+                                <div>loading...</div>
+                            </td>
+                        </tr>
                     ) : friendList.length !== 0 ? (
                         friendList.map((data: DFriendData) => (
                             <tr key={data.id}>
