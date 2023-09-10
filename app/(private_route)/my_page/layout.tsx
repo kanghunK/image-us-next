@@ -15,7 +15,7 @@ export default function MyPageLayout({ children }: MyPageLayoutProps) {
     const [myPageInfo, setMyPageInfo] = useState<MyPageInfo>();
 
     const excuteGetMyPageData = useCallback(async () => {
-        if (userData) {
+        if (userData.user_info) {
             const data = await getMyPageInfo(userData.user_info.id);
             setMyPageInfo(data);
         }
@@ -31,7 +31,7 @@ export default function MyPageLayout({ children }: MyPageLayoutProps) {
                 <ProfileInfo>
                     <div>
                         <span className="user_name">
-                            {userData?.user_info.name}
+                            {userData.user_info?.name}
                         </span>
                         님
                     </div>
