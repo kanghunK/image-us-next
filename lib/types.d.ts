@@ -21,7 +21,7 @@ export interface DFriendData {
     id: number;
     email: string;
     name: string;
-    profile: string;
+    profile?: string;
     user_type: string;
 }
 
