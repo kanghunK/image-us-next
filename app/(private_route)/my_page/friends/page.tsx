@@ -7,7 +7,12 @@ import { DFriendData } from "@/lib/types";
 import { useFriend } from "@/hooks/useFriend";
 
 export default function Friends() {
-    const { data: friendList } = useFriend();
+    const { data: friendList, deleteMember } = useFriend();
+
+    const deleteFriend = (friendId: number) => async () => {
+        await deleteMember(friendId);
+        alert("성공적으로 삭제하였습니다!");
+    };
 
     return (
         <Wrapper>
@@ -41,7 +46,9 @@ export default function Friends() {
                                 <td>{data.user_type}</td>
                                 <td>
                                     <div className="delete_btn">
-                                        <Button onClick={() => {}}>삭제</Button>
+                                        <Button onClick={deleteFriend(data.id)}>
+                                            삭제
+                                        </Button>
                                     </div>
                                 </td>
                             </tr>

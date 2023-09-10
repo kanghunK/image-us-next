@@ -11,9 +11,7 @@ import {
 import customAxios from "@/lib/api";
 
 export function useFriend() {
-    const [, setUserData] = useUserData();
-    const token = localStoragePersistor.onGet(TOKEN_KEY);
-    // const [token] = useToken();
+    const [userData, setUserData] = useUserData();
 
     const [isLoading, setLoading] = useStore({
         key: `${FRIEND_KEY}-loading`,
@@ -91,30 +89,156 @@ export function useFriend() {
         roomId: string,
         inviteMemberlist: number[]
     ) => {
-        setLoading(true);
+        try {
+            setLoading(true);
 
-        const tokenData = localStoragePersistor.onGet(TOKEN_KEY);
+            const tokenData = localStoragePersistor.onGet(TOKEN_KEY);
 
-        await customAxios.post(
-            `/room/${roomId}/user`,
-            {
-                invite_userlist: inviteMemberlist,
-            },
-            {
+            if (!tokenData) {
+                throw new Error();
+            }
+
+            await customAxios.post(
+                `/room/${roomId}/user`,
+                {
+                    invite_userlist: inviteMemberlist,
+                },
+                {
+                    headers: {
+                        Authorization: tokenData.access_token,
+                    },
+                }
+            );
+
+            friendDataMutate();
+
+            setLoading(false);
+        } catch (error) {
+            if (error instanceof AxiosError) {
+                if (error.status === 403) {
+                    const errorObj = new Error(
+                        "방의 권한을 가지고 있지 않습니다.. 문의해주세요"
+                    );
+                    errorObj.name = "NoAuthorToRoom";
+                    throw errorObj;
+                } else if (error.status === 402) {
+                    const errorObj = new Error("방이 존재하지 않습니다.");
+                    errorObj.name = "NoRoom";
+                    throw errorObj;
+                }
+            } else {
+                const errorObj = new Error(
+                    "사용자 정보가 없습니다! 다시 로그인 해주세요.."
+                );
+                errorObj.name = "NoLocalStorageInfo";
+                throw errorObj;
+            }
+        }
+    };
+
+    const addFriend = async (friendId: number) => {
+        try {
+            setLoading(true);
+
+            const tokenData = localStoragePersistor.onGet(TOKEN_KEY);
+
+            if (!tokenData) {
+                throw new Error();
+            }
+
+            const userId = userData.user_info?.id;
+
+            await customAxios.post(
+                `/user/${userId}/friend`,
+                { friend_user_id: friendId },
+                {
+                    headers: {
+                        Authorization: tokenData.access_token,
+                    },
+                }
+            );
+
+            friendDataMutate();
+
+            setLoading(false);
+        } catch (error) {
+            if (error instanceof AxiosError) {
+                if (error.status === 401) {
+                    const errorObj = new Error(
+                        "사용자 정보가 없어 로그아웃됩니다."
+                    );
+                    errorObj.name = "InvalidUserData";
+                    throw errorObj;
+                } else if (error.status === 402) {
+                    const errorObj = new Error("이미 등록된 유저입니다.");
+                    errorObj.name = "ReRegistration";
+                    throw errorObj;
+                } else if (error.status === 403) {
+                    const errorObj = new Error("권한이 없습니다...");
+                    errorObj.name = "IncorrectAuth";
+                    throw errorObj;
+                } else if (error.status) {
+                    const errorObj = new Error(
+                        "해당 유저가 존재하지 않습니다."
+                    );
+                    errorObj.name = "NotFoundFriend";
+                    throw errorObj;
+                }
+            } else {
+                const errorObj = new Error(
+                    "사용자 정보가 없습니다! 다시 로그인 해주세요.."
+                );
+                errorObj.name = "NoLocalStorageInfo";
+                throw errorObj;
+            }
+        }
+    };
+
+    const deleteMember = async (friendId: number) => {
+        try {
+            setLoading(true);
+
+            const tokenData = localStoragePersistor.onGet(TOKEN_KEY);
+
+            if (!tokenData) {
+                throw new Error();
+            }
+
+            const userId = userData.user_info?.id;
+
+            await customAxios.delete(`/user/${userId}/friend`, {
                 headers: {
                     Authorization: tokenData.access_token,
                 },
+                data: {
+                    delete_friend_user_id: friendId,
+                },
+            });
+
+            await friendDataMutate();
+
+            setLoading(false);
+        } catch (error) {
+            if (error instanceof AxiosError) {
+                if (error.status === 403) {
+                    const errorObj = new Error("권한이 없습니다...");
+                    errorObj.name = "IncorrectAuth";
+                    throw errorObj;
+                } else if (error.status) {
+                    const errorObj = new Error(
+                        "해당 유저가 존재하지 않습니다."
+                    );
+                    errorObj.name = "NotFoundFriend";
+                    throw errorObj;
+                }
+            } else {
+                const errorObj = new Error(
+                    "사용자 정보가 없습니다! 다시 로그인 해주세요.."
+                );
+                errorObj.name = "NoLocalStorageInfo";
+                throw errorObj;
             }
-        );
-
-        friendDataMutate();
-
-        setLoading(false);
-    };
-
-    const deleteMember = async () => {
-        try {
-        } catch (error) {}
+        }
     };
 
     return {
@@ -122,5 +246,7 @@ export function useFriend() {
         isLoading,
         error,
         inviteMemberToRoom,
+        addFriend,
+        deleteMember,
     };
 }
