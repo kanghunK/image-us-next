@@ -77,9 +77,7 @@ export default function InviteMemberModal({
             <Container>
                 <div className="title">{`${roomData?.title}방에 멤버 초대하기`}</div>
                 <div className="member_list">
-                    <label htmlFor="roomMembers" className="subtitle">
-                        멤버 목록
-                    </label>
+                    <label className="subtitle">멤버 목록</label>
                     <div className="check_group">
                         {!filteredMemberlist ? (
                             <div>로딩중...</div>
