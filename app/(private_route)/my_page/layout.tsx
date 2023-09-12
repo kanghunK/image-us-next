@@ -35,7 +35,7 @@ export default function MyPageLayout({ children }: MyPageLayoutProps) {
                         </span>
                         님
                     </div>
-                    <ul>
+                    <ul className="info_ul">
                         <li>
                             <div>
                                 저장된 사진
@@ -67,10 +67,7 @@ export const WrapperBox = styled.section`
     display: flex;
     flex-direction: column;
 
-    height: 100%;
     box-sizing: border-box;
-
-    overflow-x: hidden;
 
     .nav_box {
         position: fixed;
@@ -102,15 +99,13 @@ export const ContentBox = styled.div`
 
     height: 100%;
 
-    overflow: hidden;
-
-    h2,
-    ul {
-        margin: 0;
-        padding: 0;
-    }
     li {
         list-style: none;
+    }
+
+    .info_ul {
+        margin: 0;
+        padding: 0;
     }
 
     .nav_icon {
@@ -149,7 +144,7 @@ export const ProfileInfo = styled.div`
 
     height: 150px;
     padding-left: 5rem;
-    margin: 2rem 0;
+    margin-bottom: 2rem;
     gap: 1rem;
 
     .user_name {
@@ -165,6 +160,7 @@ export const ProfileInfo = styled.div`
     @media screen and (max-width: 600px) {
         align-items: center;
 
+        margin: 2rem 0;
         padding: 0;
 
         ul {
