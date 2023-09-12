@@ -7,6 +7,7 @@ import { AiOutlineDelete } from "react-icons/ai";
 import { BiDownload, BiExpand } from "react-icons/bi";
 import DeleteImageBtn from "./DeleteImageBtn";
 import { usePathname, useRouter } from "next/navigation";
+import { useUserData } from "@/states/stores/userData";
 
 interface Props {
     imageData: ImageInfo;
@@ -16,6 +17,7 @@ interface Props {
 export default function ImageCard({ imageData, observerRef }: Props) {
     const router = useRouter();
     const currentPath = usePathname();
+    const [userData] = useUserData();
 
     return (
         <Wrapper ref={observerRef}>
@@ -55,7 +57,9 @@ export default function ImageCard({ imageData, observerRef }: Props) {
                             <BiDownload />
                         </a>
                     </div>
-                    <DeleteImageBtn imageId={imageData.id} />
+                    {userData.user_info?.id === imageData.user_id && (
+                        <DeleteImageBtn imageId={imageData.id} />
+                    )}
                 </div>
             </IconContext.Provider>
         </Wrapper>
