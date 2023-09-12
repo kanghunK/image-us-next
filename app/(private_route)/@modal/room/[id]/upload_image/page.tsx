@@ -10,7 +10,7 @@ import { Button } from "@/components/shared/Button";
 import { IconContext } from "react-icons/lib";
 import { PiFilePlusThin } from "react-icons/pi";
 import useInput from "@/hooks/useInput";
-import { useImage } from "@/states/stores/roomData";
+import { useImage } from "@/hooks/useImage";
 
 const acceptableType = [
     "image/HEIF",
@@ -101,13 +101,6 @@ export default function UploadModal({ params }: { params: { id: string } }) {
         const imageFormData = formData.get("image");
         image.src = URL.createObjectURL(imageFormData);
 
-        console.log(
-            "확인",
-            previewRef.current?.offsetWidth,
-            imageFormData,
-            image.naturalWidth
-        );
-
         setUploadFileName(imageFormData.name);
         setImageData(image);
         setUploadImageFile(formData);
@@ -115,12 +108,10 @@ export default function UploadModal({ params }: { params: { id: string } }) {
     };
 
     const onClickUploadImg = async () => {
-        console.log(uploadImageFile);
         if (uploadImageFile) await uploadImage(uploadImageFile);
         router.back();
     };
 
-    console.log(previewRef.current?.offsetWidth, imageData?.naturalWidth);
     return (
         <Modal>
             <Container>

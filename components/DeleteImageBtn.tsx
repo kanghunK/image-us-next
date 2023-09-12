@@ -1,8 +1,8 @@
 import React from "react";
 import NoticeModal from "./shared/NoticeModal";
 import { AiOutlineDelete } from "react-icons/ai";
-import { useImage } from "@/states/stores/roomData";
 import { useParams } from "next/navigation";
+import { useImage } from "@/hooks/useImage";
 
 interface Props {
     imageId: number;

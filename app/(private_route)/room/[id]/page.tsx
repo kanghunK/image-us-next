@@ -1,53 +1,90 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import Image from "next/image";
 import styled from "@emotion/styled";
-import { useImage } from "@/states/stores/roomData";
 import ImageCard from "@/components/ImageCard";
 import { PiUploadThin } from "react-icons/pi";
 import { usePathname, useRouter } from "next/navigation";
-import { AiOutlineMenuUnfold } from "react-icons/ai";
+import useIntersect from "@/hooks/useIntersect";
+import { useImage } from "@/hooks/useImage";
+import { useRoomImageList } from "@/states/stores/roomData";
 
 export default function Page({ params }: { params: { id: string } }) {
     const router = useRouter();
     const currentPath = usePathname();
 
     const [startNum, setStartNum] = useState(0);
+    const [imageList, setImageList] = useRoomImageList();
     const {
-        data: imageList,
-        imageLoadError,
+        isLoading: isImageLoading,
+        imageLoadEnd,
         loadImagelist,
     } = useImage({
         roomId: params.id,
     });
 
-    useEffect(() => {
-        // setStartNum((prev) => prev + 12);
-        // if (startNum >= 12) loadImagelist(startNum);
-    }, []);
+    const observerRef = useIntersect(
+        async (entry, observer) => {
+            observer.unobserve(entry.target);
+            if (isImageLoading || imageLoadEnd) return;
+            fetchImageToList(startNum);
+            setStartNum((prev) => prev + 12);
+        },
+        {
+            threshold: 0.5,
+        }
+    );
+    ``;
 
-    if (imageList.length === 0) {
-        return (
-            <NoImage>
-                <Image
-                    src="/no_image.png"
-                    width={500}
-                    height={500}
-                    alt="이미지 없음"
-                />
-                <p style={{ fontSize: "1.2rem" }}>등록된 이미지가 없습니다.</p>
-            </NoImage>
-        );
-    }
+    const fetchImageToList = async (fetchNum: number) => {
+        const newImageList = await loadImagelist(fetchNum);
+
+        if (fetchNum === 0) {
+            setImageList(() => [...newImageList]);
+        } else {
+            setImageList((prev) => [...newImageList, ...prev]);
+        }
+        setStartNum((prev) => prev + 12);
+    };
+
+    const resetImageList = async () => setImageList([]);
+
+    useEffect(() => {
+        fetchImageToList(startNum);
+
+        return () => {
+            resetImageList();
+        };
+    }, [params.id]);
 
     return (
         <Wrapper>
-            <Container>
-                {imageList.map((imageData) => (
-                    <ImageCard key={imageData.id} imageData={imageData} />
-                ))}
-            </Container>
+            {imageList.length === 0 ? (
+                <NoImage>
+                    <Image
+                        src="/no_image.png"
+                        width={500}
+                        height={500}
+                        alt="이미지 없음"
+                    />
+                    <p style={{ fontSize: "1.2rem" }}>
+                        등록된 이미지가 없습니다.
+                    </p>
+                </NoImage>
+            ) : (
+                <Container>
+                    {imageList.map((imageData, i) => (
+                        <ImageCard
+                            key={imageData.id}
+                            imageData={imageData}
+                            observerRef={
+                                i === imageList.length - 1 ? observerRef : null
+                            }
+                        />
+                    ))}
+                </Container>
+            )}
             <UploadBox
                 onClick={() => router.push(currentPath + "/upload_image")}
             >
