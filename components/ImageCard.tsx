@@ -90,6 +90,7 @@ const Wrapper = styled.div`
     .image_box {
         display: flex;
         flex: 4;
+        overflow: hidden;
     }
 
     .button_box {
