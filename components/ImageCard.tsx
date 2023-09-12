@@ -10,14 +10,15 @@ import { usePathname, useRouter } from "next/navigation";
 
 interface Props {
     imageData: ImageInfo;
+    observerRef: React.MutableRefObject<null> | null;
 }
 
-export default function ImageCard({ imageData }: Props) {
+export default function ImageCard({ imageData, observerRef }: Props) {
     const router = useRouter();
     const currentPath = usePathname();
 
     return (
-        <Wrapper>
+        <Wrapper ref={observerRef}>
             <div
                 className="image_box"
                 onClick={() =>
