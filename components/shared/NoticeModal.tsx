@@ -2,7 +2,6 @@ import React from "react";
 import styled from "@emotion/styled";
 import { ImExit } from "react-icons/im";
 import { IconContext } from "react-icons/lib";
-import { useRoom } from "@/states/stores/userData";
 
 interface Props {
     icon: React.ReactNode;
@@ -34,6 +33,7 @@ export default function NoticeModal({
                 <label
                     className="modal_content_btn ok_button"
                     onClick={okHandler}
+                    htmlFor="modal_toggle"
                 >
                     확인
                 </label>

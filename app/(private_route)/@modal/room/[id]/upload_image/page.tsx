@@ -29,11 +29,9 @@ const acceptableType = [
 
 export default function UploadModal({ params }: { params: { id: string } }) {
     const router = useRouter();
-    const { uploadImage } = useImage({
-        roomId: params.id,
-    });
+    const { uploadRoomImage } = useImage();
+    const roomId = params.id;
 
-    const inputFileRef = useRef<HTMLInputElement>(null);
     const [uploadImageFile, setUploadImageFile] = useState<FormData | null>(
         null
     );
@@ -108,7 +106,7 @@ export default function UploadModal({ params }: { params: { id: string } }) {
     };
 
     const onClickUploadImg = async () => {
-        if (uploadImageFile) await uploadImage(uploadImageFile);
+        if (uploadImageFile) await uploadRoomImage(roomId, uploadImageFile);
         router.back();
     };
 

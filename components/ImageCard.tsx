@@ -6,7 +6,7 @@ import { IconContext } from "react-icons/lib";
 import { AiOutlineDelete } from "react-icons/ai";
 import { BiDownload, BiExpand } from "react-icons/bi";
 import DeleteImageBtn from "./DeleteImageBtn";
-import { usePathname, useRouter } from "next/navigation";
+import { useParams, usePathname, useRouter } from "next/navigation";
 import { useUserData } from "@/states/stores/userData";
 
 interface Props {
@@ -16,6 +16,7 @@ interface Props {
 
 export default function ImageCard({ imageData, observerRef }: Props) {
     const router = useRouter();
+    const params = useParams();
     const currentPath = usePathname();
     const [userData] = useUserData();
 
@@ -58,7 +59,10 @@ export default function ImageCard({ imageData, observerRef }: Props) {
                         </a>
                     </div>
                     {userData.user_info?.id === imageData.user_id && (
-                        <DeleteImageBtn imageId={imageData.id} />
+                        <DeleteImageBtn
+                            isRoom={params?.id ? true : false}
+                            imageId={imageData.id}
+                        />
                     )}
                 </div>
             </IconContext.Provider>

@@ -4,17 +4,16 @@ import React, { useEffect, useState } from "react";
 import Modal from "@/components/shared/Modal";
 import styled from "@emotion/styled";
 import Image from "next/image";
-import { useImage } from "@/states/stores/roomData";
 import { ImageInfo } from "@/lib/types";
+import { useImage } from "@/hooks/useImage";
+import { useRoomImageList } from "@/states/stores/roomData";
 
 export default function DetailPhotoModal({
     params,
 }: {
     params: { id: string; imageId: string };
 }) {
-    const { data: imageList } = useImage({
-        roomId: params.id,
-    });
+    const [imageList] = useRoomImageList();
     const [imageData, setImageData] = useState<ImageInfo>();
 
     useEffect(() => {

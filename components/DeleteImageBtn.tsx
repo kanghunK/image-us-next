@@ -5,19 +5,26 @@ import { useParams } from "next/navigation";
 import { useImage } from "@/hooks/useImage";
 
 interface Props {
+    isRoom: boolean;
     imageId: number;
 }
 
-export default function DeleteImageBtn({ imageId }: Props) {
+export default function DeleteImageBtn({ isRoom, imageId }: Props) {
     const params = useParams();
-    const { deleteImage } = useImage({ roomId: params.id as string });
+    const { deleteRoomImage, deleteUserImage } = useImage();
 
     return (
         <NoticeModal
             icon={<AiOutlineDelete />}
             title={"주의!"}
             content={"정말 이미지를 삭제하시겠습니까?"}
-            okHandler={() => deleteImage(imageId)}
+            okHandler={() => {
+                if (isRoom) {
+                    deleteRoomImage(params.id as string, imageId);
+                } else {
+                    deleteUserImage(imageId);
+                }
+            }}
         />
     );
 }

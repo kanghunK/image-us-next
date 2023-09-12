@@ -13,16 +13,15 @@ import { useRoomImageList } from "@/states/stores/roomData";
 export default function Page({ params }: { params: { id: string } }) {
     const router = useRouter();
     const currentPath = usePathname();
+    const roomId = params.id;
 
     const [startNum, setStartNum] = useState(0);
     const [imageList, setImageList] = useRoomImageList();
     const {
         isLoading: isImageLoading,
         imageLoadEnd,
-        loadImagelist,
-    } = useImage({
-        roomId: params.id,
-    });
+        loadRoomImagelist,
+    } = useImage();
 
     const observerRef = useIntersect(
         async (entry, observer) => {
@@ -38,12 +37,12 @@ export default function Page({ params }: { params: { id: string } }) {
     ``;
 
     const fetchImageToList = async (fetchNum: number) => {
-        const newImageList = await loadImagelist(fetchNum);
+        const newImageList = await loadRoomImagelist(roomId, fetchNum);
 
         if (fetchNum === 0) {
             setImageList(() => [...newImageList]);
         } else {
-            setImageList((prev) => [...newImageList, ...prev]);
+            setImageList((prev) => [...prev, ...newImageList]);
         }
         setStartNum((prev) => prev + 12);
     };
@@ -56,7 +55,7 @@ export default function Page({ params }: { params: { id: string } }) {
         return () => {
             resetImageList();
         };
-    }, [params.id]);
+    }, [roomId]);
 
     return (
         <Wrapper>
