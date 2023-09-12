@@ -12,6 +12,7 @@ export default function ExitRoomBtn({ roomId }: Props) {
 
     return (
         <NoticeModal
+            id={roomId}
             icon={<ImExit />}
             title={"주의!"}
             content={"정말 방에서 나가시겠습니까?"}

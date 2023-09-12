@@ -11,15 +11,21 @@ interface MyPageLayoutProps {
 }
 
 export default function MyPageLayout({ children }: MyPageLayoutProps) {
-    const [userData] = useUserData();
-    const [myPageInfo, setMyPageInfo] = useState<MyPageInfo>();
+    const [userData, setUserData] = useUserData();
+    // const [myPageInfo, setMyPageInfo] = useState<MyPageInfo>();
 
     const excuteGetMyPageData = useCallback(async () => {
         if (userData.user_info) {
             const data = await getMyPageInfo(userData.user_info.id);
-            setMyPageInfo(data);
+            // setMyPageInfo(data);
+            setUserData((prev) => ({
+                ...prev,
+                imageLen: data?.imageLen,
+                roomListLen: data?.roomListLen,
+                friendlistLen: data?.friendlistLen,
+            }));
         }
-    }, [userData]);
+    }, [userData, setUserData]);
 
     useEffect(() => {
         excuteGetMyPageData();
@@ -39,19 +45,19 @@ export default function MyPageLayout({ children }: MyPageLayoutProps) {
                         <li>
                             <div>
                                 저장된 사진
-                                <span>{myPageInfo?.imageLen ?? 0}</span>
+                                <span>{userData?.imageLen ?? 0}</span>
                             </div>
                         </li>
                         <li>
                             <div>
                                 등록된 방
-                                <span>{myPageInfo?.roomListLen ?? 0}</span>
+                                <span>{userData?.roomListLen ?? 0}</span>
                             </div>
                         </li>
                         <li>
                             <div>
                                 친구수
-                                <span>{myPageInfo?.friendlistLen ?? 0}</span>
+                                <span>{userData?.friendlistLen ?? 0}</span>
                             </div>
                         </li>
                     </ul>

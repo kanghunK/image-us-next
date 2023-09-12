@@ -65,9 +65,9 @@ export interface ImageInfo {
 }
 
 export interface MyPageInfo {
-    imageLen: number;
-    roomListLen: number;
-    friendlistLen: number;
+    imageLen?: number;
+    roomListLen?: number;
+    friendlistLen?: number;
 }
 
 // global state
@@ -80,6 +80,6 @@ export interface TokenData {
     user_id: number;
 }
 
-export interface UserData extends UserInfo {
+export interface UserData extends UserInfo, MyPageInfo {
     friends?: DFriendData[];
 }

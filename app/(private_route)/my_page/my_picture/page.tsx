@@ -9,7 +9,7 @@ import ImageCard from "@/components/ImageCard";
 import useIntersect from "@/hooks/useIntersect";
 import { useImage } from "@/hooks/useImage";
 import { useRoomImageList } from "@/states/stores/roomData";
-import { useUserData } from "@/states/stores/userData";
+import { useUserData, useUserImageList } from "@/states/stores/userData";
 
 export default function MyPicture() {
     const router = useRouter();
@@ -17,7 +17,7 @@ export default function MyPicture() {
     const [userData] = useUserData();
 
     const [startNum, setStartNum] = useState(0);
-    const [imageList, setImageList] = useRoomImageList();
+    const [userImageList, setUserImageList] = useUserImageList();
     const {
         isLoading: isImageLoading,
         imageLoadEnd,
@@ -47,14 +47,14 @@ export default function MyPicture() {
         const newImageList = await loadUserImagelist(userId, fetchNum);
 
         if (fetchNum === 0) {
-            setImageList(() => [...newImageList]);
+            setUserImageList(() => [...newImageList]);
         } else {
-            setImageList((prev) => [...newImageList, ...prev]);
+            setUserImageList((prev) => [...prev, ...newImageList]);
         }
         setStartNum((prev) => prev + 12);
     };
 
-    const resetImageList = async () => setImageList([]);
+    const resetImageList = async () => setUserImageList([]);
 
     useEffect(() => {
         fetchImageToList(startNum);
@@ -66,7 +66,7 @@ export default function MyPicture() {
 
     return (
         <Wrapper>
-            {imageList.length === 0 ? (
+            {userImageList.length === 0 ? (
                 <NoImage>
                     <Image
                         src="/no_image.png"
@@ -80,12 +80,14 @@ export default function MyPicture() {
                 </NoImage>
             ) : (
                 <Container>
-                    {imageList.map((imageData, i) => (
+                    {userImageList.map((imageData, i) => (
                         <ImageCard
                             key={imageData.id}
                             imageData={imageData}
                             observerRef={
-                                i === imageList.length - 1 ? observerRef : null
+                                i === userImageList.length - 1
+                                    ? observerRef
+                                    : null
                             }
                         />
                     ))}

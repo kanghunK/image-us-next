@@ -1,6 +1,10 @@
 import localStoragePersistor from "@/states/persistors/local-storage";
 import customAxios from "@/lib/api";
-import { TOKEN_KEY, useUserImageList } from "@/states/stores/userData";
+import {
+    TOKEN_KEY,
+    useUserData,
+    useUserImageList,
+} from "@/states/stores/userData";
 import { AxiosCustomRequestConfig, DImageData, ImageInfo } from "@/lib/types";
 import axios, { AxiosError, AxiosRequestConfig } from "axios";
 import useStore from "swr-global-state";
@@ -97,6 +101,7 @@ async function imageConvertToBlob(imageList: DImageData[]) {
 }
 
 export function useImage() {
+    const [, setUserData] = useUserData();
     const [, setRoomImageList] = useRoomImageList();
     const [, setUserImageList] = useUserImageList();
     const [isLoading, setLoading] = useStore({
@@ -179,6 +184,11 @@ export function useImage() {
                 );
                 return newData;
             });
+
+            setUserData((prev) => ({
+                ...prev,
+                imageLen: prev?.imageLen ? prev.imageLen - 1 : prev?.imageLen,
+            }));
         } catch (error) {
             if (error instanceof AxiosError) {
                 if (error.response?.status === 401) {
@@ -237,6 +247,11 @@ export function useImage() {
             alert("이미지를 성공적으로 업로드하였습니다!");
 
             setUserImageList((prevData) => [newData, ...prevData]);
+
+            setUserData((prev) => ({
+                ...prev,
+                imageLen: prev?.imageLen ? prev.imageLen + 1 : prev?.imageLen,
+            }));
         } catch (error) {
             if (error instanceof AxiosError) {
                 if (error.response?.status === 401) {

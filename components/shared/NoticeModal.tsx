@@ -4,6 +4,7 @@ import { ImExit } from "react-icons/im";
 import { IconContext } from "react-icons/lib";
 
 interface Props {
+    id: number;
     icon: React.ReactNode;
     title: string;
     content: string;
@@ -11,20 +12,24 @@ interface Props {
 }
 
 export default function NoticeModal({
+    id,
     icon,
     title,
     content,
     okHandler,
 }: Props) {
     return (
-        <Container>
-            <input id="modal_toggle" type="checkbox"></input>
-            <label htmlFor="modal_toggle" className="label_icon">
+        <Container idNum={id}>
+            <input id={`modal_toggle_${id}`} type="checkbox"></input>
+            <label htmlFor={`modal_toggle_${id}`} className="label_icon">
                 {icon}
             </label>
-            <label className="modal_backdrop" htmlFor="modal_toggle"></label>
+            <label
+                className="modal_backdrop"
+                htmlFor={`modal_toggle_${id}`}
+            ></label>
             <div className="modal_content">
-                <label className="modal_close" htmlFor="modal_toggle">
+                <label className="modal_close" htmlFor={`modal_toggle_${id}`}>
                     &#x2715;
                 </label>
                 <h2>{title}</h2>
@@ -33,11 +38,14 @@ export default function NoticeModal({
                 <label
                     className="modal_content_btn ok_button"
                     onClick={okHandler}
-                    htmlFor="modal_toggle"
+                    htmlFor={`modal_toggle_${id}`}
                 >
                     확인
                 </label>
-                <label className="modal_content_btn" htmlFor="modal_toggle">
+                <label
+                    className="modal_content_btn"
+                    htmlFor={`modal_toggle_${id}`}
+                >
                     취소
                 </label>
             </div>
@@ -45,7 +53,7 @@ export default function NoticeModal({
     );
 }
 
-const Container = styled.div`
+const Container = styled.div<{ idNum: number }>`
     flex: 1;
     display: flex;
     align-items: center;
@@ -69,7 +77,7 @@ const Container = styled.div`
         cursor: pointer;
     }
 
-    #modal_toggle {
+    #modal_toggle_${({ idNum }) => idNum} {
         display: none;
     }
 
@@ -136,8 +144,8 @@ const Container = styled.div`
         }
     }
 
-    #modal_toggle.active ~ .modal_backdrop,
-    #modal_toggle:checked ~ .modal_backdrop {
+    #modal_toggle_${({ idNum }) => idNum}.active ~ .modal_backdrop,
+    #modal_toggle_${({ idNum }) => idNum}:checked ~ .modal_backdrop {
         background-color: rgba(0, 0, 0, 0.6);
         width: 100vw;
         height: 100vh;
@@ -150,8 +158,8 @@ const Container = styled.div`
         transition: opacity 0.2s ease-in;
     }
 
-    #modal_toggle.active ~ .modal_content,
-    #modal_toggle:checked ~ .modal_content {
+    #modal_toggle_${({ idNum }) => idNum}.active ~ .modal_content,
+    #modal_toggle_${({ idNum }) => idNum}:checked ~ .modal_content {
         position: fixed;
         left: 50%;
         top: 50%;
