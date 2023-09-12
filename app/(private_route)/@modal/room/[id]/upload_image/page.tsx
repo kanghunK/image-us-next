@@ -157,6 +157,7 @@ export default function UploadModal({ params }: { params: { id: string } }) {
                         className="upload_name"
                         value={uploadFileName}
                         placeholder="첨부파일"
+                        readOnly
                     />
                     <label htmlFor="file">파일찾기</label>
                     <input type="file" id="file" onChange={handleInputFile} />
