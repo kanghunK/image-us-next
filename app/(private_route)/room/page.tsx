@@ -64,7 +64,7 @@ const CreateRoomBox = styled.div`
     }
 
     svg {
-        width: 70px;
-        height: 70px;
+        width: 50px;
+        height: 50px;
     }
 `;
