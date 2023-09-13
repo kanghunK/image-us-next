@@ -8,7 +8,6 @@ import Image from "next/image";
 import ImageCard from "@/components/ImageCard";
 import useIntersect from "@/hooks/useIntersect";
 import { useImage } from "@/hooks/useImage";
-import { useRoomImageList } from "@/states/stores/roomData";
 import { useUserData, useUserImageList } from "@/states/stores/userData";
 
 export default function MyPicture() {

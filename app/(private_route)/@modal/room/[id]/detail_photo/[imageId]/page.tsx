@@ -7,8 +7,9 @@ import Image from "next/image";
 import { ImageInfo } from "@/lib/types";
 import { useImage } from "@/hooks/useImage";
 import { useRoomImageList } from "@/states/stores/roomData";
+import DetailPhotoModal from "@/components/DetailPhotoModal";
 
-export default function DetailPhotoModal({
+export default function DetailPhoto({
     params,
 }: {
     params: { id: string; imageId: string };
@@ -25,41 +26,7 @@ export default function DetailPhotoModal({
         });
     }, [imageList, params.imageId]);
 
-    return (
-        <Modal>
-            <Container>
-                <div className="photo_info">
-                    <div className="author">
-                        <div className="label">
-                            <b>작성자</b>:
-                        </div>
-                        <div className="text">{imageData?.user_name}</div>
-                    </div>
-                    <div className="name">
-                        <div className="label">
-                            <b>파일명</b>:
-                        </div>
-                        <div className="text">{imageData?.fileName}</div>
-                    </div>
-                </div>
-                <div className="image_box">
-                    {imageData && (
-                        <Image
-                            src={imageData?.link}
-                            alt={imageData?.fileName}
-                            style={{
-                                width: "100%",
-                                height: "100%",
-                                objectFit: "contain",
-                            }}
-                            width={300}
-                            height={300}
-                        />
-                    )}
-                </div>
-            </Container>
-        </Modal>
-    );
+    return <DetailPhotoModal imageData={imageData} />;
 }
 
 const Container = styled.div`
