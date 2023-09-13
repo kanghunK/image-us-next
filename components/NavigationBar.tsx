@@ -111,7 +111,10 @@ export default function NavigationBar({
                                     <LiaInfoCircleSolid />
                                     <span className="text">마이페이지</span>
                                 </div>
-                                <div className="menu_item" onClick={logout}>
+                                <div
+                                    className="menu_item logout"
+                                    onClick={logout}
+                                >
                                     <CgLogOff />
                                     <span className="text">로그아웃</span>
                                 </div>
@@ -214,12 +217,6 @@ const LeftButton = styled.div`
     }
 `;
 
-const NavTitle = styled.div`
-    margin: 0 1.5rem;
-    user-select: none;
-    white-space: nowrap;
-`;
-
 const IconGroup = styled.div`
     display: flex;
     align-items: center;
@@ -280,6 +277,13 @@ const IconGroup = styled.div`
 
             .text {
                 margin-left: 3px;
+            }
+        }
+
+        .menu_item.logout {
+            &:hover {
+                color: white;
+                background-color: #f07070;
             }
         }
     }
