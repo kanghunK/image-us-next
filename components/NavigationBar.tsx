@@ -255,7 +255,7 @@ const IconGroup = styled.div`
     .user_icon_menu {
         position: absolute;
         top: 44px;
-        right: 0;
+        right: 20px;
 
         z-index: 10;
         width: 140px;
