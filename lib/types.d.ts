@@ -82,4 +82,5 @@ export interface TokenData {
 
 export interface UserData extends UserInfo, MyPageInfo {
     friends?: DFriendData[];
+    roomList?: RoomData[];
 }

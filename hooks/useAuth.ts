@@ -13,8 +13,6 @@ import customAxios from "@/lib/api";
 
 export function useAuth() {
     const [, setUserData] = useUserData();
-    // const token = localStoragePersistor.onGet(TOKEN_KEY);
-    // const [token, setToken] = useToken();
 
     const [isLoading, setLoading] = useStore({
         key: `${USERDATA_KEY}-loading`,
@@ -142,6 +140,7 @@ export function useAuth() {
             );
 
             loginMutate();
+            alert("성공적으로 변경하였습니다!");
         } catch (err) {
             if (err instanceof AxiosError) {
                 if (err.response?.status === 401) {

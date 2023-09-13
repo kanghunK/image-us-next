@@ -9,6 +9,7 @@ import styled from "@emotion/styled";
 import LeftMenu from "@/components/LeftMenu";
 import { useAuth } from "@/hooks/useAuth";
 import { useRoom } from "@/hooks/useRoom";
+import { useUserData } from "@/states/stores/userData";
 
 interface Props {
     children: ReactNode;
@@ -17,10 +18,10 @@ interface Props {
 
 export default function PrivateLayout({ children, modal }: Props) {
     const params = useParams();
-    const { authData, loginError } = useAuth();
-    const { data: roomlist } = useRoom();
     const currentPath = usePathname();
 
+    const [userData] = useUserData();
+    const { authData, loginError } = useAuth();
     const [pageTitle, setPageTitle] = useState("unknwon");
 
     /*
@@ -44,7 +45,7 @@ export default function PrivateLayout({ children, modal }: Props) {
                 return;
             }
             if (params.id) {
-                const roomName = roomlist?.find(
+                const roomName = userData.roomList?.find(
                     (data) => "" + data.id === params.id
                 )?.title as string;
                 setPageTitle(roomName);
@@ -60,7 +61,7 @@ export default function PrivateLayout({ children, modal }: Props) {
             setPageTitle("unknown");
             setPageMatchNum(null);
         }
-    }, [currentPathArray, params, roomlist]);
+    }, [currentPathArray, params, userData]);
 
     const onClickLeftMenu = () => {
         setOpenedLeftMenu((prev) => !prev);

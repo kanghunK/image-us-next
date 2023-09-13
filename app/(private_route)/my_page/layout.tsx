@@ -12,12 +12,10 @@ interface MyPageLayoutProps {
 
 export default function MyPageLayout({ children }: MyPageLayoutProps) {
     const [userData, setUserData] = useUserData();
-    // const [myPageInfo, setMyPageInfo] = useState<MyPageInfo>();
 
     const excuteGetMyPageData = useCallback(async () => {
         if (userData.user_info) {
             const data = await getMyPageInfo(userData.user_info.id);
-            // setMyPageInfo(data);
             setUserData((prev) => ({
                 ...prev,
                 imageLen: data?.imageLen,
@@ -29,7 +27,7 @@ export default function MyPageLayout({ children }: MyPageLayoutProps) {
 
     useEffect(() => {
         excuteGetMyPageData();
-    }, [excuteGetMyPageData]);
+    }, []);
 
     return (
         <WrapperBox>

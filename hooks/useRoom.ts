@@ -3,9 +3,15 @@ import useStore from "swr-global-state";
 import customAxios from "@/lib/api";
 import { DRoomData, RoomData } from "@/lib/types";
 import localStoragePersistor from "@/states/persistors/local-storage";
-import { ROOM_KEY, TOKEN_KEY, USERDATA_KEY } from "@/states/stores/userData";
+import {
+    ROOM_KEY,
+    TOKEN_KEY,
+    USERDATA_KEY,
+    useUserData,
+} from "@/states/stores/userData";
 
 export function useRoom() {
+    const [, setUserData] = useUserData();
     const [isLoading, setLoading] = useStore({
         key: `${ROOM_KEY}-loading`,
         initial: true,
@@ -41,6 +47,8 @@ export function useRoom() {
                             return { ...roomData, userlist };
                         }
                     );
+
+                    setUserData((prev) => ({ ...prev, roomList: roomlist }));
 
                     return roomlist;
                 } catch (error: unknown) {
