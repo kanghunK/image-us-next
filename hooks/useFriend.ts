@@ -85,57 +85,6 @@ export function useFriend() {
 
     const { mutate: friendDataMutate, error } = swrDefaultResponse;
 
-    const inviteMemberToRoom = async (
-        roomId: string,
-        inviteMemberlist: number[]
-    ) => {
-        try {
-            setLoading(true);
-
-            const tokenData = localStoragePersistor.onGet(TOKEN_KEY);
-
-            if (!tokenData) {
-                throw new Error();
-            }
-
-            await customAxios.post(
-                `/room/${roomId}/user`,
-                {
-                    invite_userlist: inviteMemberlist,
-                },
-                {
-                    headers: {
-                        Authorization: tokenData.access_token,
-                    },
-                }
-            );
-
-            friendDataMutate();
-
-            setLoading(false);
-        } catch (error) {
-            if (error instanceof AxiosError) {
-                if (error.status === 403) {
-                    const errorObj = new Error(
-                        "방의 권한을 가지고 있지 않습니다.. 문의해주세요"
-                    );
-                    errorObj.name = "NoAuthorToRoom";
-                    throw errorObj;
-                } else if (error.status === 402) {
-                    const errorObj = new Error("방이 존재하지 않습니다.");
-                    errorObj.name = "NoRoom";
-                    throw errorObj;
-                }
-            } else {
-                const errorObj = new Error(
-                    "사용자 정보가 없습니다! 다시 로그인 해주세요.."
-                );
-                errorObj.name = "NoLocalStorageInfo";
-                throw errorObj;
-            }
-        }
-    };
-
     const addFriend = async (friendId: number) => {
         try {
             setLoading(true);
@@ -245,7 +194,6 @@ export function useFriend() {
         data,
         isLoading,
         error,
-        inviteMemberToRoom,
         addFriend,
         deleteMember,
     };
