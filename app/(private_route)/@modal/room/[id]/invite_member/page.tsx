@@ -95,7 +95,7 @@ export default function InviteMemberModal({
 
     return (
         <Modal>
-            <Container>
+            <Wrapper>
                 <div className="title">{`${roomData?.title} 친구관리`}</div>
                 <div className="tab_box">
                     <Tab>
@@ -160,7 +160,7 @@ export default function InviteMemberModal({
                         <label className="subtitle" htmlFor="inviteFriends">
                             초대할 친구목록
                         </label>
-                        <div className="invite_friends tab_content">
+                        <InviteFriendsBox className="tab_content">
                             <div className="container">
                                 <div className="check_group">
                                     <Scrollbars>
@@ -177,39 +177,37 @@ export default function InviteMemberModal({
                                                         초대할 멤버목록
                                                     </div>
                                                     <div className="member_list">
-                                                        <Scrollbars>
-                                                            <div className="layout">
-                                                                {filteredMemberlist.map(
-                                                                    (data) => (
-                                                                        <label
-                                                                            key={
-                                                                                data.id
+                                                        <div className="layout">
+                                                            {filteredMemberlist.map(
+                                                                (data) => (
+                                                                    <label
+                                                                        key={
+                                                                            data.id
+                                                                        }
+                                                                        htmlFor={`${data.id}`}
+                                                                        className="checkbox"
+                                                                    >
+                                                                        <input
+                                                                            type="checkbox"
+                                                                            className="checkbox_input"
+                                                                            id={`${data.id}`}
+                                                                            onChange={onChangeMemberlist(
+                                                                                data
+                                                                            )}
+                                                                        />
+                                                                        <span className="check_shape"></span>
+                                                                        <span className="checkbox_text">
+                                                                            {
+                                                                                data.name
                                                                             }
-                                                                            htmlFor={`${data.id}`}
-                                                                            className="checkbox"
-                                                                        >
-                                                                            <input
-                                                                                type="checkbox"
-                                                                                className="checkbox_input"
-                                                                                id={`${data.id}`}
-                                                                                onChange={onChangeMemberlist(
-                                                                                    data
-                                                                                )}
-                                                                            />
-                                                                            <span className="check_shape"></span>
-                                                                            <span className="checkbox_text">
-                                                                                {
-                                                                                    data.name
-                                                                                }
-                                                                            </span>
-                                                                        </label>
-                                                                    )
-                                                                )}
-                                                            </div>
-                                                        </Scrollbars>
+                                                                        </span>
+                                                                    </label>
+                                                                )
+                                                            )}
+                                                        </div>
                                                     </div>
                                                 </MemberListToInvite>
-                                                <div className="select_members_c">
+                                                <SelectedMemberList>
                                                     <div className="sub_heading">
                                                         선택한 멤버들
                                                     </div>
@@ -229,7 +227,7 @@ export default function InviteMemberModal({
                                                             )
                                                         )}
                                                     </div>
-                                                </div>
+                                                </SelectedMemberList>
                                             </>
                                         )}
                                     </Scrollbars>
@@ -243,7 +241,7 @@ export default function InviteMemberModal({
                                     </Button>
                                 </div>
                             </div>
-                        </div>
+                        </InviteFriendsBox>
                     </Tab>
                     <Tab>
                         <input
@@ -255,32 +253,22 @@ export default function InviteMemberModal({
                             멤버 검색
                         </label>
                         <div className="search_member tab_content">
-                            <SearchBox />
+                            <Scrollbars>
+                                <SearchBox />
+                            </Scrollbars>
                         </div>
                     </Tab>
                 </div>
-            </Container>
+            </Wrapper>
         </Modal>
     );
 }
 
-const Container = styled.div`
-    position: relative;
-    width: 50%;
-    max-width: 570px;
-    min-width: 300px;
-    height: 510px;
-    padding: 20px;
-    box-sizing: border-box;
-
-    border-radius: 10px;
-    background: #fff;
-    box-shadow: 0 30px 60px 0 rgba(90, 116, 148, 0.4);
-
+const Wrapper = styled.div`
     .title {
         height: 30px;
         line-height: 30px;
-        margin-bottom: 20px;
+        margin: 20px;
         text-align: center;
         font-size: 1.2rem;
     }
@@ -324,7 +312,7 @@ const Tab = styled.div`
 
     .tab_content {
         position: absolute;
-        left: 0;
+        left: -9999px;
         clip-path: polygon(0 0, 0 0, 0 0);
         width: 1px;
         height: 1px;
@@ -336,6 +324,7 @@ const Tab = styled.div`
 
     input[name="friend_management"]:checked ~ .tab_content {
         clip-path: none;
+        left: 0;
         display: block;
         margin: 0px 20px;
         width: calc(100% - 40px);
@@ -398,7 +387,7 @@ const Tab = styled.div`
             }
 
             .select_members_c {
-                margin-bottom: 2rem;
+                margin: 1rem 0;
             }
 
             .select_members {
@@ -433,7 +422,7 @@ const Tab = styled.div`
 `;
 
 const MemberListToInvite = styled.div`
-    height: calc(100% - 50px);
+    margin: 1rem 0;
 
     .member_list {
         height: calc(100% - 62px);
@@ -484,6 +473,72 @@ const MemberListToInvite = styled.div`
             .checkbox_text {
                 margin-left: 0.5rem;
             }
+        }
+    }
+`;
+
+const InviteFriendsBox = styled.div`
+    .container {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+    }
+
+    .sub_heading {
+        height: 30px;
+        padding: 1rem 0;
+        margin-left: 30px;
+        line-height: 30px;
+    }
+
+    .check_group {
+        flex: 1 0 auto;
+        counter-reset: total;
+        counter-reset: checked;
+
+        .no_member {
+            height: 100%;
+            overflow: hidden;
+
+            &::before {
+                display: block;
+                content: "";
+                clear: both;
+            }
+
+            & > p {
+                position: relative;
+                top: 50%;
+                transform: translateY(-50%);
+                text-align: center;
+            }
+        }
+    }
+
+    .button_group {
+        display: flex;
+        align-items: center;
+        justify-content: space-evenly;
+        width: 100%;
+        height: 60px;
+        box-shadow: rgba(206, 206, 206, 0.5) 0px -1px 1px 0px;
+    }
+`;
+
+const SelectedMemberList = styled.div`
+    margin: 1rem 0;
+
+    .select_members {
+        display: flex;
+        gap: 0.5rem;
+        padding: 0 30px;
+
+        .member_tag {
+            padding: 4px 8px;
+            border-radius: 20px;
+
+            background-color: #f7f8fc;
+            color: #a0a6b5;
         }
     }
 `;

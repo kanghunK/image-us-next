@@ -225,6 +225,7 @@ export const Wrapper = styled.div`
 
 export const InputBox = styled.div`
     position: relative;
+    top: 5px;
 
     width: 70%;
     max-width: 700px;

@@ -28,37 +28,6 @@ const CreateRoomModal = () => {
     const { createRoom } = useRoom();
     const { data: friendList } = useFriend();
 
-    // const dummyFriendList = [
-    //     {
-    //         id: 1,
-    //         name: "testuser1",
-    //         email: "test1user@test.com",
-    //         profile: "testuser1",
-    //         user_type: "image_us",
-    //     },
-    //     {
-    //         id: 2,
-    //         name: "testuser2",
-    //         email: "testuser2@test.com",
-    //         profile: "testuser2",
-    //         user_type: "kakao",
-    //     },
-    //     {
-    //         id: 3,
-    //         name: "testuser3",
-    //         email: "testuser3@test.com",
-    //         profile: "testuser3",
-    //         user_type: "kakao",
-    //     },
-    //     {
-    //         id: 4,
-    //         name: "testuser4",
-    //         email: "testuser4@test.com",
-    //         profile: "testuser4",
-    //         user_type: "kakao",
-    //     },
-    // ];
-
     const onClickCheckForm = useCallback(() => {
         if (!roomName) {
             alert("방이름이 입력되지 않았습니다.");
@@ -114,9 +83,7 @@ const CreateRoomModal = () => {
                     />
                 </ModalInputBox>
                 <ModalInputBox>
-                    <label htmlFor="roomMembers" className="subtitle">
-                        초대할 멤버 목록
-                    </label>
+                    <label className="subtitle">초대할 멤버 목록</label>
                     <div
                         className={`check_group ${
                             isRequestStage && `disabled-input`
@@ -201,20 +168,14 @@ const CreateRoomModal = () => {
 export default CreateRoomModal;
 
 export const Container = styled.div`
-    width: 50%;
-    max-width: 570px;
-    min-width: 300px;
-    height: 510px;
-    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+    padding: 1.5rem;
     box-sizing: border-box;
-
-    border-radius: 10px;
-    background: #fff;
-    box-shadow: 0 30px 60px 0 rgba(90, 116, 148, 0.4);
 
     .title {
         text-align: center;
-        margin-bottom: 20px;
         font-size: 1.2rem;
     }
 
@@ -225,8 +186,6 @@ export const Container = styled.div`
 `;
 
 const ModalInputBox = styled.div`
-    margin-bottom: 20px;
-
     .disabled-input {
         cursor: not-allowed !important;
     }

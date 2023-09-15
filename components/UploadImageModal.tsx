@@ -181,16 +181,10 @@ export default function UploadImageModal({ roomId }: Props) {
 const Container = styled.div`
     display: flex;
     flex-direction: column;
-    position: relative;
-    width: 65%;
-    max-width: 650px;
-    min-width: 300px;
-    padding: 15px;
-    box-sizing: border-box;
 
-    border-radius: 10px;
-    background: #fff;
-    box-shadow: 0 30px 60px 0 rgba(90, 116, 148, 0.4);
+    height: 100%;
+    padding: 1.5rem;
+    box-sizing: border-box;
 
     .title {
         margin-bottom: 10px;
@@ -199,12 +193,13 @@ const Container = styled.div`
     }
 
     .preview {
+        flex: 1 0 auto;
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        gap: 1rem;
-        height: 500px;
+
+        max-height: 300px;
 
         color: hsla(240, 7%, 70%, 1);
         user-select: none;

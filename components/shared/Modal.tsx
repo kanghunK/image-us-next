@@ -10,6 +10,7 @@ import React, {
 } from "react";
 import styled from "@emotion/styled";
 import { useRouter } from "next/navigation";
+import Scrollbars from "react-custom-scrollbars-2";
 
 interface ModalProps {
     children: React.ReactNode;
@@ -36,7 +37,9 @@ const Modal = ({ children }: ModalProps) => {
 
     return (
         <Wrapper ref={wrapperEl} onClick={onClickWrapper}>
-            {children}
+            <Container>
+                <Scrollbars>{children}</Scrollbars>
+            </Container>
         </Wrapper>
     );
 };
@@ -51,6 +54,18 @@ const Wrapper = styled.div`
     top: 0;
     bottom: 0;
     z-index: 100;
+`;
+
+const Container = styled.div`
+    position: relative;
+    width: 70%;
+    height: 70%;
+    max-width: 600px;
+    box-sizing: border-box;
+
+    border-radius: 10px;
+    background: #fff;
+    box-shadow: 0 30px 60px 0 rgba(90, 116, 148, 0.4);
 `;
 
 export default Modal;
