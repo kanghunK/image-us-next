@@ -6,6 +6,7 @@ import { FaRegUser } from "react-icons/fa";
 import styled from "@emotion/styled";
 import { useParams, usePathname, useRouter } from "next/navigation";
 import { DUserInfo, UserInfo } from "@/lib/types";
+import { PageList } from "@/lib/enumType";
 import { CgLogOff } from "react-icons/cg";
 import { CiViewList } from "react-icons/ci";
 import { LiaInfoCircleSolid } from "react-icons/lia";
@@ -15,24 +16,27 @@ import { FiUserPlus } from "react-icons/fi";
 import { BiUpload } from "react-icons/bi";
 import { AiOutlineMenuUnfold } from "react-icons/ai";
 import { useAuth } from "@/hooks/useAuth";
+import { useUserData } from "@/states/stores/userData";
 
 interface NavProps {
-    userInfo: UserInfo;
-    pageTitle: string;
-    pageMatchNum: number | null;
+    // userInfo: UserInfo;
+    // pageTitle: string;
+    // pageMatchNum: number | null;
 }
 
-export default function NavigationBar({
-    pageTitle,
-    pageMatchNum,
-    userInfo,
-}: NavProps) {
+export default function NavigationBar() {
+    const { logout } = useAuth();
+    const [userData] = useUserData();
+
     const router = useRouter();
     const currentPath = usePathname();
-    const { logout } = useAuth();
-
     const [showUserMenu, setShowUserMenu] = useState(false);
-    const userIconRef = useRef(null);
+
+    // const pageName = {
+    //     RoomMain: "방 목록",
+    //     ImageRoom: "이미지 방",
+    //     MyPage: "마이 페이지",
+    // };
 
     const onClickCreateRoom = () => {
         router.push("/room/create_room");
@@ -46,7 +50,7 @@ export default function NavigationBar({
                 }}
             >
                 <LeftButton>
-                    {pageMatchNum === 1 ? (
+                    {userData.currentPage === PageList.RoomMain ? (
                         <div
                             className="create_room_btn"
                             onClick={onClickCreateRoom}
@@ -65,9 +69,9 @@ export default function NavigationBar({
                         </button>
                     )}
                 </LeftButton>
-                <h2>{pageTitle}</h2>
+                <h2>{userData.navigationTitle}</h2>
                 <IconGroup>
-                    {pageMatchNum === 2 && (
+                    {userData.currentPage === PageList.ImageRoom && (
                         <>
                             <div
                                 className="upload_icon icon_d"
@@ -87,7 +91,7 @@ export default function NavigationBar({
                             </div>
                         </>
                     )}
-                    <div className="user_name">{userInfo.user_info?.name}</div>
+                    <div className="user_name">{userData.user_info?.name}</div>
                     <div
                         className="user_icon icon_d"
                         onClick={() => setShowUserMenu((prev) => !prev)}
@@ -100,7 +104,7 @@ export default function NavigationBar({
                                 className="backdrop"
                                 onClick={() => setShowUserMenu(false)}
                             ></div>
-                            <div className="user_icon_menu" ref={userIconRef}>
+                            <div className="user_icon_menu">
                                 <div
                                     className="menu_item"
                                     onClick={() => {

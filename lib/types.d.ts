@@ -1,4 +1,5 @@
 import { AxiosRequestConfig } from "axios";
+import { PageList } from "./enumType";
 
 export interface RootLayoutChildren {
     children: React.ReactNode;
@@ -83,4 +84,6 @@ export interface TokenData {
 export interface UserData extends UserInfo, MyPageInfo {
     friends?: DFriendData[];
     roomList?: RoomData[];
+    currentPage?: PageList;
+    navigationTitle?: string;
 }

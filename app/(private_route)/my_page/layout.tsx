@@ -5,6 +5,7 @@ import styled from "@emotion/styled";
 import { useUserData } from "@/states/stores/userData";
 import { getMyPageInfo } from "@/utils/getMyPageInfo";
 import { MyPageInfo } from "@/lib/types";
+import { PageList } from "@/lib/enumType";
 
 interface MyPageLayoutProps {
     children: React.ReactNode;
@@ -13,7 +14,7 @@ interface MyPageLayoutProps {
 export default function MyPageLayout({ children }: MyPageLayoutProps) {
     const [userData, setUserData] = useUserData();
 
-    const excuteGetMyPageData = useCallback(async () => {
+    const setInitialData = useCallback(async () => {
         if (userData.user_info) {
             const data = await getMyPageInfo(userData.user_info.id);
             setUserData((prev) => ({
@@ -21,13 +22,20 @@ export default function MyPageLayout({ children }: MyPageLayoutProps) {
                 imageLen: data?.imageLen,
                 roomListLen: data?.roomListLen,
                 friendlistLen: data?.friendlistLen,
+                currentPage: PageList.MyPage,
+                navigationTitle: "마이 페이지",
             }));
         }
     }, [userData, setUserData]);
 
     useEffect(() => {
-        excuteGetMyPageData();
-    }, []);
+        // setUserData((prev) => ({
+        //     ...prev,
+        //     currentPage: PageList.MyPage,
+        //     navigationTitle: "마이 페이지",
+        // }));
+        setInitialData();
+    }, [setInitialData]);
 
     return (
         <WrapperBox>

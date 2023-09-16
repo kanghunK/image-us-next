@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useCallback } from "react";
+import React, { useCallback, useEffect } from "react";
 import Card from "@/components/Card";
 import { RoomData } from "@/lib/types";
 import styles from "./room.module.scss";
@@ -9,10 +9,22 @@ import { FiUserPlus } from "react-icons/fi";
 import { BsCalendar2Plus } from "react-icons/bs";
 import { useRouter } from "next/navigation";
 import { useRoom } from "@/hooks/useRoom";
+import { useUserData } from "@/states/stores/userData";
+import { PageList } from "@/lib/enumType";
 
 export default function Room() {
-    const router = useRouter();
+    const [userData, setUserData] = useUserData();
     const { data: roomlist, isLoading } = useRoom();
+
+    const router = useRouter();
+
+    useEffect(() => {
+        setUserData((prev) => ({
+            ...prev,
+            currentPage: PageList.RoomMain,
+            navigationTitle: "방 목록",
+        }));
+    }, [setUserData]);
 
     if (isLoading || !roomlist) return <div>로딩중...</div>;
 

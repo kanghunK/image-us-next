@@ -3,14 +3,17 @@ import { BiArrowFromRight } from "react-icons/bi";
 import styled from "@emotion/styled";
 import RoomList from "./RoomList";
 import MyPageMenu from "./MyPageMenu";
+import { useUserData } from "@/states/stores/userData";
+import { PageList } from "@/lib/enumType";
 
 interface Props {
     show: boolean;
-    pageMatchNum: number;
     setLeftMenu: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export default function LeftMenu({ show, setLeftMenu, pageMatchNum }: Props) {
+export default function LeftMenu({ show, setLeftMenu }: Props) {
+    const [userData] = useUserData();
+
     const handleCloseMenu = useCallback(
         () => setLeftMenu(false),
         [setLeftMenu]
@@ -23,7 +26,7 @@ export default function LeftMenu({ show, setLeftMenu, pageMatchNum }: Props) {
                     <BiArrowFromRight />
                 </div>
             )}
-            {pageMatchNum === 2 ? (
+            {userData.currentPage === PageList.ImageRoom ? (
                 <RoomList show={show} />
             ) : (
                 <MyPageMenu show={show} />

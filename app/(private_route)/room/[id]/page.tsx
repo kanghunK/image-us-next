@@ -9,19 +9,22 @@ import { usePathname, useRouter } from "next/navigation";
 import useIntersect from "@/hooks/useIntersect";
 import { useImage } from "@/hooks/useImage";
 import { useRoomImageList } from "@/states/stores/roomData";
+import { useUserData } from "@/states/stores/userData";
+import { PageList } from "@/lib/enumType";
 
 export default function Page({ params }: { params: { id: string } }) {
-    const router = useRouter();
-    const currentPath = usePathname();
-    const roomId = params.id;
-
-    const [startNum, setStartNum] = useState(0);
+    const [userData, setUserData] = useUserData();
     const [imageList, setImageList] = useRoomImageList();
     const {
         isLoading: isImageLoading,
         imageLoadEnd,
         loadRoomImagelist,
     } = useImage();
+
+    const roomId = params.id;
+    const router = useRouter();
+    const currentPath = usePathname();
+    const [startNum, setStartNum] = useState(0);
 
     const observerRef = useIntersect(
         async (entry, observer) => {
@@ -50,8 +53,15 @@ export default function Page({ params }: { params: { id: string } }) {
     const resetImageList = async () => setImageList([]);
 
     useEffect(() => {
+        const currentRoomData = userData.roomList?.find(
+            (data) => "" + data.id === roomId
+        );
         fetchImageToList(startNum);
-
+        setUserData((prev) => ({
+            ...prev,
+            currentPage: PageList.ImageRoom,
+            navigationTitle: currentRoomData?.title ?? "Unknown",
+        }));
         return () => {
             resetImageList();
         };
