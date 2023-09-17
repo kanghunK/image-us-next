@@ -1,3 +1,6 @@
+import React from "react";
+import LoadingCompoent from "@/components/shared/Loading";
+
 export default function Loading() {
-    return <div>로딩중...</div>;
+    return <LoadingCompoent />;
 }

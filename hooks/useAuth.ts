@@ -1,6 +1,6 @@
 import { AxiosError } from "axios";
 import useStore from "swr-global-state";
-import { UserInfo } from "@/lib/types";
+import { DUserInfo, UserInfo } from "@/lib/types";
 import localStoragePersistor from "@/states/persistors/local-storage";
 import {
     FRIEND_KEY,
@@ -10,6 +10,12 @@ import {
     useUserData,
 } from "@/states/stores/userData";
 import customAxios from "@/lib/api";
+import {
+    AuthRequiredError,
+    NetworkError,
+    ServerError,
+    unknownError,
+} from "@/lib/exceptions";
 
 export function useAuth() {
     const [, setUserData] = useUserData();
@@ -26,6 +32,7 @@ export function useAuth() {
             onGet: async (key) => {
                 try {
                     const token = localStoragePersistor.onGet(TOKEN_KEY);
+                    console.log("토큰 확인", token);
 
                     if (!token) {
                         return {
@@ -52,26 +59,15 @@ export function useAuth() {
 
                     return authData;
                 } catch (err: unknown) {
-                    console.error(err);
                     if (window.navigator.onLine) {
                         if (err instanceof AxiosError) {
-                            if (err.response?.status === 401) {
-                                const errorObj = new Error(
-                                    "올바른 접속이 아님으로 로그아웃됩니다.."
-                                );
-                                errorObj.name = "InvalidUserData";
-                                throw errorObj;
-                            } else {
-                                const errorObj = new Error(
-                                    "사용자 인증에 실패했습니다..다시 로그인 해주세요.."
-                                );
-                                errorObj.name = "AuthFailed";
-                                throw errorObj;
-                            }
+                            throw new AuthRequiredError();
+                        } else {
+                            throw new unknownError();
                         }
+                    } else {
+                        throw new NetworkError();
                     }
-                    const cachedData = localStoragePersistor.onGet(key);
-                    return cachedData;
                 } finally {
                     setLoading(false);
                 }
@@ -79,7 +75,7 @@ export function useAuth() {
         },
     });
 
-    const { mutate: loginMutate, error: loginError } = swrDefaultResponse;
+    const { mutate: loginMutate, error: authError } = swrDefaultResponse;
 
     const login = async ({
         email,
@@ -90,20 +86,28 @@ export function useAuth() {
     }) => {
         try {
             setLoading(true);
-            // 로그인 요청
+
             const tokenData = await customAxios.post("/user/login", {
                 email,
                 password,
             });
 
             localStoragePersistor.onSet(TOKEN_KEY, tokenData.data);
-            // await setToken(tokenData.data);
 
             await loginMutate();
             setLoading(false);
         } catch (error: unknown) {
             if (error instanceof AxiosError) {
-                alert(error.response?.data.message);
+                if (
+                    error.response?.status === 401 ||
+                    error.response?.status === 404
+                ) {
+                    alert(error.response?.data.message);
+                } else {
+                    throw new ServerError();
+                }
+            } else {
+                throw new unknownError();
             }
         }
     };
@@ -111,12 +115,12 @@ export function useAuth() {
     const logout = async () => {
         setLoading(true);
 
+        // 로컬스토리지에 저장된 정보 제거
         window.localStorage.removeItem(USERDATA_KEY);
         window.localStorage.removeItem(TOKEN_KEY);
         window.localStorage.removeItem(ROOM_KEY);
         window.localStorage.removeItem(FRIEND_KEY);
 
-        // await setToken(null);
         await loginMutate();
         setLoading(false);
     };
@@ -125,8 +129,6 @@ export function useAuth() {
         try {
             const token = localStoragePersistor.onGet(TOKEN_KEY);
 
-            if (!token) throw new Error();
-
             await customAxios.post(
                 `/user/my`,
                 {
@@ -134,7 +136,7 @@ export function useAuth() {
                 },
                 {
                     headers: {
-                        Authorization: token.access_token,
+                        Authorization: token?.access_token,
                     },
                 }
             );
@@ -144,32 +146,20 @@ export function useAuth() {
         } catch (err) {
             if (err instanceof AxiosError) {
                 if (err.response?.status === 401) {
-                    const errorObj = new Error(
-                        "올바른 접속이 아님으로 로그아웃됩니다.."
-                    );
-                    errorObj.name = "InvalidUserData";
-                    throw errorObj;
+                    throw new AuthRequiredError();
                 } else {
-                    const errorObj = new Error(
-                        "서버 오류로 변경하지 못하였습니다! 다시 시도해주세요.."
-                    );
-                    errorObj.name = "ServerError";
-                    throw errorObj;
+                    throw new ServerError();
                 }
             } else {
-                const errorObj = new Error(
-                    "유효한 토큰이 없습니다! 다시 로그인 해주세요.."
-                );
-                errorObj.name = "NoToken";
-                throw errorObj;
+                throw new unknownError();
             }
         }
     };
 
     return {
         authData,
-        loginError,
-        isLoading,
+        authError,
+        isLoading: !authData || isLoading,
         login,
         logout,
         changeName,

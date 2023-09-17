@@ -11,6 +11,8 @@ import { useAuth } from "@/hooks/useAuth";
 import { useRoom } from "@/hooks/useRoom";
 import { useUserData } from "@/states/stores/userData";
 import { PageList } from "@/lib/enumType";
+import LoadingCompoent from "@/components/shared/Loading";
+import { AuthRequiredError } from "@/lib/exceptions";
 
 interface Props {
     children: ReactNode;
@@ -19,7 +21,7 @@ interface Props {
 
 export default function PrivateLayout({ children, modal }: Props) {
     const [userData] = useUserData();
-    const { authData, authError, isLoading } = useAuth();
+    const { authData, authError, isLoading: authDataLoading } = useAuth();
 
     const params = useParams();
     const currentPath = usePathname();
@@ -28,62 +30,21 @@ export default function PrivateLayout({ children, modal }: Props) {
     const [openedLeftMenu, setOpenedLeftMenu] = useState(false);
     const currentPathArray = currentPath.split("/");
 
-    /*
-        페이지 별로 번호로 구분
-        0: 마이페이지
-        1: 방 목록
-        2: 이미지 방
-    */
-
-    // useEffect(() => {
-    //     if (currentPathArray.includes("room")) {
-    //         if (
-    //             currentPathArray.includes("invite_member") ||
-    //             currentPathArray.includes("upload_image") ||
-    //             currentPathArray.includes("create_room")
-    //         ) {
-    //             return;
-    //         }
-    //         if (params.id) {
-    //             const roomName = userData.roomList?.find(
-    //                 (data) => "" + data.id === params.id
-    //             )?.title as string;
-    //             setPageTitle(roomName);
-    //             setPageMatchNum(2);
-    //         } else {
-    //             setPageTitle("방 목록");
-    //             setPageMatchNum(1);
-    //         }
-    //     } else if (currentPathArray.includes("my_page")) {
-    //         setPageTitle("마이 페이지");
-    //         setPageMatchNum(0);
-    //     } else {
-    //         setPageTitle("unknown");
-    //         setPageMatchNum(null);
-    //     }
-    // }, [currentPathArray, params, userData]);
-
     if (authError) throw authError;
 
-    if (authData === null || isLoading) {
-        return <div>로딩중...</div>;
-    }
+    // if (authData?.isLoggedIn === false) {
+    //     redirect("/login");
+    // }
 
-    if (authData?.isLoggedIn === false) {
-        redirect("/login");
-    }
-
-    return (
+    return authDataLoading ? (
+        <LoadingCompoent />
+    ) : (
         <div
             style={{
                 height: "inherit",
             }}
         >
-            <NavigationBar
-            // userInfo={authData}
-            // pageTitle={pageTitle}
-            // pageMatchNum={pageMatchNum}
-            />
+            <NavigationBar />
             <ContentSection>
                 {userData.currentPage !== PageList.RoomMain && (
                     <LeftMenu

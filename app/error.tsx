@@ -1,6 +1,6 @@
 "use client";
-
-import { useAuth } from "@/hooks/useAuth";
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 export default function Error({
     error,
@@ -9,12 +9,14 @@ export default function Error({
     error: Error;
     reset: () => void;
 }) {
-    const { logout } = useAuth();
+    const router = useRouter();
 
-    if (error.name === "NoToken" || error.name === "InvalidUserData") {
-        alert(error.message);
-        logout();
-    }
+    useEffect(() => {
+        if (error.name === "AuthRequiredError") {
+            alert(error.message);
+            router.push("/login");
+        }
+    }, []);
 
     return (
         <div>

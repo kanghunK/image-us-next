@@ -3,6 +3,7 @@
 import { useEffect } from "react";
 import { useUserData } from "@/states/stores/userData";
 import { redirect } from "next/navigation";
+import LoadingCompoent from "@/components/shared/Loading";
 
 export default function HomePage() {
     const [userData] = useUserData();
@@ -17,5 +18,5 @@ export default function HomePage() {
         }
     }, [userData]);
 
-    return <div>페이지 이동중...</div>;
+    return <LoadingCompoent />;
 }

@@ -1,25 +1,25 @@
 "use client";
 
-import React, { ReactNode } from "react";
+import React, { ReactNode, useEffect } from "react";
 import { redirect } from "next/navigation";
 import { useAuth } from "@/hooks/useAuth";
+import LoadingCompoent from "@/components/shared/Loading";
+import { useUserData } from "@/states/stores/userData";
 
 interface Props {
     children: ReactNode;
 }
 
 export default function GuestLayout({ children }: Props) {
-    const { authData, loginError } = useAuth();
+    const { authData } = useAuth();
 
-    if (loginError) throw loginError;
+    console.log("guestLayoutError: ", authData);
 
-    if (authData === null) {
-        return <div>로딩중...</div>;
-    }
-
-    if (authData?.isLoggedIn) {
-        redirect("/room");
-    }
+    useEffect(() => {
+        if (authData?.isLoggedIn) {
+            redirect("/room");
+        }
+    }, [authData]);
 
     return <main style={{ height: "inherit" }}>{children}</main>;
 }
