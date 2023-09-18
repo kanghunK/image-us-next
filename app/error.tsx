@@ -1,6 +1,7 @@
 "use client";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { useUserData } from "@/states/stores/userData";
 
 export default function Error({
     error,
@@ -10,18 +11,23 @@ export default function Error({
     reset: () => void;
 }) {
     const router = useRouter();
+    const [, setUserData] = useUserData();
 
     useEffect(() => {
         if (error.name === "AuthRequiredError") {
             alert(error.message);
+            setUserData(null);
             router.push("/login");
+        } else if (error.name === "alertErrorMessage") {
+            alert(error.message);
         }
     }, []);
 
     return (
         <div>
-            <h2>Something went wrong!</h2>
-            <button onClick={() => reset()}>Try again</button>
+            <h2>{error.name}</h2>
+            <button onClick={() => reset()}>새로 고침하기</button>
+            <button onClick={() => reset()}>홈으로 가기기</button>
         </div>
     );
 }

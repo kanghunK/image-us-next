@@ -27,3 +27,10 @@ export class unknownError extends Error {
         this.name = "unknownError";
     }
 }
+
+export class alertErrorMessage extends Error {
+    constructor(message = "") {
+        super(message);
+        this.name = "alertErrorMessage";
+    }
+}
