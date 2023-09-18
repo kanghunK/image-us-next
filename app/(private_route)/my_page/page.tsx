@@ -5,9 +5,11 @@ import styled from "@emotion/styled";
 import useInput from "@/hooks/useInput";
 import { Button } from "@/components/shared/Button";
 import { useAuth } from "@/hooks/useAuth";
+import { useUserData } from "@/states/stores/userData";
 
 export default function Mypage() {
-    const { authData: userData, changeName } = useAuth();
+    const [userData] = useUserData();
+    const { changeName } = useAuth();
 
     const [nameInput, setNameInput, handleNameInput] = useInput("");
     const [nameBoxState, setNameBoxState] = useState(false);
