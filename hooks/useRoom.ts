@@ -9,6 +9,11 @@ import {
     USERDATA_KEY,
     useUserData,
 } from "@/states/stores/userData";
+import {
+    NetworkError,
+    alertErrorMessage,
+    unknownError,
+} from "@/lib/exceptions";
 
 export function useRoom() {
     const [, setUserData] = useUserData();
@@ -26,8 +31,6 @@ export function useRoom() {
                     const tokenData = localStoragePersistor.onGet(TOKEN_KEY);
                     const userInfoData =
                         localStoragePersistor.onGet(USERDATA_KEY);
-
-                    if (!tokenData || !userInfoData) throw new Error();
 
                     const response = await customAxios.get(
                         `/user/${userInfoData.user_info.id}/roomlist`,
@@ -54,33 +57,18 @@ export function useRoom() {
                 } catch (error: unknown) {
                     if (window.navigator.onLine) {
                         if (error instanceof AxiosError) {
-                            if (error.status === 401) {
-                                const errorObj = new Error(
-                                    "사용자 정보가 없어 로그아웃됩니다."
+                            if (error.status === 401 || error.status === 403) {
+                                throw new alertErrorMessage(
+                                    "올바른 요청이 아닙니다..다시시도 해주세요!"
                                 );
-                                errorObj.name = "InvalidUserData";
-                                throw errorObj;
-                            } else if (error.status === 403) {
-                                const errorObj = new Error(
-                                    "권한을 가진 이용자가 아닙니다.."
-                                );
-                                errorObj.name = "IncorrectAuth";
-                                throw errorObj;
+                            } else {
+                                throw new unknownError();
                             }
                         } else {
-                            console.error("에러", error);
-                            const errorObj = new Error(
-                                "사용자 정보가 없습니다! 다시 로그인 해주세요.."
-                            );
-                            errorObj.name = "NoLocalStorageInfo";
-                            throw errorObj;
+                            throw new unknownError();
                         }
                     }
-                    const errorObj = new Error(
-                        "네트워크에 연결되어있지 않습니다.."
-                    );
-                    errorObj.name = "NetworkError";
-                    throw errorObj;
+                    throw new NetworkError();
                 } finally {
                     setLoading(false);
                 }
@@ -97,42 +85,77 @@ export function useRoom() {
         userlist: number[];
         title: string;
     }) => {
-        setLoading(true);
+        try {
+            setLoading(true);
 
-        const tokenData = localStoragePersistor.onGet(TOKEN_KEY);
+            const tokenData = localStoragePersistor.onGet(TOKEN_KEY);
 
-        await customAxios.post(
-            "/room",
-            { userlist, title },
-            {
-                headers: {
-                    Authorization: tokenData.access_token,
-                },
+            await customAxios.post(
+                "/room",
+                { userlist, title },
+                {
+                    headers: {
+                        Authorization: tokenData.access_token,
+                    },
+                }
+            );
+
+            roomListMutate();
+            setLoading(false);
+        } catch (error) {
+            if (error instanceof AxiosError) {
+                if (error.status === 401 || error.status === 403) {
+                    throw new alertErrorMessage(
+                        "올바른 요청이 아닙니다..다시시도 해주세요!"
+                    );
+                } else {
+                    throw new alertErrorMessage(
+                        "방 생성에 실패했습니다..다시시도 해주세요!"
+                    );
+                }
+            } else {
+                throw new unknownError();
             }
-        );
-
-        roomListMutate();
-        setLoading(false);
+        }
     };
 
     const exitRoom = async (id: number) => {
-        setLoading(true);
+        try {
+            setLoading(true);
 
-        const tokenData = localStoragePersistor.onGet(TOKEN_KEY);
-        const userInfoData = localStoragePersistor.onGet(USERDATA_KEY);
+            const tokenData = localStoragePersistor.onGet(TOKEN_KEY);
+            const userInfoData = localStoragePersistor.onGet(USERDATA_KEY);
 
-        await customAxios.delete(`/user/${userInfoData.user_info.id}/room`, {
-            headers: {
-                Authorization: tokenData.access_token,
-            },
-            data: {
-                delete_user_room_id: id,
-            },
-        });
+            await customAxios.delete(
+                `/user/${userInfoData.user_info.id}/room`,
+                {
+                    headers: {
+                        Authorization: tokenData.access_token,
+                    },
+                    data: {
+                        delete_user_room_id: id,
+                    },
+                }
+            );
 
-        roomListMutate();
+            roomListMutate();
 
-        setLoading(false);
+            setLoading(false);
+        } catch (error) {
+            if (error instanceof AxiosError) {
+                if (error.status === 401 || error.status === 403) {
+                    throw new alertErrorMessage(
+                        "올바른 요청이 아닙니다..다시시도 해주세요!"
+                    );
+                } else {
+                    throw new alertErrorMessage(
+                        "방에서 나가지 못하였습니다..다시시도 해주세요!"
+                    );
+                }
+            } else {
+                throw new unknownError();
+            }
+        }
     };
 
     const inviteMemberToRoom = async (
@@ -143,10 +166,6 @@ export function useRoom() {
             setLoading(true);
 
             const tokenData = localStoragePersistor.onGet(TOKEN_KEY);
-
-            if (!tokenData) {
-                throw new Error();
-            }
 
             await customAxios.post(
                 `/room/${roomId}/user`,
@@ -167,23 +186,19 @@ export function useRoom() {
             setLoading(false);
         } catch (error) {
             if (error instanceof AxiosError) {
-                if (error.status === 403) {
-                    const errorObj = new Error(
-                        "방의 권한을 가지고 있지 않습니다.. 문의해주세요"
+                if (error.status === 401 || error.status === 403) {
+                    throw new alertErrorMessage(
+                        "올바른 요청이 아닙니다..다시시도 해주세요!"
                     );
-                    errorObj.name = "NoAuthorToRoom";
-                    throw errorObj;
                 } else if (error.status === 402) {
-                    const errorObj = new Error("방이 존재하지 않습니다.");
-                    errorObj.name = "NoRoom";
-                    throw errorObj;
+                    throw new alertErrorMessage(
+                        "방이 존재하지 않습니다...다시시도 해주세요!"
+                    );
+                } else {
+                    throw new unknownError();
                 }
             } else {
-                const errorObj = new Error(
-                    "사용자 정보가 없습니다! 다시 로그인 해주세요.."
-                );
-                errorObj.name = "NoLocalStorageInfo";
-                throw errorObj;
+                throw new unknownError();
             }
         }
     };
@@ -193,10 +208,6 @@ export function useRoom() {
             setLoading(true);
 
             const tokenData = localStoragePersistor.onGet(TOKEN_KEY);
-
-            if (!tokenData) {
-                throw new Error();
-            }
 
             await customAxios.delete(`/room/${roomId}/user`, {
                 headers: {
@@ -214,23 +225,19 @@ export function useRoom() {
             setLoading(false);
         } catch (error) {
             if (error instanceof AxiosError) {
-                if (error.status === 403) {
-                    const errorObj = new Error(
-                        "방의 권한을 가지고 있지 않습니다.. 문의해주세요"
+                if (error.status === 401 || error.status === 403) {
+                    throw new alertErrorMessage(
+                        "올바른 요청이 아닙니다..다시시도 해주세요!"
                     );
-                    errorObj.name = "NoAuthorToRoom";
-                    throw errorObj;
                 } else if (error.status === 402) {
-                    const errorObj = new Error("방이 존재하지 않습니다.");
-                    errorObj.name = "NoRoom";
-                    throw errorObj;
+                    throw new alertErrorMessage(
+                        "방이 존재하지 않습니다..다시시도 해주세요!"
+                    );
+                } else {
+                    throw new unknownError();
                 }
             } else {
-                const errorObj = new Error(
-                    "사용자 정보가 없습니다! 다시 로그인 해주세요.."
-                );
-                errorObj.name = "NoLocalStorageInfo";
-                throw errorObj;
+                throw new unknownError();
             }
         }
     };

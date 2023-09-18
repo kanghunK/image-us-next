@@ -7,6 +7,7 @@ import {
     ROOM_KEY,
     TOKEN_KEY,
     USERDATA_KEY,
+    USER_IMAGE_KEY,
     useUserData,
 } from "@/states/stores/userData";
 import customAxios from "@/lib/api";
@@ -24,106 +25,61 @@ export function useAuth() {
         key: `${USERDATA_KEY}-loading`,
         initial: true,
     });
-    const [authData, , swrDefaultResponse] = useStore<UserInfo | null>({
-        key: "useAuth",
-        initial: null,
-        persistor: {
-            onSet: localStoragePersistor.onSet,
-            onGet: async (key) => {
-                try {
-                    const token = localStoragePersistor.onGet(TOKEN_KEY);
-                    console.log("토큰 확인", token);
+    const [authData, , swrDefaultResponse] = useStore<UserInfo | null>(
+        {
+            key: "useAuth",
+            initial: null,
+            persistor: {
+                onSet: localStoragePersistor.onSet,
+                onGet: async (key) => {
+                    try {
+                        const token = localStoragePersistor.onGet(TOKEN_KEY);
+                        console.log("토큰 확인", token);
 
-                    if (!token) {
-                        return {
-                            isLoggedIn: false,
-                        };
-                    }
+                        // 유저 정보 확인요청
+                        const response = await customAxios.get("/user/my", {
+                            headers: {
+                                Authorization: token?.access_token,
+                            },
+                        });
 
-                    // 유저 정보 확인요청
-                    const response = await customAxios.get("/user/my", {
-                        headers: {
-                            Authorization: token.access_token,
-                        },
-                    });
+                        const userInfo = response.data.user_info;
 
-                    const userInfo = response.data.user_info;
+                        // 전역 상태 관리
+                        setUserData((prev) => ({
+                            ...prev,
+                            user_info: userInfo,
+                        }));
 
-                    const authData = {
-                        isLoggedIn: true,
-                        user_info: userInfo,
-                    };
-
-                    // 전역 상태 관리
-                    setUserData((prev) => ({ ...prev, ...authData }));
-
-                    return authData;
-                } catch (err: unknown) {
-                    if (window.navigator.onLine) {
-                        if (err instanceof AxiosError) {
-                            throw new AuthRequiredError();
+                        return { user_info: userInfo };
+                    } catch (err: unknown) {
+                        if (window.navigator.onLine) {
+                            if (err instanceof AxiosError) {
+                                throw new AuthRequiredError();
+                            } else {
+                                console.error("여기서 발생,", err);
+                                throw new unknownError();
+                            }
                         } else {
-                            throw new unknownError();
+                            alert("연결되 네트워크가 없습니다..");
+                            const cachedData = localStoragePersistor.onGet(key);
+                            return cachedData;
                         }
-                    } else {
-                        throw new NetworkError();
+                    } finally {
+                        setLoading(false);
                     }
-                } finally {
-                    setLoading(false);
-                }
+                },
             },
         },
-    });
+        {
+            revalidateIfStale: false,
+            revalidateOnFocus: false,
+            revalidateOnReconnect: false,
+            revalidateOnMount: false,
+        }
+    );
 
     const { mutate: loginMutate, error: authError } = swrDefaultResponse;
-
-    const login = async ({
-        email,
-        password,
-    }: {
-        email: string;
-        password: string;
-    }) => {
-        try {
-            setLoading(true);
-
-            const tokenData = await customAxios.post("/user/login", {
-                email,
-                password,
-            });
-
-            localStoragePersistor.onSet(TOKEN_KEY, tokenData.data);
-
-            await loginMutate();
-            setLoading(false);
-        } catch (error: unknown) {
-            if (error instanceof AxiosError) {
-                if (
-                    error.response?.status === 401 ||
-                    error.response?.status === 404
-                ) {
-                    alert(error.response?.data.message);
-                } else {
-                    throw new ServerError();
-                }
-            } else {
-                throw new unknownError();
-            }
-        }
-    };
-
-    const logout = async () => {
-        setLoading(true);
-
-        // 로컬스토리지에 저장된 정보 제거
-        window.localStorage.removeItem(USERDATA_KEY);
-        window.localStorage.removeItem(TOKEN_KEY);
-        window.localStorage.removeItem(ROOM_KEY);
-        window.localStorage.removeItem(FRIEND_KEY);
-
-        await loginMutate();
-        setLoading(false);
-    };
 
     const changeName = async (changeName: string) => {
         try {
@@ -160,8 +116,6 @@ export function useAuth() {
         authData,
         authError,
         isLoading: !authData || isLoading,
-        login,
-        logout,
         changeName,
     };
 }

@@ -9,24 +9,13 @@ import { AxiosCustomRequestConfig, DImageData, ImageInfo } from "@/lib/types";
 import axios, { AxiosError, AxiosRequestConfig } from "axios";
 import useStore from "swr-global-state";
 import { IMAGE_KEY, useRoomImageList } from "@/states/stores/roomData";
+import { alertErrorMessage, unknownError } from "@/lib/exceptions";
 
 const limitNum = 12;
 
 async function imageConvertToBlob(imageList: DImageData[]) {
     try {
         const tokenData = localStoragePersistor.onGet(TOKEN_KEY);
-        if (!tokenData) throw new Error();
-
-        // const response = await customAxios.get(
-        //     `/room/${roomId}/imagelist?start=${startNum}&limit=${limitNum}`,
-        //     {
-        //         headers: {
-        //             Authorization: tokenData.access_token,
-        //         },
-        //     }
-        // );
-
-        // const imageList: DImageData[] = response.data.imagelist;
 
         // 삭제된 이미지 데이터는 link, user_id, user_name이 null을 가진다.
         const filteredImageList: DImageData[] = imageList.filter(
@@ -118,7 +107,6 @@ export function useImage() {
             setLoading(true);
 
             const tokenData = localStoragePersistor.onGet(TOKEN_KEY);
-            if (!tokenData) throw new Error();
 
             const response = await customAxios.get(
                 `/user/${userId}/imagelist?start=${startNum}&limit=${limitNum}`,
@@ -139,25 +127,17 @@ export function useImage() {
             return newImgDatalist;
         } catch (error: unknown) {
             if (error instanceof AxiosError) {
-                if (error.response?.status === 401) {
-                    const errorObj = new Error(
-                        "올바른 접속이 아님으로 로그아웃됩니다.."
+                if (error.status === 401 || error.status === 403) {
+                    throw new alertErrorMessage(
+                        "올바른 요청이 아닙니다..다시시도 해주세요!"
                     );
-                    errorObj.name = "InvalidUserData";
-                    throw errorObj;
                 } else {
-                    const errorObj = new Error(
+                    throw new alertErrorMessage(
                         "이미지를 불러오는데 실패하였습니다..다시 시도해주세요"
                     );
-                    errorObj.name = "failLoadImage";
-                    throw errorObj;
                 }
             } else {
-                const errorObj = new Error(
-                    "유효한 토큰이 없습니다! 다시 로그인 해주세요.."
-                );
-                errorObj.name = "NoToken";
-                throw errorObj;
+                throw new unknownError();
             }
         }
     };
@@ -165,7 +145,6 @@ export function useImage() {
     const deleteUserImage = async (imageId: number) => {
         try {
             const tokenData = localStoragePersistor.onGet(TOKEN_KEY);
-            if (!tokenData) throw new Error();
 
             await customAxios.delete(`/image`, {
                 headers: {
@@ -191,19 +170,17 @@ export function useImage() {
             }));
         } catch (error) {
             if (error instanceof AxiosError) {
-                if (error.response?.status === 401) {
-                    const errorObj = new Error(
-                        "올바른 접속이 아님으로 로그아웃됩니다.."
+                if (error.status === 401 || error.status === 403) {
+                    throw new alertErrorMessage(
+                        "올바른 요청이 아닙니다..다시시도 해주세요!"
                     );
-                    errorObj.name = "InvalidUserData";
-                    throw errorObj;
                 } else {
-                    const errorObj = new Error(
+                    throw new alertErrorMessage(
                         "이미지를 삭제하는데 실패하였습니다..다시 시도해주세요"
                     );
-                    errorObj.name = "failDeleteImage";
-                    throw errorObj;
                 }
+            } else {
+                throw new unknownError();
             }
         }
     };
@@ -211,7 +188,6 @@ export function useImage() {
     const uploadUserImage = async (uploadImageFile: FormData) => {
         try {
             const tokenData = localStoragePersistor.onGet(TOKEN_KEY);
-            if (!tokenData) throw new Error();
 
             const response: {
                 data: { image_info: DImageData; success: number };
@@ -254,25 +230,17 @@ export function useImage() {
             }));
         } catch (error) {
             if (error instanceof AxiosError) {
-                if (error.response?.status === 401) {
-                    const errorObj = new Error(
-                        "올바른 접속이 아님으로 로그아웃됩니다.."
+                if (error.status === 401 || error.status === 403) {
+                    throw new alertErrorMessage(
+                        "올바른 요청이 아닙니다..다시시도 해주세요!"
                     );
-                    errorObj.name = "InvalidUserData";
-                    throw errorObj;
                 } else {
-                    const errorObj = new Error(
+                    throw new alertErrorMessage(
                         "이미지 업로드에 실패하였습니다..다시 시도해주세요"
                     );
-                    errorObj.name = "failUploadImage";
-                    throw errorObj;
                 }
             } else {
-                const errorObj = new Error(
-                    "유효한 토큰이 없습니다! 다시 로그인 해주세요.."
-                );
-                errorObj.name = "NoToken";
-                throw errorObj;
+                throw new unknownError();
             }
         }
     };
@@ -282,7 +250,6 @@ export function useImage() {
             setLoading(true);
 
             const tokenData = localStoragePersistor.onGet(TOKEN_KEY);
-            if (!tokenData) throw new Error();
 
             const response = await customAxios.get(
                 `/room/${roomId}/imagelist?start=${startNum}&limit=${limitNum}`,
@@ -303,25 +270,18 @@ export function useImage() {
             return newImgDatalist;
         } catch (error: unknown) {
             if (error instanceof AxiosError) {
-                if (error.response?.status === 401) {
-                    const errorObj = new Error(
-                        "올바른 접속이 아님으로 로그아웃됩니다.."
+                if (error.status === 401 || error.status === 403) {
+                    throw new alertErrorMessage(
+                        "올바른 요청이 아닙니다..다시시도 해주세요!"
                     );
-                    errorObj.name = "InvalidUserData";
-                    throw errorObj;
                 } else {
-                    const errorObj = new Error(
+                    console.error(
+                        "Error: ",
                         "이미지를 불러오는데 실패하였습니다..다시 시도해주세요"
                     );
-                    errorObj.name = "failLoadImage";
-                    throw errorObj;
                 }
             } else {
-                const errorObj = new Error(
-                    "유효한 토큰이 없습니다! 다시 로그인 해주세요.."
-                );
-                errorObj.name = "NoToken";
-                throw errorObj;
+                throw new unknownError();
             }
         }
     };
@@ -329,7 +289,6 @@ export function useImage() {
     const deleteRoomImage = async (roomId: string, imageId: number) => {
         try {
             const tokenData = localStoragePersistor.onGet(TOKEN_KEY);
-            if (!tokenData) throw new Error();
 
             await customAxios.delete(`/room/${roomId}/image`, {
                 headers: {
@@ -350,19 +309,17 @@ export function useImage() {
             });
         } catch (error) {
             if (error instanceof AxiosError) {
-                if (error.response?.status === 401) {
-                    const errorObj = new Error(
-                        "올바른 접속이 아님으로 로그아웃됩니다.."
+                if (error.status === 401 || error.status === 403) {
+                    throw new alertErrorMessage(
+                        "올바른 요청이 아닙니다..다시시도 해주세요!"
                     );
-                    errorObj.name = "InvalidUserData";
-                    throw errorObj;
                 } else {
-                    const errorObj = new Error(
+                    throw new alertErrorMessage(
                         "이미지를 삭제하는데 실패하였습니다..다시 시도해주세요"
                     );
-                    errorObj.name = "failDeleteImage";
-                    throw errorObj;
                 }
+            } else {
+                throw new unknownError();
             }
         }
     };
@@ -373,7 +330,6 @@ export function useImage() {
     ) => {
         try {
             const tokenData = localStoragePersistor.onGet(TOKEN_KEY);
-            if (!tokenData) throw new Error();
 
             const response: {
                 data: { image_info: DImageData; success: number };
@@ -415,25 +371,17 @@ export function useImage() {
             setRoomImageList((prevData) => [newData, ...prevData]);
         } catch (error) {
             if (error instanceof AxiosError) {
-                if (error.response?.status === 401) {
-                    const errorObj = new Error(
-                        "올바른 접속이 아님으로 로그아웃됩니다.."
+                if (error.status === 401 || error.status === 403) {
+                    throw new alertErrorMessage(
+                        "올바른 요청이 아닙니다..다시시도 해주세요!"
                     );
-                    errorObj.name = "InvalidUserData";
-                    throw errorObj;
                 } else {
-                    const errorObj = new Error(
+                    throw new alertErrorMessage(
                         "이미지 업로드에 실패하였습니다..다시 시도해주세요"
                     );
-                    errorObj.name = "failUploadImage";
-                    throw errorObj;
                 }
             } else {
-                const errorObj = new Error(
-                    "유효한 토큰이 없습니다! 다시 로그인 해주세요.."
-                );
-                errorObj.name = "NoToken";
-                throw errorObj;
+                throw new unknownError();
             }
         }
     };
