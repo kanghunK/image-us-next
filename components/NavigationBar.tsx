@@ -18,6 +18,7 @@ import { AiOutlineMenuUnfold } from "react-icons/ai";
 import { useAuth } from "@/hooks/useAuth";
 import { useUserData } from "@/states/stores/userData";
 import { logout } from "@/utils/userFetcher";
+import { lato } from "@/app/fonts";
 
 export default function NavigationBar() {
     // const { logout } = useAuth();
@@ -67,7 +68,7 @@ export default function NavigationBar() {
                         </div>
                     </button>
                 </LeftButton>
-                <h2>{userData?.navigationTitle}</h2>
+                <h2 className={lato.className}>{userData?.navigationTitle}</h2>
                 <IconGroup>
                     {userData?.currentPage === PageList.ImageRoom && (
                         <>

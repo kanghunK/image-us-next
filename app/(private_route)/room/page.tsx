@@ -31,9 +31,13 @@ export default function Room() {
     return (
         <Wrapper>
             <div className={styles.card_wrapper}>
-                {roomlist.map((roomData) => (
-                    <Card key={roomData.id} roomData={roomData} />
-                ))}
+                {roomlist.length === 0 ? (
+                    <div>등록된 방이 없습니다...</div>
+                ) : (
+                    roomlist.map((roomData) => (
+                        <Card key={roomData.id} roomData={roomData} />
+                    ))
+                )}
             </div>
             <CreateRoomBox onClick={() => router.push("/room/create_room")}>
                 <BsCalendar2Plus />
