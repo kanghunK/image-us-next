@@ -21,24 +21,24 @@ interface Props {
 
 export default function PrivateLayout({ children, modal }: Props) {
     const [userData] = useUserData();
-    const { authData, authError, isLoading: authDataLoading } = useAuth();
+    // const { authData, authError, isLoading: authDataLoading } = useAuth();
 
-    const params = useParams();
     const currentPath = usePathname();
+    const [openedLeftMenu, setOpenedLeftMenu] = useState(false);
+    const params = useParams();
     const [pageTitle, setPageTitle] = useState("unknwon");
     const [pageMatchNum, setPageMatchNum] = useState<number | null>(null);
-    const [openedLeftMenu, setOpenedLeftMenu] = useState(false);
     const currentPathArray = currentPath.split("/");
 
-    if (authError) throw authError;
+    useEffect(() => {
+        if (!userData) {
+            redirect("/login");
+        }
+    }, [userData]);
 
-    // if (authData?.isLoggedIn === false) {
-    //     redirect("/login");
-    // }
+    // if (authError) throw authError;
 
-    return authDataLoading ? (
-        <LoadingCompoent />
-    ) : (
+    return (
         <div
             style={{
                 height: "inherit",
@@ -46,7 +46,7 @@ export default function PrivateLayout({ children, modal }: Props) {
         >
             <NavigationBar />
             <ContentSection>
-                {userData.currentPage !== PageList.RoomMain && (
+                {userData?.currentPage !== PageList.RoomMain && (
                     <LeftMenu
                         show={openedLeftMenu}
                         setLeftMenu={setOpenedLeftMenu}
@@ -58,7 +58,7 @@ export default function PrivateLayout({ children, modal }: Props) {
                         position: "relative",
                     }}
                 >
-                    {userData.currentPage !== PageList.RoomMain &&
+                    {userData?.currentPage !== PageList.RoomMain &&
                         !openedLeftMenu && (
                             <MenuIcon
                                 onClick={() =>

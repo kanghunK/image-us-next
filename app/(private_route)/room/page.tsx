@@ -19,12 +19,13 @@ export default function Room() {
     const router = useRouter();
 
     useEffect(() => {
+        console.log("룸페이지 effect");
         setUserData((prev) => ({
             ...prev,
             currentPage: PageList.RoomMain,
             navigationTitle: "방 목록",
         }));
-    }, [setUserData]);
+    }, []);
 
     if (isLoading || !roomlist) return <div>로딩중...</div>;
 

@@ -52,7 +52,6 @@ export interface RoomData {
 }
 
 export interface UserInfo {
-    isLoggedIn: boolean;
     user_info?: DUserInfo;
 }
 

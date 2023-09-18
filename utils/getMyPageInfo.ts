@@ -2,6 +2,11 @@ import axios, { AxiosError } from "axios";
 import customAxios from "@/lib/api";
 import { TOKEN_KEY } from "@/states/stores/userData";
 import localStoragePersistor from "@/states/persistors/local-storage";
+import {
+    NetworkError,
+    alertErrorMessage,
+    unknownError,
+} from "@/lib/exceptions";
 
 export async function getMyPageInfo(userId: number) {
     try {
@@ -32,7 +37,11 @@ export async function getMyPageInfo(userId: number) {
         };
     } catch (error) {
         if (error instanceof AxiosError) {
-            console.error("Error: ", error);
+            throw new alertErrorMessage(
+                "사용자 정보를 받아오지 못하였습니다..다시시도 해주세요!"
+            );
+        } else {
+            throw new unknownError();
         }
     }
 }

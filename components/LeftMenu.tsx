@@ -26,7 +26,7 @@ export default function LeftMenu({ show, setLeftMenu }: Props) {
                     <BiArrowFromRight />
                 </div>
             )}
-            {userData.currentPage === PageList.ImageRoom ? (
+            {userData?.currentPage === PageList.ImageRoom ? (
                 <RoomList show={show} />
             ) : (
                 <MyPageMenu show={show} />

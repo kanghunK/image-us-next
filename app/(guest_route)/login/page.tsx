@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useCallback, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { IconContext } from "react-icons/lib";
@@ -10,12 +10,16 @@ import { SiNaver } from "react-icons/si";
 import { Button } from "@/components/shared/Button";
 import styles from "./login.module.scss";
 import { useAuth } from "@/hooks/useAuth";
+import { useUserData } from "@/states/stores/userData";
+import { login } from "@/utils/userFetcher";
 
 export default function Login() {
+    const [, setUserData] = useUserData();
+    // const { login } = useAuth();
+
     const searchParams = useSearchParams();
     const emailParam = searchParams.get("email");
     const passwordParam = searchParams.get("password");
-    const { login } = useAuth();
 
     const [emailValue, setEmailValue] = useState<string>("");
     const [passwordValue, setPwValue] = useState<string>("");
@@ -77,13 +81,45 @@ export default function Login() {
         } else if (!pwCheck) {
             alert("비밀번호를 다시 확인해주세요.");
         } else {
-            login({ email: emailValue, password: passwordValue });
+            loginRequest(emailValue, passwordValue);
+            // const userInfo = await login({
+            //     email: emailValue,
+            //     password: passwordValue,
+            // });
+            // setUserData((prev) => ({
+            //     ...prev,
+            //     user_info: userInfo,
+            // }));
         }
     };
 
-    if (emailParam && passwordParam) {
-        login({ email: emailParam, password: passwordParam });
-    }
+    const loginRequest = async (email: string, password: string) => {
+        try {
+            const userInfo = await login({
+                email,
+                password,
+            });
+            setUserData((prev) => ({
+                ...prev,
+                user_info: userInfo,
+            }));
+        } catch (error) {
+            throw error;
+        }
+    };
+
+    useEffect(() => {
+        if (emailParam && passwordParam)
+            loginRequest(emailParam, passwordParam);
+    }, [emailParam, passwordParam]);
+
+    // if (emailParam && passwordParam) {
+    //     const userInfo = await login({ email: emailParam, password: passwordParam });
+    //     setUserData((prev) => ({
+    //         ...prev,
+    //         user_info: userInfo,
+    //     }));
+    // }
 
     return (
         <div className={styles.wrapper}>

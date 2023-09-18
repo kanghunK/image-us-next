@@ -12,9 +12,9 @@ export const ROOM_KEY = "@user/room";
 export const FRIEND_KEY = "@user/friend";
 export const USER_IMAGE_KEY = "@user/image";
 
-export const useUserData = createStore<UserData>({
+export const useUserData = createStore<UserData | null>({
     key: USERDATA_KEY,
-    initial: { isLoggedIn: false },
+    initial: null,
     persistor: localStoragePersistor,
 });
 

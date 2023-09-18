@@ -53,7 +53,7 @@ export default function Page({ params }: { params: { id: string } }) {
     const resetImageList = async () => setImageList([]);
 
     useEffect(() => {
-        const currentRoomData = userData.roomList?.find(
+        const currentRoomData = userData?.roomList?.find(
             (data) => "" + data.id === roomId
         );
         fetchImageToList(startNum);

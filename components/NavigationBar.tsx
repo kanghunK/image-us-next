@@ -17,29 +17,23 @@ import { BiUpload } from "react-icons/bi";
 import { AiOutlineMenuUnfold } from "react-icons/ai";
 import { useAuth } from "@/hooks/useAuth";
 import { useUserData } from "@/states/stores/userData";
-
-interface NavProps {
-    // userInfo: UserInfo;
-    // pageTitle: string;
-    // pageMatchNum: number | null;
-}
+import { logout } from "@/utils/userFetcher";
 
 export default function NavigationBar() {
-    const { logout } = useAuth();
-    const [userData] = useUserData();
+    // const { logout } = useAuth();
+    const [userData, setUserData] = useUserData();
 
     const router = useRouter();
     const currentPath = usePathname();
     const [showUserMenu, setShowUserMenu] = useState(false);
 
-    // const pageName = {
-    //     RoomMain: "방 목록",
-    //     ImageRoom: "이미지 방",
-    //     MyPage: "마이 페이지",
-    // };
-
     const onClickCreateRoom = () => {
         router.push("/room/create_room");
+    };
+
+    const logoutRequest = () => {
+        setUserData(null);
+        logout();
     };
 
     return (
@@ -50,7 +44,7 @@ export default function NavigationBar() {
                 }}
             >
                 <LeftButton>
-                    {userData.currentPage === PageList.RoomMain ? (
+                    {userData?.currentPage === PageList.RoomMain ? (
                         <div
                             className="create_room_btn"
                             onClick={onClickCreateRoom}
@@ -69,9 +63,9 @@ export default function NavigationBar() {
                         </button>
                     )}
                 </LeftButton>
-                <h2>{userData.navigationTitle}</h2>
+                <h2>{userData?.navigationTitle}</h2>
                 <IconGroup>
-                    {userData.currentPage === PageList.ImageRoom && (
+                    {userData?.currentPage === PageList.ImageRoom && (
                         <>
                             <div
                                 className="upload_icon icon_d"
@@ -91,7 +85,7 @@ export default function NavigationBar() {
                             </div>
                         </>
                     )}
-                    <div className="user_name">{userData.user_info?.name}</div>
+                    <div className="user_name">{userData?.user_info?.name}</div>
                     <div
                         className="user_icon icon_d"
                         onClick={() => setShowUserMenu((prev) => !prev)}
@@ -117,7 +111,7 @@ export default function NavigationBar() {
                                 </div>
                                 <div
                                     className="menu_item logout"
-                                    onClick={logout}
+                                    onClick={logoutRequest}
                                 >
                                     <CgLogOff />
                                     <span className="text">로그아웃</span>

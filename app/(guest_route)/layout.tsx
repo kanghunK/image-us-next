@@ -11,15 +11,18 @@ interface Props {
 }
 
 export default function GuestLayout({ children }: Props) {
-    const { authData } = useAuth();
+    // const { authData, authError } = useAuth();
+    const [userData] = useUserData();
 
-    console.log("guestLayoutError: ", authData);
+    console.log("guestLayoutError: ", userData);
 
     useEffect(() => {
-        if (authData?.isLoggedIn) {
+        if (userData?.user_info) {
             redirect("/room");
         }
-    }, [authData]);
+    }, [userData]);
+
+    // if (authError) throw authError;
 
     return <main style={{ height: "inherit" }}>{children}</main>;
 }
