@@ -5,6 +5,6 @@ body,
     margin: 0;
     padding: 0;
 
-    overflow: hidden;
+    overflow-y: hidden;
     font-family: 'Noto Sans KR', 'Nanum Gothic', sans-serif;
 }

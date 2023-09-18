@@ -26,10 +26,13 @@ export default function NavigationBar() {
     const router = useRouter();
     const currentPath = usePathname();
     const [showUserMenu, setShowUserMenu] = useState(false);
+    const isRoomMainPage = userData?.currentPage === PageList.RoomMain;
 
     const onClickCreateRoom = () => {
         router.push("/room/create_room");
     };
+
+    const moveToRoom = () => router.push("/room");
 
     const logoutRequest = () => {
         setUserData(null);
@@ -44,24 +47,25 @@ export default function NavigationBar() {
                 }}
             >
                 <LeftButton>
-                    {userData?.currentPage === PageList.RoomMain ? (
-                        <div
-                            className="create_room_btn"
-                            onClick={onClickCreateRoom}
-                        >
-                            <BsCalendar2Plus />
-                        </div>
-                    ) : (
-                        <button
-                            className="move_roomlist_btn"
-                            onClick={() => router.push("/room")}
-                        >
-                            <div className="list_icon">
+                    <button
+                        className="left_btn"
+                        onClick={
+                            isRoomMainPage ? onClickCreateRoom : moveToRoom
+                        }
+                    >
+                        <div className="list_icon">
+                            {isRoomMainPage ? (
+                                <BsCalendar2Plus />
+                            ) : (
                                 <CiViewList />
-                            </div>
-                            <div className="list_text">방 목록으로 이동</div>
-                        </button>
-                    )}
+                            )}
+                        </div>
+                        <div className="list_text">
+                            {isRoomMainPage
+                                ? "방 생성하기"
+                                : "방 목록으로 이동"}
+                        </div>
+                    </button>
                 </LeftButton>
                 <h2>{userData?.navigationTitle}</h2>
                 <IconGroup>
@@ -137,6 +141,7 @@ const Wrapper = styled.nav`
 
     h2 {
         margin: 0;
+        white-space: nowrap;
     }
 
     ul {
@@ -164,7 +169,7 @@ const LeftButton = styled.div`
         }
     }
 
-    .move_roomlist_btn {
+    .left_btn {
         position: relative;
         display: inline-flex;
         justify-content: center;
