@@ -34,8 +34,12 @@ export default function Room() {
                 {roomlist.length === 0 ? (
                     <div>등록된 방이 없습니다...</div>
                 ) : (
-                    roomlist.map((roomData) => (
-                        <Card key={roomData.id} roomData={roomData} />
+                    roomlist.map((roomData, i) => (
+                        <Card
+                            key={roomData.id}
+                            roomData={roomData}
+                            index={i + 1}
+                        />
                     ))
                 )}
             </div>
@@ -63,7 +67,8 @@ const CreateRoomBox = styled.div`
     align-items: center;
     justify-content: center;
 
-    width: 65%;
+    width: 85%;
+    max-width: 800px;
     margin-top: 3rem;
     gap: 0.5rem;
     padding: 1rem;

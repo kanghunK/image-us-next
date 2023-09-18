@@ -10,9 +10,10 @@ import ExitRoomBtn from "./ExitRoomBtn";
 
 interface CardProps {
     roomData: RoomData;
+    index: number;
 }
 
-export default function Card({ roomData }: CardProps) {
+export default function Card({ roomData, index }: CardProps) {
     const router = useRouter();
 
     const onClickNavigateRoom = useCallback(
@@ -25,6 +26,7 @@ export default function Card({ roomData }: CardProps) {
     return (
         <Wrapper>
             <div className="card_body">
+                <div className="card_num">{index}</div>
                 <div
                     className="main_info"
                     onClick={onClickNavigateRoom(roomData.id)}
@@ -65,7 +67,7 @@ export default function Card({ roomData }: CardProps) {
 const Wrapper = styled.div`
     position: relative;
 
-    width: 250px;
+    width: 200px;
     border: 1px solid #f0f0f0;
     border-radius: 8px;
     background: #fff;
@@ -73,13 +75,26 @@ const Wrapper = styled.div`
 
     .card_body {
         display: flex;
+        align-items: center;
+        height: 90px;
         border-radius: 8px;
         overflow: hidden;
 
+        .card_num {
+            width: 30px;
+            height: 100%;
+            line-height: 90px;
+            border-right: 1px solid #f0f0f0;
+        }
+
         .main_info {
             flex: 1 0 auto;
-            padding: 15px 0;
-            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+
+            height: 100%;
             cursor: pointer;
 
             &:hover {
@@ -89,7 +104,7 @@ const Wrapper = styled.div`
             .title {
                 margin-bottom: 8px;
                 font-weight: 600;
-                font-size: 24px;
+                font-size: 1.2rem;
                 color: rgba(0, 0, 0, 0.88);
             }
 
@@ -108,6 +123,7 @@ const Wrapper = styled.div`
             justify-content: space-evenly;
             align-items: center;
             width: 50px;
+            height: 100%;
 
             border-left: 1px solid #f0f0f0;
 
