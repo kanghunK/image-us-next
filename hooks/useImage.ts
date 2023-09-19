@@ -389,6 +389,7 @@ export function useImage() {
     return {
         isLoading,
         imageLoadEnd,
+        setImageLoadEnd,
         loadUserImagelist,
         deleteUserImage,
         uploadUserImage,

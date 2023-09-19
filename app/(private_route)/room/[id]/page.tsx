@@ -19,6 +19,7 @@ export default function Page({ params }: { params: { id: string } }) {
     const {
         isLoading: isImageLoading,
         imageLoadEnd,
+        setImageLoadEnd,
         loadRoomImagelist,
     } = useImage();
 
@@ -56,10 +57,14 @@ export default function Page({ params }: { params: { id: string } }) {
         }
     };
 
-    const resetImageList = async () => setImageList([]);
+    const resetImageList = async () => {
+        setImageList([]);
+        setImageLoadEnd(false);
+    };
 
     useEffect(() => {
         try {
+            console.log("이미지 룸: ", imageLoadEnd);
             const currentRoomData = userData?.roomList?.find(
                 (data) => "" + data.id === roomId
             );

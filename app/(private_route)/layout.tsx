@@ -7,12 +7,13 @@ import NavigationBar from "@/components/NavigationBar";
 import { AiOutlineMenuUnfold } from "react-icons/ai";
 import styled from "@emotion/styled";
 import LeftMenu from "@/components/LeftMenu";
-import { useAuth } from "@/hooks/useAuth";
+import { useMy } from "@/hooks/useMy";
 import { useRoom } from "@/hooks/useRoom";
 import { useUserData } from "@/states/stores/userData";
 import { PageList } from "@/lib/enumType";
 import LoadingCompoent from "@/components/shared/Loading";
 import { AuthRequiredError } from "@/lib/exceptions";
+import { error } from "console";
 
 interface Props {
     children: ReactNode;
@@ -20,23 +21,15 @@ interface Props {
 }
 
 export default function PrivateLayout({ children, modal }: Props) {
-    const [userData] = useUserData();
-    // const { authData, authError, isLoading: authDataLoading } = useAuth();
+    const [userData, setUserData] = useUserData();
 
-    const currentPath = usePathname();
     const [openedLeftMenu, setOpenedLeftMenu] = useState(false);
-    const params = useParams();
-    const [pageTitle, setPageTitle] = useState("unknwon");
-    const [pageMatchNum, setPageMatchNum] = useState<number | null>(null);
-    const currentPathArray = currentPath.split("/");
 
     useEffect(() => {
-        if (!userData) {
+        if (!userData?.user_info) {
             redirect("/login");
         }
-    }, [userData]);
-
-    // if (authError) throw authError;
+    }, [setUserData, userData]);
 
     return (
         <div
