@@ -11,6 +11,7 @@ import { useImage } from "@/hooks/useImage";
 import { useRoomImageList } from "@/states/stores/roomData";
 import { useUserData } from "@/states/stores/userData";
 import { PageList } from "@/lib/enumType";
+import { ImageInfo } from "@/lib/types";
 
 export default function Page({ params }: { params: { id: string } }) {
     const [userData, setUserData] = useUserData();
@@ -37,31 +38,41 @@ export default function Page({ params }: { params: { id: string } }) {
             threshold: 0.5,
         }
     );
-    ``;
 
     const fetchImageToList = async (fetchNum: number) => {
-        const newImageList = await loadRoomImagelist(roomId, fetchNum);
+        try {
+            const newImageList = (await loadRoomImagelist(
+                roomId,
+                fetchNum
+            )) as ImageInfo[];
 
-        if (fetchNum === 0) {
-            setImageList(() => [...newImageList]);
-        } else {
-            setImageList((prev) => [...prev, ...newImageList]);
+            if (fetchNum === 0) {
+                setImageList(() => [...newImageList]);
+            } else {
+                setImageList((prev) => [...prev, ...newImageList]);
+            }
+            setStartNum((prev) => prev + 12);
+        } catch (error) {
+            throw error;
         }
-        setStartNum((prev) => prev + 12);
     };
 
     const resetImageList = async () => setImageList([]);
 
     useEffect(() => {
-        const currentRoomData = userData?.roomList?.find(
-            (data) => "" + data.id === roomId
-        );
-        fetchImageToList(startNum);
-        setUserData((prev) => ({
-            ...prev,
-            currentPage: PageList.ImageRoom,
-            navigationTitle: currentRoomData?.title ?? "Unknown",
-        }));
+        try {
+            const currentRoomData = userData?.roomList?.find(
+                (data) => "" + data.id === roomId
+            );
+            fetchImageToList(startNum);
+            setUserData((prev) => ({
+                ...prev,
+                currentPage: PageList.ImageRoom,
+                navigationTitle: currentRoomData?.title ?? "Unknown",
+            }));
+        } catch (error) {
+            throw error;
+        }
         return () => {
             resetImageList();
         };
@@ -112,16 +123,23 @@ const NoImage = styled.div`
 `;
 
 const Wrapper = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    min-height: 100%;
     padding: 50px 0;
     box-sizing: border-box;
 `;
 
 const Container = styled.div`
+    flex: 1 0 auto;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(100px, 200px));
+    grid-template-columns: repeat(auto-fit, minmax(200px, 250px));
     justify-content: center;
+
+    width: 85%;
     gap: 3rem;
-    padding: 0 2rem;
 `;
 
 const UploadBox = styled.div`
@@ -131,6 +149,7 @@ const UploadBox = styled.div`
     justify-content: center;
 
     width: 70%;
+    max-width: 800px;
     margin: 50px auto 0 auto;
     gap: 0.5rem;
     padding: 1rem;

@@ -58,7 +58,7 @@ export default function ImageCard({ imageData, observerRef }: Props) {
                             <BiDownload />
                         </a>
                     </div>
-                    {userData.user_info?.id === imageData.user_id && (
+                    {userData?.user_info?.id === imageData.user_id && (
                         <DeleteImageBtn
                             isRoom={params?.id ? true : false}
                             imageId={imageData.id}
@@ -76,7 +76,7 @@ const Wrapper = styled.div`
     position: relative;
     box-sizing: border-box;
 
-    height: 200px;
+    height: 250px;
     margin: 0;
     padding: 0;
 
@@ -111,6 +111,8 @@ const Wrapper = styled.div`
         }
 
         .download_btn {
+            border-right: 1px solid #f0f0f0;
+
             &:hover {
                 background-color: #f0f0f0;
             }
