@@ -58,6 +58,33 @@ const login = async ({
     }
 };
 
+const socialLogin = async (coperation: string, code: string) => {
+    try {
+        const oauthResponse = await customAxios.get(
+            `/oauth-login/callback?coperation=${coperation}&code=${code}`
+        );
+        const { user_id, ...oAuthData } = oauthResponse.data;
+
+        const userResponse = await customAxios.get("/user/my", {
+            headers: {
+                Authorization: oAuthData?.access_token,
+            },
+        });
+
+        localStoragePersistor.onSet(TOKEN_KEY, oAuthData);
+
+        const userInfo = userResponse.data.user_info;
+
+        return userInfo;
+    } catch (error) {
+        if (error instanceof AxiosError) {
+            throw new ServerError();
+        } else {
+            throw new unknownError();
+        }
+    }
+};
+
 const logout = () => {
     // 로컬스토리지에 저장된 정보 제거
     window.localStorage.removeItem(USERDATA_KEY);
@@ -124,4 +151,4 @@ const checkAuth = async () => {
     }
 };
 
-export { login, logout, changeName, checkAuth };
+export { login, logout, changeName, checkAuth, socialLogin };

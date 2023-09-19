@@ -9,7 +9,6 @@ import { SiNaver } from "react-icons/si";
 
 import { Button } from "@/components/shared/Button";
 import styles from "./login.module.scss";
-import { useAuth } from "@/hooks/useAuth";
 import { useUserData } from "@/states/stores/userData";
 import { login } from "@/utils/userFetcher";
 
@@ -109,8 +108,12 @@ export default function Login() {
     };
 
     useEffect(() => {
-        if (emailParam && passwordParam)
-            loginRequest(emailParam, passwordParam);
+        try {
+            if (emailParam && passwordParam)
+                loginRequest(emailParam, passwordParam);
+        } catch (error) {
+            throw error;
+        }
     }, [emailParam, passwordParam]);
 
     // if (emailParam && passwordParam) {
@@ -183,7 +186,7 @@ export default function Login() {
                             간편 로그인
                         </span>
                         <div className={styles.social_icon_box}>
-                            <a
+                            <Link
                                 href={`/backapi/oauth-login?coperation=kakao`}
                                 className={`${styles.kakao_icon} ${styles.social_icon_a}`}
                             >
@@ -195,8 +198,8 @@ export default function Login() {
                                 >
                                     <RiKakaoTalkFill />
                                 </IconContext.Provider>
-                            </a>
-                            <a
+                            </Link>
+                            <Link
                                 href="/backapi/oauth-login?coperation=naver"
                                 className={`${styles.naver_icon} ${styles.social_icon_a}`}
                             >
@@ -208,7 +211,7 @@ export default function Login() {
                                 >
                                     <SiNaver />
                                 </IconContext.Provider>
-                            </a>
+                            </Link>
                         </div>
                     </div>
                 </div>

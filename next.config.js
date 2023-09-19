@@ -4,8 +4,8 @@ const nextConfig = {
         if (process.env.NODE_ENV === "development") {
             return [
                 {
-                    source: "/",
-                    destination: "https://codakcodak.site",
+                    source: "/:path*",
+                    destination: "https://codakcodak.site/:path*",
                 },
             ];
         }
