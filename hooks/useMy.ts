@@ -18,16 +18,16 @@ import {
     unknownError,
 } from "@/lib/exceptions";
 
-export function useAuth() {
-    const [, setUserData] = useUserData();
+export function useMy() {
+    // const [, setUserData] = useUserData();
 
     const [isLoading, setLoading] = useStore({
         key: `${USERDATA_KEY}-loading`,
         initial: true,
     });
-    const [authData, , swrDefaultResponse] = useStore<UserInfo | null>(
+    const [userInfoData, , swrDefaultResponse] = useStore<UserInfo | null>(
         {
-            key: "useAuth",
+            key: "useMy",
             initial: null,
             persistor: {
                 onSet: localStoragePersistor.onSet,
@@ -45,14 +45,9 @@ export function useAuth() {
 
                         const userInfo = response.data.user_info;
 
-                        // 전역 상태 관리
-                        setUserData((prev) => ({
-                            ...prev,
-                            user_info: userInfo,
-                        }));
-
                         return { user_info: userInfo };
                     } catch (err: unknown) {
+                        console.error(err);
                         if (window.navigator.onLine) {
                             if (err instanceof AxiosError) {
                                 throw new AuthRequiredError();
@@ -79,7 +74,7 @@ export function useAuth() {
         }
     );
 
-    const { mutate: loginMutate, error: authError } = swrDefaultResponse;
+    const { mutate: loginMutate, error } = swrDefaultResponse;
 
     const changeName = async (changeName: string) => {
         try {
@@ -112,10 +107,12 @@ export function useAuth() {
         }
     };
 
+    // console.log("my 내부", error);
+
     return {
-        authData,
-        authError,
-        isLoading: !authData || isLoading,
+        userInfoData,
+        error,
+        isLoading: !userInfoData || isLoading,
         changeName,
     };
 }
