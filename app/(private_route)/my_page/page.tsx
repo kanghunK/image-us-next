@@ -4,15 +4,30 @@ import React, { useState } from "react";
 import styled from "@emotion/styled";
 import useInput from "@/hooks/useInput";
 import { Button } from "@/components/shared/Button";
-import { useAuth } from "@/hooks/useAuth";
 import { useUserData } from "@/states/stores/userData";
+import { changeName } from "@/utils/userFetcher";
 
 export default function Mypage() {
-    const [userData] = useUserData();
-    const { changeName } = useAuth();
+    const [userData, setUserData] = useUserData();
+
+    // const { changeName } = useAuth();
 
     const [nameInput, setNameInput, handleNameInput] = useInput("");
     const [nameBoxState, setNameBoxState] = useState(false);
+
+    const changeNameRequest = async () => {
+        try {
+            const userInfo = await changeName(nameInput);
+            console.log("바뀐값: ", userInfo);
+            setUserData((prev) => ({
+                ...prev,
+                user_info: userInfo.user_info,
+            }));
+            setNameBoxState(false);
+        } catch (error) {
+            throw error;
+        }
+    };
 
     return (
         <InfoSection>
@@ -64,10 +79,7 @@ export default function Mypage() {
                                     <div className="btn_group">
                                         <Button
                                             type="button"
-                                            onClick={async () => {
-                                                await changeName(nameInput);
-                                                setNameBoxState(false);
-                                            }}
+                                            onClick={changeNameRequest}
                                         >
                                             완료
                                         </Button>

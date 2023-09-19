@@ -1,4 +1,4 @@
-import { ServerError, unknownError } from "@/lib/exceptions";
+import { AuthRequiredError, ServerError, unknownError } from "@/lib/exceptions";
 import localStoragePersistor from "@/states/persistors/local-storage";
 import {
     FRIEND_KEY,
@@ -70,4 +70,36 @@ const logout = () => {
     // await loginMutate();
 };
 
-export { login, logout };
+const changeName = async (changeName: string) => {
+    try {
+        const token = localStoragePersistor.onGet(TOKEN_KEY);
+
+        const response = await customAxios.post(
+            `/user/my`,
+            {
+                name: changeName,
+            },
+            {
+                headers: {
+                    Authorization: token?.access_token,
+                },
+            }
+        );
+
+        return response.data;
+
+        alert("성공적으로 변경하였습니다!");
+    } catch (err) {
+        if (err instanceof AxiosError) {
+            if (err.response?.status === 401) {
+                throw new AuthRequiredError();
+            } else {
+                throw new ServerError();
+            }
+        } else {
+            throw new unknownError();
+        }
+    }
+};
+
+export { login, logout, changeName };
