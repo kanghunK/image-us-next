@@ -102,7 +102,7 @@ export function useImage() {
         initial: false,
     });
 
-    const loadUserImagelist = async (userId: number, startNum: number) => {
+    const loadUserImagelist = async (userId?: number, startNum?: number) => {
         try {
             setLoading(true);
 

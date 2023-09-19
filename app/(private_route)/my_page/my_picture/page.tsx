@@ -28,7 +28,6 @@ export default function MyPicture() {
             observer.unobserve(entry.target);
             if (isImageLoading || imageLoadEnd) return;
             fetchImageToList(startNum);
-            setStartNum((prev) => prev + 12);
         },
         {
             threshold: 0.5,
@@ -36,28 +35,30 @@ export default function MyPicture() {
     );
 
     const fetchImageToList = async (fetchNum: number) => {
-        const userId = userData.user_info?.id;
-        if (!userId) {
-            const error = new Error("사용자 정보가 없습니다..");
-            error.name = "NoUserData";
+        try {
+            const userId = userData?.user_info?.id;
+
+            const newImageList = await loadUserImagelist(userId, fetchNum);
+
+            if (fetchNum === 0) {
+                setUserImageList(() => [...newImageList]);
+            } else {
+                setUserImageList((prev) => [...prev, ...newImageList]);
+            }
+            setStartNum((prev) => prev + 12);
+        } catch (error) {
             throw error;
         }
-
-        const newImageList = await loadUserImagelist(userId, fetchNum);
-
-        if (fetchNum === 0) {
-            setUserImageList(() => [...newImageList]);
-        } else {
-            setUserImageList((prev) => [...prev, ...newImageList]);
-        }
-        setStartNum((prev) => prev + 12);
     };
 
     const resetImageList = async () => setUserImageList([]);
 
     useEffect(() => {
-        fetchImageToList(startNum);
-
+        try {
+            fetchImageToList(startNum);
+        } catch (error) {
+            throw error;
+        }
         return () => {
             resetImageList();
         };

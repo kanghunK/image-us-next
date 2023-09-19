@@ -32,7 +32,6 @@ export default function Page({ params }: { params: { id: string } }) {
             observer.unobserve(entry.target);
             if (isImageLoading || imageLoadEnd) return;
             fetchImageToList(startNum);
-            setStartNum((prev) => prev + 12);
         },
         {
             threshold: 0.5,
