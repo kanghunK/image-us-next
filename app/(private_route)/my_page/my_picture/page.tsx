@@ -20,6 +20,7 @@ export default function MyPicture() {
     const {
         isLoading: isImageLoading,
         imageLoadEnd,
+        setImageLoadEnd,
         loadUserImagelist,
     } = useImage();
 
@@ -51,7 +52,10 @@ export default function MyPicture() {
         }
     };
 
-    const resetImageList = async () => setUserImageList([]);
+    const resetImageList = async () => {
+        setUserImageList([]);
+        setImageLoadEnd(false);
+    };
 
     useEffect(() => {
         try {
