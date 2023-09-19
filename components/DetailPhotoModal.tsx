@@ -56,7 +56,7 @@ export default function DetailPhotoModal({
     };
 
     return (
-        <Modal>
+        <Modal scroll={false} height="fit-content">
             <Container>
                 <div className="photo_info">
                     {imageData?.user_name && (
@@ -85,15 +85,9 @@ export default function DetailPhotoModal({
 const Container = styled.div`
     display: flex;
     flex-direction: column;
-    // width: 70%;
-    // max-height: 80%;
-    max-width: 780px;
-    // min-width: 300px;
     box-sizing: border-box;
 
     border-radius: 10px;
-    background: #fff;
-    box-shadow: 0 30px 60px 0 rgba(90, 116, 148, 0.4);
     overflow: hidden;
 
     .photo_info {
