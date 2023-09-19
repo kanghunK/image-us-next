@@ -15,7 +15,6 @@ import { Button } from "./shared/Button";
 import { FiUserPlus } from "react-icons/fi";
 import { BiUpload } from "react-icons/bi";
 import { AiOutlineMenuUnfold } from "react-icons/ai";
-import { useAuth } from "@/hooks/useAuth";
 import { useUserData } from "@/states/stores/userData";
 import { logout } from "@/utils/userFetcher";
 import { lato } from "@/app/fonts";
@@ -35,8 +34,8 @@ export default function NavigationBar() {
 
     const moveToRoom = () => router.push("/room");
 
-    const logoutRequest = () => {
-        setUserData(null);
+    const logoutRequest = async () => {
+        await setUserData(null);
         logout();
     };
 

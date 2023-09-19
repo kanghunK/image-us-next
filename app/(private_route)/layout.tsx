@@ -7,13 +7,13 @@ import NavigationBar from "@/components/NavigationBar";
 import { AiOutlineMenuUnfold } from "react-icons/ai";
 import styled from "@emotion/styled";
 import LeftMenu from "@/components/LeftMenu";
-import { useMy } from "@/hooks/useMy";
 import { useRoom } from "@/hooks/useRoom";
 import { useUserData } from "@/states/stores/userData";
 import { PageList } from "@/lib/enumType";
 import LoadingCompoent from "@/components/shared/Loading";
 import { AuthRequiredError } from "@/lib/exceptions";
 import { error } from "console";
+import { checkAuth } from "@/utils/userFetcher";
 
 interface Props {
     children: ReactNode;
@@ -21,15 +21,21 @@ interface Props {
 }
 
 export default function PrivateLayout({ children, modal }: Props) {
-    const [userData, setUserData] = useUserData();
+    const [userData] = useUserData();
 
     const [openedLeftMenu, setOpenedLeftMenu] = useState(false);
 
     useEffect(() => {
-        if (!userData?.user_info) {
-            redirect("/login");
+        try {
+            if (userData?.user_info) {
+                checkAuth();
+            } else {
+                redirect("/login");
+            }
+        } catch (error) {
+            throw error;
         }
-    }, [setUserData, userData]);
+    }, [userData]);
 
     return (
         <div

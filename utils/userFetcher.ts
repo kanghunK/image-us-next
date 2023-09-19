@@ -86,9 +86,9 @@ const changeName = async (changeName: string) => {
             }
         );
 
-        return response.data;
-
         alert("성공적으로 변경하였습니다!");
+
+        return response.data;
     } catch (err) {
         if (err instanceof AxiosError) {
             if (err.response?.status === 401) {
@@ -102,4 +102,26 @@ const changeName = async (changeName: string) => {
     }
 };
 
-export { login, logout, changeName };
+const checkAuth = async () => {
+    try {
+        const token = localStoragePersistor.onGet(TOKEN_KEY);
+
+        await customAxios.get("/user/my", {
+            headers: {
+                Authorization: token?.access_token,
+            },
+        });
+    } catch (err) {
+        if (err instanceof AxiosError) {
+            if (err.response?.status === 401) {
+                throw new AuthRequiredError();
+            } else {
+                throw new ServerError();
+            }
+        } else {
+            throw new unknownError();
+        }
+    }
+};
+
+export { login, logout, changeName, checkAuth };
