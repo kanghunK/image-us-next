@@ -11,6 +11,7 @@ import { Button } from "@/components/shared/Button";
 import styles from "./login.module.scss";
 import { useUserData } from "@/states/stores/userData";
 import { login } from "@/utils/userFetcher";
+import { ServerError } from "@/lib/exceptions";
 
 export default function Login() {
     const [, setUserData] = useUserData();
@@ -29,6 +30,8 @@ export default function Login() {
     const emailRegex = new RegExp(
         "([!#-'*+/-9=?A-Z^-~-]+(.[!#-'*+/-9=?A-Z^-~-]+)*|\"([]!#-[^-~ \t]|(\\[\t -~]))+\")@([!#-'*+/-9=?A-Z^-~-]+(.[!#-'*+/-9=?A-Z^-~-]+)*|[[\t -Z^-~]*])"
     );
+
+    // throw new ServerError();
 
     const emailValidation = useCallback(
         (value: string) => {
@@ -80,49 +83,25 @@ export default function Login() {
         } else if (!pwCheck) {
             alert("비밀번호를 다시 확인해주세요.");
         } else {
-            loginRequest(emailValue, passwordValue);
-            // const userInfo = await login({
-            //     email: emailValue,
-            //     password: passwordValue,
-            // });
-            // setUserData((prev) => ({
-            //     ...prev,
-            //     user_info: userInfo,
-            // }));
+            await loginRequest(emailValue, passwordValue);
         }
     };
 
     const loginRequest = async (email: string, password: string) => {
-        try {
-            const userInfo = await login({
-                email,
-                password,
-            });
-            setUserData((prev) => ({
-                ...prev,
-                user_info: userInfo,
-            }));
-        } catch (error) {
-            throw error;
-        }
+        const userInfo = await login({
+            email,
+            password,
+        });
+        setUserData((prev) => ({
+            ...prev,
+            user_info: userInfo,
+        }));
     };
 
     useEffect(() => {
-        try {
-            if (emailParam && passwordParam)
-                loginRequest(emailParam, passwordParam);
-        } catch (error) {
-            throw error;
-        }
+        if (emailParam && passwordParam)
+            loginRequest(emailParam, passwordParam);
     }, [emailParam, passwordParam]);
-
-    // if (emailParam && passwordParam) {
-    //     const userInfo = await login({ email: emailParam, password: passwordParam });
-    //     setUserData((prev) => ({
-    //         ...prev,
-    //         user_info: userInfo,
-    //     }));
-    // }
 
     return (
         <div className={styles.wrapper}>

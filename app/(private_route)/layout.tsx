@@ -26,14 +26,10 @@ export default function PrivateLayout({ children, modal }: Props) {
     const [openedLeftMenu, setOpenedLeftMenu] = useState(false);
 
     useEffect(() => {
-        try {
-            if (userData?.user_info) {
-                checkAuth();
-            } else {
-                redirect("/login");
-            }
-        } catch (error) {
-            throw error;
+        if (userData?.user_info) {
+            checkAuth();
+        } else {
+            redirect("/login");
         }
     }, [userData]);
 

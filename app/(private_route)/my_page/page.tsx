@@ -16,17 +16,13 @@ export default function Mypage() {
     const [nameBoxState, setNameBoxState] = useState(false);
 
     const changeNameRequest = async () => {
-        try {
-            const userInfo = await changeName(nameInput);
-            console.log("바뀐값: ", userInfo);
-            setUserData((prev) => ({
-                ...prev,
-                user_info: userInfo.user_info,
-            }));
-            setNameBoxState(false);
-        } catch (error) {
-            throw error;
-        }
+        const userInfo = await changeName(nameInput);
+        console.log("바뀐값: ", userInfo);
+        setUserData((prev) => ({
+            ...prev,
+            user_info: userInfo.user_info,
+        }));
+        setNameBoxState(false);
     };
 
     return (

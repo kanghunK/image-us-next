@@ -35,13 +35,6 @@ const login = async ({
 
         const userInfo = response.data.user_info;
         return userInfo;
-
-        // setUserData((prev) => ({
-        //     ...prev,
-        //     user_info: userInfo,
-        // }));
-
-        // await loginMutate();
     } catch (error: unknown) {
         if (error instanceof AxiosError) {
             if (
@@ -50,10 +43,10 @@ const login = async ({
             ) {
                 alert(error.response?.data.message);
             } else {
-                throw new ServerError();
+                alert("서버 문제로 잠시 후에 다시 시도 해주세요.");
             }
         } else {
-            throw new unknownError();
+            alert("예기치 못한 에러가 발생하였습니다..다시 시도해주세요.");
         }
     }
 };
@@ -78,9 +71,9 @@ const socialLogin = async (coperation: string, code: string) => {
         return userInfo;
     } catch (error) {
         if (error instanceof AxiosError) {
-            throw new ServerError();
+            alert("서버 문제로 잠시 후에 다시 시도 해주세요.");
         } else {
-            throw new unknownError();
+            alert("예기치 못한 에러가 발생하였습니다..다시 시도해주세요.");
         }
     }
 };
@@ -92,9 +85,6 @@ const logout = () => {
     window.localStorage.removeItem(ROOM_KEY);
     window.localStorage.removeItem(FRIEND_KEY);
     window.localStorage.removeItem(USER_IMAGE_KEY);
-    // setUserData(null);
-
-    // await loginMutate();
 };
 
 const changeName = async (changeName: string) => {
@@ -119,12 +109,12 @@ const changeName = async (changeName: string) => {
     } catch (err) {
         if (err instanceof AxiosError) {
             if (err.response?.status === 401) {
-                throw new AuthRequiredError();
+                alert("사용자 권한이 없습니다..로그아웃 후 시도해주세요.");
             } else {
-                throw new ServerError();
+                alert("서버 문제로 잠시 후에 다시 시도 해주세요.");
             }
         } else {
-            throw new unknownError();
+            alert("예기치 못한 에러가 발생하였습니다..다시 시도해주세요.");
         }
     }
 };
@@ -141,12 +131,12 @@ const checkAuth = async () => {
     } catch (err) {
         if (err instanceof AxiosError) {
             if (err.response?.status === 401) {
-                throw new AuthRequiredError();
+                alert("사용자 권한이 없습니다..로그아웃 후 시도해주세요.");
             } else {
-                throw new ServerError();
+                alert("서버 문제로 잠시 후에 다시 시도 해주세요.");
             }
         } else {
-            throw new unknownError();
+            alert("예기치 못한 에러가 발생하였습니다..다시 시도해주세요.");
         }
     }
 };

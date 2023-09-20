@@ -9,27 +9,19 @@ export default function SocialLogIn() {
     const searchparams = useSearchParams();
 
     const requestSocialLogin = async (coperation: string, code: string) => {
-        try {
-            const userInfo = await socialLogin(coperation, code);
-            setUserData((prev) => ({
-                ...prev,
-                user_info: userInfo,
-            }));
-        } catch (error) {
-            throw error;
-        }
+        const userInfo = await socialLogin(coperation, code);
+        setUserData((prev) => ({
+            ...prev,
+            user_info: userInfo,
+        }));
     };
 
     useEffect(() => {
-        try {
-            const coperationValue = searchparams.get("coperation");
-            const codeValue = searchparams.get("code");
+        const coperationValue = searchparams.get("coperation");
+        const codeValue = searchparams.get("code");
 
-            if (coperationValue && codeValue) {
-                requestSocialLogin(coperationValue, codeValue);
-            }
-        } catch (error) {
-            throw error;
+        if (coperationValue && codeValue) {
+            requestSocialLogin(coperationValue, codeValue);
         }
     }, [searchparams]);
 
