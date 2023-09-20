@@ -1,4 +1,4 @@
-import { Lobster } from "next/font/google";
+import { Arvo, Lobster } from "next/font/google";
 import { Lato } from "next/font/google";
 
 export const lato = Lato({
@@ -8,6 +8,12 @@ export const lato = Lato({
 });
 
 export const lobster = Lobster({
+    weight: "400",
+    subsets: ["latin"],
+    display: "swap",
+});
+
+export const arvo = Arvo({
     weight: "400",
     subsets: ["latin"],
     display: "swap",
