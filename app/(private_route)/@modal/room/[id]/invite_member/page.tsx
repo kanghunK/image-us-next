@@ -126,7 +126,7 @@ export default function InviteMemberModal({
                                             {roomData.host_user_id !==
                                                 memberData.id &&
                                             roomData.host_user_id ===
-                                                userData.user_info?.id ? (
+                                                userData?.user_info?.id ? (
                                                 <Button
                                                     style={{
                                                         fontSize: "0.8rem",
