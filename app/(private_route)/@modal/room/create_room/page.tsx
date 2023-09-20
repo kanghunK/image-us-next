@@ -38,8 +38,6 @@ const CreateRoomModal = () => {
     }, [roomName]);
 
     const onClickRequestForm = useCallback(async () => {
-        // console.log("요청 시 데이터 확인:", checkedMemberList);
-
         createRoom({ userlist: checkedMemberList, title: roomName });
         router.back();
     }, [createRoom, checkedMemberList, router, roomName]);

@@ -2,16 +2,17 @@
 
 import { useState, useEffect, useCallback } from "react";
 import Image from "next/image";
-import styled from "@emotion/styled";
-import ImageCard from "@/components/ImageCard";
-import { PiUploadThin } from "react-icons/pi";
 import { usePathname, useRouter } from "next/navigation";
+import { PiUploadThin } from "react-icons/pi";
+import styled from "@emotion/styled";
+
+import { PageList } from "@/lib/enumType";
+import { ImageInfo } from "@/lib/types";
+import ImageCard from "@/components/ImageCard";
 import useIntersect from "@/hooks/useIntersect";
 import { useImage } from "@/hooks/useImage";
 import { useRoomImageList } from "@/states/stores/roomData";
 import { useUserData } from "@/states/stores/userData";
-import { PageList } from "@/lib/enumType";
-import { ImageInfo } from "@/lib/types";
 
 export default function Page({ params }: { params: { id: string } }) {
     const [userData, setUserData] = useUserData();
@@ -64,7 +65,6 @@ export default function Page({ params }: { params: { id: string } }) {
 
     useEffect(() => {
         try {
-            console.log("이미지 룸: ", imageLoadEnd);
             const currentRoomData = userData?.roomList?.find(
                 (data) => "" + data.id === roomId
             );

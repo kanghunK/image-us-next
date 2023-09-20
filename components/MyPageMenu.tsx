@@ -1,6 +1,6 @@
+import React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import React from "react";
 import styled from "@emotion/styled";
 
 export default function MyPageMenu({ show }: { show: boolean }) {

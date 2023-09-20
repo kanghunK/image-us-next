@@ -1,18 +1,17 @@
 "use client";
+import React, { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import Scrollbars from "react-custom-scrollbars-2";
+import { FaCrown } from "react-icons/fa";
+import { PiFinnTheHumanFill } from "react-icons/pi";
 
-import React, { useEffect, useState, useCallback } from "react";
 import styled from "@emotion/styled";
 import Modal from "@/components/shared/Modal";
 import { Button } from "@/components/shared/Button";
 import { DFriendData, RoomData } from "@/lib/types";
-import { useRouter } from "next/navigation";
 import { useRoom } from "@/hooks/useRoom";
 import { useFriend } from "@/hooks/useFriend";
 import { useUserData } from "@/states/stores/userData";
-import Scrollbars from "react-custom-scrollbars-2";
-import { FaCrown } from "react-icons/fa";
-import { PiFinnTheHumanFill } from "react-icons/pi";
-import { MdPersonOff } from "react-icons/md";
 import SearchBox from "@/components/SearchBox";
 
 export default function InviteMemberModal({
@@ -43,7 +42,6 @@ export default function InviteMemberModal({
                         "방을 찾을 수 없습니다.. 다시 시도해주세요."
                     );
 
-                console.log("데이터 확인: ", userFriendList, findRoomData);
                 const filterMemberlist = userFriendList?.filter(
                     (friendData) =>
                         !findRoomData.userlist.some(

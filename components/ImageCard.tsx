@@ -1,13 +1,13 @@
 import React from "react";
-import styled from "@emotion/styled";
 import Image from "next/image";
-import { ImageInfo } from "@/lib/types";
-import { IconContext } from "react-icons/lib";
-import { AiOutlineDelete } from "react-icons/ai";
-import { BiDownload, BiExpand } from "react-icons/bi";
-import DeleteImageBtn from "./DeleteImageBtn";
 import { useParams, usePathname, useRouter } from "next/navigation";
+import { IconContext } from "react-icons/lib";
+import { BiDownload } from "react-icons/bi";
+
+import styled from "@emotion/styled";
+import { ImageInfo } from "@/lib/types";
 import { useUserData } from "@/states/stores/userData";
+import DeleteImageBtn from "./DeleteImageBtn";
 
 interface Props {
     imageData: ImageInfo;

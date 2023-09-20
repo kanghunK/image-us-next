@@ -1,16 +1,14 @@
 "use client";
-
-import React, { useCallback, useEffect } from "react";
-import Card from "@/components/Card";
-import { RoomData } from "@/lib/types";
-import styles from "./room.module.scss";
-import styled from "@emotion/styled";
-import { FiUserPlus } from "react-icons/fi";
-import { BsCalendar2Plus } from "react-icons/bs";
+import { useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { BsCalendar2Plus } from "react-icons/bs";
+import styled from "@emotion/styled";
+
+import { PageList } from "@/lib/enumType";
+import Card from "@/components/Card";
 import { useRoom } from "@/hooks/useRoom";
 import { useUserData } from "@/states/stores/userData";
-import { PageList } from "@/lib/enumType";
+import styles from "./room.module.scss";
 
 export default function Room() {
     const [userData, setUserData] = useUserData();

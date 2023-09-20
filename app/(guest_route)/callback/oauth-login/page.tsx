@@ -1,9 +1,10 @@
 "use client";
 
+import { useEffect } from "react";
+import { useSearchParams } from "next/navigation";
 import { useUserData } from "@/states/stores/userData";
+
 import { socialLogin } from "@/utils/userFetcher";
-import { useParams, useSearchParams } from "next/navigation";
-import React, { useEffect, useState } from "react";
 
 export default function SocialLogIn() {
     const [, setUserData] = useUserData();

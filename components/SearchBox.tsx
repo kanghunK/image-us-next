@@ -1,15 +1,16 @@
 "use client";
 
+import React, { FormEvent, useCallback, useEffect, useState } from "react";
+import Scrollbars from "react-custom-scrollbars-2";
+import { IconContext } from "react-icons/lib";
+import { VscSearchStop } from "react-icons/vsc";
+
 import { useFriend } from "@/hooks/useFriend";
 import useInput from "@/hooks/useInput";
 import useSearchMember from "@/hooks/useSearchMember";
 import { DFriendData } from "@/lib/types";
-import React, { FormEvent, useCallback, useEffect, useState } from "react";
-import { Button } from "./shared/Button";
-import Scrollbars from "react-custom-scrollbars-2";
-import { IconContext } from "react-icons/lib";
-import { VscSearchStop } from "react-icons/vsc";
 import styled from "@emotion/styled";
+import { Button } from "./shared/Button";
 
 export default function SearchBox() {
     const [searchData, setSearchData] = useState<DFriendData>();

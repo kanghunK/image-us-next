@@ -1,10 +1,10 @@
 "use client";
 
 import React, { useCallback, useEffect, useState, useRef } from "react";
-import Modal from "./shared/Modal";
 import NextImage from "next/image";
 import styled from "@emotion/styled";
 import { ImageInfo } from "@/lib/types";
+import Modal from "./shared/Modal";
 
 export default function DetailPhotoModal({
     imageData,

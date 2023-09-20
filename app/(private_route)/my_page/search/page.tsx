@@ -1,13 +1,4 @@
-import React, { FormEvent, useCallback, useState, useEffect } from "react";
 import styled from "@emotion/styled";
-import Scrollbars from "react-custom-scrollbars-2";
-import { IconContext } from "react-icons/lib";
-import { VscSearchStop } from "react-icons/vsc";
-import useInput from "@/hooks/useInput";
-import { DFriendData } from "@/lib/types";
-import useSearchMember from "@/hooks/useSearchMember";
-import { Button } from "@/components/shared/Button";
-import { useFriend } from "@/hooks/useFriend";
 import SearchBox from "@/components/SearchBox";
 
 export default function SearchFriend() {

@@ -1,26 +1,22 @@
 "use client";
-
-import React, { useState, useEffect, useRef } from "react";
+import { useState } from "react";
 import { IconContext } from "react-icons/lib";
 import { FaRegUser } from "react-icons/fa";
-import styled from "@emotion/styled";
-import { useParams, usePathname, useRouter } from "next/navigation";
-import { DUserInfo, UserInfo } from "@/lib/types";
-import { PageList } from "@/lib/enumType";
+import { usePathname, useRouter } from "next/navigation";
 import { CgLogOff } from "react-icons/cg";
 import { CiViewList } from "react-icons/ci";
 import { LiaInfoCircleSolid } from "react-icons/lia";
 import { BsCalendar2Plus } from "react-icons/bs";
-import { Button } from "./shared/Button";
 import { FiUserPlus } from "react-icons/fi";
 import { BiUpload } from "react-icons/bi";
-import { AiOutlineMenuUnfold } from "react-icons/ai";
+
+import styled from "@emotion/styled";
+import { PageList } from "@/lib/enumType";
 import { useUserData } from "@/states/stores/userData";
 import { logout } from "@/utils/userFetcher";
 import { lato } from "@/app/fonts";
 
 export default function NavigationBar() {
-    // const { logout } = useAuth();
     const [userData, setUserData] = useUserData();
 
     const router = useRouter();

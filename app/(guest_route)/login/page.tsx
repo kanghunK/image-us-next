@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { IconContext } from "react-icons/lib";
@@ -8,14 +8,12 @@ import { RiKakaoTalkFill } from "react-icons/ri";
 import { SiNaver } from "react-icons/si";
 
 import { Button } from "@/components/shared/Button";
-import styles from "./login.module.scss";
 import { useUserData } from "@/states/stores/userData";
 import { login } from "@/utils/userFetcher";
-import { ServerError } from "@/lib/exceptions";
+import styles from "./login.module.scss";
 
 export default function Login() {
     const [, setUserData] = useUserData();
-    // const { login } = useAuth();
 
     const searchParams = useSearchParams();
     const emailParam = searchParams.get("email");
@@ -30,8 +28,6 @@ export default function Login() {
     const emailRegex = new RegExp(
         "([!#-'*+/-9=?A-Z^-~-]+(.[!#-'*+/-9=?A-Z^-~-]+)*|\"([]!#-[^-~ \t]|(\\[\t -~]))+\")@([!#-'*+/-9=?A-Z^-~-]+(.[!#-'*+/-9=?A-Z^-~-]+)*|[[\t -Z^-~]*])"
     );
-
-    // throw new ServerError();
 
     const emailValidation = useCallback(
         (value: string) => {

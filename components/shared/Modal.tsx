@@ -1,13 +1,6 @@
 "use client";
 
-import React, {
-    useEffect,
-    useRef,
-    useMemo,
-    useState,
-    useCallback,
-    MouseEventHandler,
-} from "react";
+import React, { useRef, useCallback, MouseEventHandler } from "react";
 import styled from "@emotion/styled";
 import { useRouter } from "next/navigation";
 import Scrollbars from "react-custom-scrollbars-2";

@@ -1,16 +1,17 @@
 "use client";
 
 import React, { useState, useRef } from "react";
-import Modal from "./shared/Modal";
 import { useRouter } from "next/navigation";
-import useInput from "@/hooks/useInput";
+import NextImage from "next/image";
 import { IconContext } from "react-icons/lib";
 import { LuPictureInPicture } from "react-icons/lu";
-import NextImage from "next/image";
 import { PiFilePlusThin } from "react-icons/pi";
-import { Button } from "./shared/Button";
+
+import useInput from "@/hooks/useInput";
 import styled from "@emotion/styled";
 import { useImage } from "@/hooks/useImage";
+import { Button } from "./shared/Button";
+import Modal from "./shared/Modal";
 
 const acceptableType = [
     "image/HEIF",

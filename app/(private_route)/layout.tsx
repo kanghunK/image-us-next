@@ -1,18 +1,14 @@
 "use client";
-
-import React, { ReactNode, useEffect, useState } from "react";
-import { redirect, useParams, usePathname } from "next/navigation";
+import { ReactNode, useEffect, useState } from "react";
+import { redirect } from "next/navigation";
 import { Scrollbars } from "react-custom-scrollbars-2";
-import NavigationBar from "@/components/NavigationBar";
 import { AiOutlineMenuUnfold } from "react-icons/ai";
 import styled from "@emotion/styled";
+
+import NavigationBar from "@/components/NavigationBar";
 import LeftMenu from "@/components/LeftMenu";
-import { useRoom } from "@/hooks/useRoom";
 import { useUserData } from "@/states/stores/userData";
 import { PageList } from "@/lib/enumType";
-import LoadingCompoent from "@/components/shared/Loading";
-import { AuthRequiredError } from "@/lib/exceptions";
-import { error } from "console";
 import { checkAuth } from "@/utils/userFetcher";
 
 interface Props {

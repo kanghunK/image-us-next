@@ -1,7 +1,5 @@
 import React from "react";
 import styled from "@emotion/styled";
-import { ImExit } from "react-icons/im";
-import { IconContext } from "react-icons/lib";
 
 interface Props {
     id: number;

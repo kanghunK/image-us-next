@@ -1,6 +1,4 @@
-import React from "react";
 import useSWR from "swr";
-import useStore from "swr-global-state";
 import customAxios from "@/lib/api";
 import { DFriendData } from "@/lib/types";
 import { AxiosError } from "axios";

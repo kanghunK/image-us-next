@@ -1,11 +1,9 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-import Modal from "@/components/shared/Modal";
+import { useEffect, useState } from "react";
+
 import styled from "@emotion/styled";
-import Image from "next/image";
 import { ImageInfo } from "@/lib/types";
-import { useImage } from "@/hooks/useImage";
 import { useRoomImageList } from "@/states/stores/roomData";
 import DetailPhotoModal from "@/components/DetailPhotoModal";
 

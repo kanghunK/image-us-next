@@ -1,10 +1,11 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import styled from "@emotion/styled";
 import { PiUploadThin } from "react-icons/pi";
-import { usePathname, useRouter } from "next/navigation";
 import Image from "next/image";
+import { usePathname, useRouter } from "next/navigation";
+import styled from "@emotion/styled";
+
 import ImageCard from "@/components/ImageCard";
 import useIntersect from "@/hooks/useIntersect";
 import { useImage } from "@/hooks/useImage";

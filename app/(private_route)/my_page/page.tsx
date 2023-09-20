@@ -17,7 +17,6 @@ export default function Mypage() {
 
     const changeNameRequest = async () => {
         const userInfo = await changeName(nameInput);
-        console.log("바뀐값: ", userInfo);
         setUserData((prev) => ({
             ...prev,
             user_info: userInfo.user_info,

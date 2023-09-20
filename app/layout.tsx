@@ -1,4 +1,3 @@
-import NavigationBar from "@/components/NavigationBar";
 import { RootLayoutChildren } from "@/lib/types";
 import "./globals.css";
 

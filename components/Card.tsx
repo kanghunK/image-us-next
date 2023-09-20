@@ -1,11 +1,10 @@
-import React, { useState, useCallback } from "react";
-import styled from "@emotion/styled";
-import { RoomData } from "@/lib/types";
+import { useCallback } from "react";
 import { IconContext } from "react-icons/lib";
-import { BsThreeDots } from "react-icons/bs";
 import { useRouter } from "next/navigation";
 import { FaUserPlus } from "react-icons/fa";
-import { ImExit } from "react-icons/im";
+
+import styled from "@emotion/styled";
+import { RoomData } from "@/lib/types";
 import ExitRoomBtn from "./ExitRoomBtn";
 
 interface CardProps {

@@ -1,8 +1,8 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
-import { AxiosError } from "axios";
+import { useState, useEffect } from "react";
 import Link from "next/link";
+import { AxiosError } from "axios";
 import { useRouter } from "next/navigation";
 
 import { Button } from "@/components/shared/Button";
