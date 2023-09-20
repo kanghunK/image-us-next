@@ -1,3 +1,5 @@
+"use client";
+
 import { useUserData } from "@/states/stores/userData";
 import { socialLogin } from "@/utils/userFetcher";
 import { useParams, useSearchParams } from "next/navigation";

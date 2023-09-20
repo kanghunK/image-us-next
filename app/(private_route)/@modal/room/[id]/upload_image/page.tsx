@@ -1,4 +1,3 @@
-"use client";
 import styled from "@emotion/styled";
 import UploadImageModal from "@/components/UploadImageModal";
 

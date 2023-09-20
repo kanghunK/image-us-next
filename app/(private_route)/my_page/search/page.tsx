@@ -1,5 +1,3 @@
-"use client";
-
 import React, { FormEvent, useCallback, useState, useEffect } from "react";
 import styled from "@emotion/styled";
 import Scrollbars from "react-custom-scrollbars-2";

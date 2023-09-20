@@ -1,5 +1,3 @@
-"use client";
-
 import { AxiosError } from "axios";
 import useStore, { createStore } from "swr-global-state";
 import axios from "@/lib/api";
