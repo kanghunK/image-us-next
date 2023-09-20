@@ -4,8 +4,8 @@ const nextConfig = {
         if (process.env.NODE_ENV === "development") {
             return [
                 {
-                    source: "/:path*",
-                    destination: "https://codakcodak.site/:path*",
+                    source: "/backapi/:path*",
+                    destination: "https://codakcodak.site/backapi/:path*",
                 },
             ];
         }
