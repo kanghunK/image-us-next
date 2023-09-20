@@ -29,6 +29,7 @@ export default function PrivateLayout({ children, modal }: Props) {
         if (userData?.user_info) {
             checkAuth();
         } else {
+            alert("페이지에 접속할 권한이 없습니다..");
             redirect("/login");
         }
     }, [userData]);
