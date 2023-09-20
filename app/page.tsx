@@ -11,7 +11,7 @@ export default function HomePage() {
     console.log("유저 데이터", userData);
 
     useEffect(() => {
-        if (userData?.isLoggedIn) {
+        if (userData?.user_info) {
             redirect("/room");
         } else {
             redirect("/login");
