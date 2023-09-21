@@ -14,6 +14,7 @@ import {
     alertErrorMessage,
     unknownError,
 } from "@/lib/exceptions";
+import { getToken } from "@/utils/getToken";
 
 export function useRoom() {
     const [, setUserData] = useUserData();
@@ -28,7 +29,7 @@ export function useRoom() {
             onSet: localStoragePersistor.onSet,
             onGet: async (key) => {
                 try {
-                    const tokenData = localStoragePersistor.onGet(TOKEN_KEY);
+                    const tokenData = await getToken();
                     const userInfoData =
                         localStoragePersistor.onGet(USERDATA_KEY);
 
@@ -88,7 +89,7 @@ export function useRoom() {
         try {
             setLoading(true);
 
-            const tokenData = localStoragePersistor.onGet(TOKEN_KEY);
+            const tokenData = await getToken();
 
             await customAxios.post(
                 "/room",
@@ -123,7 +124,7 @@ export function useRoom() {
         try {
             setLoading(true);
 
-            const tokenData = localStoragePersistor.onGet(TOKEN_KEY);
+            const tokenData = await getToken();
             const userInfoData = localStoragePersistor.onGet(USERDATA_KEY);
 
             await customAxios.delete(
@@ -165,7 +166,7 @@ export function useRoom() {
         try {
             setLoading(true);
 
-            const tokenData = localStoragePersistor.onGet(TOKEN_KEY);
+            const tokenData = await getToken();
 
             await customAxios.post(
                 `/room/${roomId}/user`,
@@ -207,7 +208,7 @@ export function useRoom() {
         try {
             setLoading(true);
 
-            const tokenData = localStoragePersistor.onGet(TOKEN_KEY);
+            const tokenData = await getToken();
 
             await customAxios.delete(`/room/${roomId}/user`, {
                 headers: {

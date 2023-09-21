@@ -10,12 +10,13 @@ import axios, { AxiosError, AxiosRequestConfig } from "axios";
 import useStore from "swr-global-state";
 import { IMAGE_KEY, useRoomImageList } from "@/states/stores/roomData";
 import { alertErrorMessage, unknownError } from "@/lib/exceptions";
+import { getToken } from "@/utils/getToken";
 
 const limitNum = 12;
 
 async function imageConvertToBlob(imageList: DImageData[]) {
     try {
-        const tokenData = localStoragePersistor.onGet(TOKEN_KEY);
+        const tokenData = await getToken();
 
         // 삭제된 이미지 데이터는 link, user_id, user_name이 null을 가진다.
         const filteredImageList: DImageData[] = imageList.filter(
@@ -106,7 +107,7 @@ export function useImage() {
         try {
             setLoading(true);
 
-            const tokenData = localStoragePersistor.onGet(TOKEN_KEY);
+            const tokenData = await getToken();
 
             const response = await customAxios.get(
                 `/user/${userId}/imagelist?start=${startNum}&limit=${limitNum}`,
@@ -144,7 +145,7 @@ export function useImage() {
 
     const deleteUserImage = async (imageId: number) => {
         try {
-            const tokenData = localStoragePersistor.onGet(TOKEN_KEY);
+            const tokenData = await getToken();
 
             await customAxios.delete(`/image`, {
                 headers: {
@@ -187,7 +188,7 @@ export function useImage() {
 
     const uploadUserImage = async (uploadImageFile: FormData) => {
         try {
-            const tokenData = localStoragePersistor.onGet(TOKEN_KEY);
+            const tokenData = await getToken();
 
             const response: {
                 data: { image_info: DImageData; success: number };
@@ -249,7 +250,7 @@ export function useImage() {
         try {
             setLoading(true);
 
-            const tokenData = localStoragePersistor.onGet(TOKEN_KEY);
+            const tokenData = await getToken();
 
             const response = await customAxios.get(
                 `/room/${roomId}/imagelist?start=${startNum}&limit=${limitNum}`,
@@ -288,7 +289,7 @@ export function useImage() {
 
     const deleteRoomImage = async (roomId: string, imageId: number) => {
         try {
-            const tokenData = localStoragePersistor.onGet(TOKEN_KEY);
+            const tokenData = await getToken();
 
             await customAxios.delete(`/room/${roomId}/image`, {
                 headers: {
@@ -329,7 +330,7 @@ export function useImage() {
         uploadImageFile: FormData
     ) => {
         try {
-            const tokenData = localStoragePersistor.onGet(TOKEN_KEY);
+            const tokenData = await getToken();
 
             const response: {
                 data: { image_info: DImageData; success: number };

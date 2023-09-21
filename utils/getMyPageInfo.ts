@@ -1,16 +1,11 @@
-import axios, { AxiosError } from "axios";
+import { AxiosError } from "axios";
 import customAxios from "@/lib/api";
-import { TOKEN_KEY } from "@/states/stores/userData";
-import localStoragePersistor from "@/states/persistors/local-storage";
-import {
-    NetworkError,
-    alertErrorMessage,
-    unknownError,
-} from "@/lib/exceptions";
+import { alertErrorMessage, unknownError } from "@/lib/exceptions";
+import { getToken } from "./getToken";
 
 export async function getMyPageInfo(userId: number) {
     try {
-        const token = localStoragePersistor.onGet(TOKEN_KEY);
+        const token = await getToken();
 
         const urls = [
             `/user/${userId}/imagelist-len`,
@@ -37,11 +32,9 @@ export async function getMyPageInfo(userId: number) {
         };
     } catch (error) {
         if (error instanceof AxiosError) {
-            throw new alertErrorMessage(
-                "사용자 정보를 받아오지 못하였습니다..다시시도 해주세요!"
-            );
+            alert("사용자 정보를 받아오지 못하였습니다..다시시도 해주세요!");
         } else {
-            throw new unknownError();
+            console.error("Error: ", error);
         }
     }
 }

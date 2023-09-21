@@ -14,6 +14,7 @@ import {
     alertErrorMessage,
     unknownError,
 } from "@/lib/exceptions";
+import { getToken } from "@/utils/getToken";
 
 export function useFriend() {
     const [userData, setUserData] = useUserData();
@@ -29,7 +30,7 @@ export function useFriend() {
             onSet: localStoragePersistor.onSet,
             onGet: async (key) => {
                 try {
-                    const tokenData = localStoragePersistor.onGet(TOKEN_KEY);
+                    const tokenData = await getToken();
                     const userInfoData =
                         localStoragePersistor.onGet(USERDATA_KEY);
 
@@ -75,7 +76,7 @@ export function useFriend() {
         try {
             setLoading(true);
 
-            const tokenData = localStoragePersistor.onGet(TOKEN_KEY);
+            const tokenData = await getToken();
             const userId = userData?.user_info?.id;
 
             await customAxios.post(
@@ -115,7 +116,7 @@ export function useFriend() {
         try {
             setLoading(true);
 
-            const tokenData = localStoragePersistor.onGet(TOKEN_KEY);
+            const tokenData = await getToken();
             const userId = userData?.user_info?.id;
 
             await customAxios.delete(`/user/${userId}/friend`, {

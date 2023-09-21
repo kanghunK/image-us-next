@@ -1,4 +1,3 @@
-import { AuthRequiredError, ServerError, unknownError } from "@/lib/exceptions";
 import localStoragePersistor from "@/states/persistors/local-storage";
 import {
     FRIEND_KEY,
@@ -9,6 +8,7 @@ import {
 } from "@/states/stores/userData";
 import { AxiosError } from "axios";
 import customAxios from "@/lib/api";
+import { getToken } from "./getToken";
 
 const login = async ({
     email,
@@ -89,7 +89,7 @@ const logout = () => {
 
 const changeName = async (changeName: string) => {
     try {
-        const token = localStoragePersistor.onGet(TOKEN_KEY);
+        const token = await getToken();
 
         const response = await customAxios.post(
             `/user/my`,
@@ -121,7 +121,7 @@ const changeName = async (changeName: string) => {
 
 const checkAuth = async () => {
     try {
-        const token = localStoragePersistor.onGet(TOKEN_KEY);
+        const token = await getToken();
 
         await customAxios.get("/user/my", {
             headers: {
