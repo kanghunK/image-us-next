@@ -1,23 +1,13 @@
 "use client";
-
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, { useCallback, useState } from "react";
 import styled from "@emotion/styled";
-
-import { AiFillCheckCircle, AiOutlineCheckCircle } from "react-icons/ai";
-import { Scrollbars } from "react-custom-scrollbars-2";
 
 import useInput from "@/hooks/useInput";
 import Modal from "@/components/shared/Modal";
-import { DFriendData } from "@/lib/types";
-import { getErrorMessage } from "@/utils/getErrorMessage";
 import { Button } from "@/components/shared/Button";
-import { IconContext } from "react-icons/lib";
-import { ImCheckboxUnchecked } from "react-icons/im";
 import { useRouter } from "next/navigation";
 import { useRoom } from "@/hooks/useRoom";
 import { useFriend } from "@/hooks/useFriend";
-
-type AddCheckFriendData = DFriendData & { check: boolean };
 
 const CreateRoomModal = () => {
     const router = useRouter();
