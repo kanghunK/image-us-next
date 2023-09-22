@@ -8,10 +8,10 @@ export const getToken = async () => {
 
         const tokenData = localStoragePersistor.onGet(TOKEN_KEY);
 
-        const accessToken = tokenData.access_token;
-        const refreshToken = tokenData.refresh_token;
-        const accessTokenExpireTime = tokenData.access_token_expire_time;
-        const refreshTokenExpireTime = tokenData.refresh_token_expire_time;
+        const accessToken = tokenData?.access_token;
+        const refreshToken = tokenData?.refresh_token;
+        const accessTokenExpireTime = tokenData?.access_token_expire_time;
+        const refreshTokenExpireTime = tokenData?.refresh_token_expire_time;
 
         if (!accessTokenExpireTime || !refreshTokenExpireTime || !accessToken) {
             return null;
@@ -28,8 +28,8 @@ export const getToken = async () => {
         if (accessTokenDiffTime >= 30000) {
             return tokenData;
         } else if (refreshTokenDiffTime >= 30000) {
-            const userId =
-                localStoragePersistor.onGet(USERDATA_KEY).user_info.id;
+            const userData = localStoragePersistor.onGet(USERDATA_KEY);
+            const userId = userData?.user_info.id;
             const responseTokenData = await axios.post(
                 `/backapi/user/${userId}/refresh`,
                 {
