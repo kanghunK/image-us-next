@@ -12,9 +12,13 @@ export default function SocialLogIn() {
     const searchparams = useSearchParams();
 
     const requestSocialLogin = async (coperation: string, code: string) => {
+        setUserData({
+            loginState: "loading",
+        });
         const userInfo = await socialLogin(coperation, code);
         setUserData((prev) => ({
             ...prev,
+            loginState: "login",
             user_info: userInfo,
         }));
     };

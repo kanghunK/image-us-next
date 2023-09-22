@@ -9,7 +9,7 @@ import { SiNaver } from "react-icons/si";
 
 import { Button } from "@/components/shared/Button";
 import { useUserData } from "@/states/stores/userData";
-import { login } from "@/utils/userFetcher";
+import { login, logout } from "@/utils/userFetcher";
 import styles from "./login.module.scss";
 
 export default function Login() {
@@ -84,14 +84,29 @@ export default function Login() {
     };
 
     const loginRequest = async (email: string, password: string) => {
+        setUserData({
+            loginState: "loading",
+        });
         const userInfo = await login({
             email,
             password,
         });
-        setUserData((prev) => ({
-            ...prev,
-            user_info: userInfo,
-        }));
+
+        if (userInfo) {
+            await setUserData((prev) => ({
+                ...prev,
+                loginState: "login",
+                user_info: userInfo,
+            }));
+        } else {
+            await setUserData({
+                loginState: "loading",
+            });
+            await setUserData({
+                loginState: "logout",
+            });
+            logout();
+        }
     };
 
     useEffect(() => {

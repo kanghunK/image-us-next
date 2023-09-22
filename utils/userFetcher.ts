@@ -128,6 +128,8 @@ const checkAuth = async () => {
                 Authorization: token?.access_token,
             },
         });
+
+        return true;
     } catch (err) {
         if (err instanceof AxiosError) {
             if (err.response?.status === 401) {
@@ -138,6 +140,7 @@ const checkAuth = async () => {
         } else {
             alert("예기치 못한 에러가 발생하였습니다..다시 시도해주세요.");
         }
+        return false;
     }
 };
 

@@ -21,14 +21,25 @@ export default function PrivateLayout({ children, modal }: Props) {
 
     const [openedLeftMenu, setOpenedLeftMenu] = useState(false);
 
-    useEffect(() => {
-        if (userData?.user_info) {
-            checkAuth();
-        } else {
-            alert("페이지에 접속할 권한이 없습니다..");
+    const requestCheckAuth = async () => {
+        const checked = await checkAuth();
+
+        if (!checked) {
             redirect("/login");
         }
+    };
+
+    useEffect(() => {
+        if (userData.loginState === "loading") {
+            return;
+        } else if (userData.loginState === "logout") {
+            redirect("/login");
+        } else {
+            requestCheckAuth();
+        }
     }, [userData]);
+
+    if (userData.loginState === "loading") return <div>로딩중...</div>;
 
     return (
         <div

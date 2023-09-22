@@ -31,7 +31,9 @@ export default function NavigationBar() {
     const moveToRoom = () => router.push("/room");
 
     const logoutRequest = async () => {
-        await setUserData(null);
+        await setUserData({
+            loginState: "logout",
+        });
         logout();
     };
 

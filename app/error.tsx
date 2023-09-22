@@ -16,7 +16,9 @@ export default function Error({
     useEffect(() => {
         if (error.name === "AuthRequiredError") {
             alert(error.message);
-            setUserData(null);
+            setUserData({
+                loginState: "logout",
+            });
             router.push("/login");
         } else if (error.name === "alertErrorMessage") {
             alert(error.message);
