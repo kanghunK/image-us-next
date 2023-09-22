@@ -10,6 +10,7 @@ import LeftMenu from "@/components/LeftMenu";
 import { useUserData } from "@/states/stores/userData";
 import { PageList } from "@/lib/enumType";
 import { checkAuth } from "@/utils/userFetcher";
+import LoadingCompoent from "@/components/shared/Loading";
 
 interface Props {
     children: ReactNode;
@@ -39,7 +40,7 @@ export default function PrivateLayout({ children, modal }: Props) {
         }
     }, [userData]);
 
-    if (userData.loginState === "loading") return <div>로딩중...</div>;
+    if (userData.loginState === "loading") return <LoadingCompoent />;
 
     return (
         <div

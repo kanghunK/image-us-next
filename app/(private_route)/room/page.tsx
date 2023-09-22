@@ -9,6 +9,7 @@ import Card from "@/components/Card";
 import { useRoom } from "@/hooks/useRoom";
 import { useUserData } from "@/states/stores/userData";
 import styles from "./room.module.scss";
+import LoadingCompoent from "@/components/shared/Loading";
 
 export default function Room() {
     const [userData, setUserData] = useUserData();
@@ -24,7 +25,7 @@ export default function Room() {
         }));
     }, [setUserData]);
 
-    if (isLoading || !roomlist) return <div>로딩중...</div>;
+    if (isLoading || !roomlist) return <LoadingCompoent />;
 
     return (
         <Wrapper>
