@@ -88,8 +88,8 @@ export default function Page({ params }: { params: { id: string } }) {
                 <NoImage>
                     <Image
                         src="/no_image.png"
-                        width={500}
-                        height={500}
+                        width={300}
+                        height={300}
                         alt="이미지 없음"
                     />
                     <p style={{ fontSize: "1.2rem" }}>
@@ -129,6 +129,7 @@ const NoImage = styled.div`
 const Wrapper = styled.div`
     display: flex;
     flex-direction: column;
+    justify-content: space-around;
     align-items: center;
 
     min-height: 100%;
