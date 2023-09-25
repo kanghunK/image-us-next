@@ -11,36 +11,16 @@ import { useUserData } from "@/states/stores/userData";
 import { PageList } from "@/lib/enumType";
 import { checkAuth } from "@/utils/userFetcher";
 import LoadingCompoent from "@/components/shared/Loading";
+import withAuth from "@/components/shared/withAuth";
 
 interface Props {
     children: ReactNode;
     modal: ReactNode;
 }
 
-export default function PrivateLayout({ children, modal }: Props) {
+const PrivateLayout = ({ children, modal }: Props) => {
     const [userData] = useUserData();
-
     const [openedLeftMenu, setOpenedLeftMenu] = useState(false);
-
-    const requestCheckAuth = async () => {
-        const checked = await checkAuth();
-
-        if (!checked) {
-            redirect("/login");
-        }
-    };
-
-    useEffect(() => {
-        if (userData.loginState === "loading") {
-            return;
-        } else if (userData.loginState === "logout") {
-            redirect("/login");
-        } else {
-            requestCheckAuth();
-        }
-    }, [userData]);
-
-    if (userData.loginState === "loading") return <LoadingCompoent />;
 
     return (
         <div
@@ -78,7 +58,9 @@ export default function PrivateLayout({ children, modal }: Props) {
             {modal}
         </div>
     );
-}
+};
+
+export default withAuth(PrivateLayout);
 
 const ContentSection = styled.div`
     display: flex;
