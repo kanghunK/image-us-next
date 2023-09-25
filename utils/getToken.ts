@@ -38,16 +38,10 @@ export const getToken = async () => {
             );
 
             const responseToken = responseTokenData.data;
-            localStoragePersistor.onSet(TOKEN_KEY, responseToken);
-            // const { access_token, access_token_expire_time, user_id } =
-            //     response.data;
-            // sessionStorage.setItem("access_token", access_token);
-            // sessionStorage.setItem(
-            //     "access_token_expire_time",
-            //     access_token_expire_time
-            // );
-            // sessionStorage.setItem("user_id", user_id);
-
+            localStoragePersistor.onSet(TOKEN_KEY, {
+                ...tokenData,
+                ...responseToken,
+            });
             return responseToken;
         } else {
             return null;
@@ -58,5 +52,6 @@ export const getToken = async () => {
         } else {
             console.error("Error: ", err);
         }
+        return null;
     }
 };
