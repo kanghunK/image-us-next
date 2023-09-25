@@ -9,7 +9,7 @@ import { AxiosCustomRequestConfig, DImageData, ImageInfo } from "@/lib/types";
 import axios, { AxiosError, AxiosRequestConfig } from "axios";
 import useStore from "swr-global-state";
 import { IMAGE_KEY, useRoomImageList } from "@/states/stores/roomData";
-import { alertErrorMessage, unknownError } from "@/lib/exceptions";
+import { unknownError } from "@/lib/exceptions";
 import { getToken } from "@/utils/getToken";
 
 const limitNum = 12;
@@ -128,13 +128,16 @@ export function useImage() {
             return newImgDatalist;
         } catch (error: unknown) {
             if (error instanceof AxiosError) {
-                if (error.status === 401 || error.status === 403) {
-                    throw new alertErrorMessage(
-                        "올바른 요청이 아닙니다..다시시도 해주세요!"
+                if (
+                    error.response?.status === 401 ||
+                    error.response?.status === 403
+                ) {
+                    console.error(
+                        "Error: 올바른 요청이 아닙니다..다시시도 해주세요!"
                     );
                 } else {
-                    throw new alertErrorMessage(
-                        "이미지를 불러오는데 실패하였습니다..다시 시도해주세요"
+                    console.error(
+                        "Error: 이미지를 불러오는데 실패하였습니다..다시 시도해주세요"
                     );
                 }
             } else {
@@ -171,12 +174,13 @@ export function useImage() {
             }));
         } catch (error) {
             if (error instanceof AxiosError) {
-                if (error.status === 401 || error.status === 403) {
-                    throw new alertErrorMessage(
-                        "올바른 요청이 아닙니다..다시시도 해주세요!"
-                    );
+                if (
+                    error.response?.status === 401 ||
+                    error.response?.status === 403
+                ) {
+                    alert("올바른 요청이 아닙니다..다시시도 해주세요!");
                 } else {
-                    throw new alertErrorMessage(
+                    alert(
                         "이미지를 삭제하는데 실패하였습니다..다시 시도해주세요"
                     );
                 }
@@ -231,14 +235,13 @@ export function useImage() {
             }));
         } catch (error) {
             if (error instanceof AxiosError) {
-                if (error.status === 401 || error.status === 403) {
-                    throw new alertErrorMessage(
-                        "올바른 요청이 아닙니다..다시시도 해주세요!"
-                    );
+                if (
+                    error.response?.status === 401 ||
+                    error.response?.status === 403
+                ) {
+                    alert("올바른 요청이 아닙니다..다시시도 해주세요!");
                 } else {
-                    throw new alertErrorMessage(
-                        "이미지 업로드에 실패하였습니다..다시 시도해주세요"
-                    );
+                    alert("이미지 업로드에 실패하였습니다..다시 시도해주세요");
                 }
             } else {
                 throw new unknownError();
@@ -271,9 +274,12 @@ export function useImage() {
             return newImgDatalist;
         } catch (error: unknown) {
             if (error instanceof AxiosError) {
-                if (error.status === 401 || error.status === 403) {
-                    throw new alertErrorMessage(
-                        "올바른 요청이 아닙니다..다시시도 해주세요!"
+                if (
+                    error.response?.status === 401 ||
+                    error.response?.status === 403
+                ) {
+                    console.error(
+                        "Error: 올바른 요청이 아닙니다..다시시도 해주세요!"
                     );
                 } else {
                     console.error(
@@ -310,12 +316,13 @@ export function useImage() {
             });
         } catch (error) {
             if (error instanceof AxiosError) {
-                if (error.status === 401 || error.status === 403) {
-                    throw new alertErrorMessage(
-                        "올바른 요청이 아닙니다..다시시도 해주세요!"
-                    );
+                if (
+                    error.response?.status === 401 ||
+                    error.response?.status === 403
+                ) {
+                    alert("올바른 요청이 아닙니다..다시시도 해주세요!");
                 } else {
-                    throw new alertErrorMessage(
+                    alert(
                         "이미지를 삭제하는데 실패하였습니다..다시 시도해주세요"
                     );
                 }
@@ -372,14 +379,13 @@ export function useImage() {
             setRoomImageList((prevData) => [newData, ...prevData]);
         } catch (error) {
             if (error instanceof AxiosError) {
-                if (error.status === 401 || error.status === 403) {
-                    throw new alertErrorMessage(
-                        "올바른 요청이 아닙니다..다시시도 해주세요!"
-                    );
+                if (
+                    error.response?.status === 401 ||
+                    error.response?.status === 403
+                ) {
+                    alert("올바른 요청이 아닙니다..다시시도 해주세요!");
                 } else {
-                    throw new alertErrorMessage(
-                        "이미지 업로드에 실패하였습니다..다시 시도해주세요"
-                    );
+                    alert("이미지 업로드에 실패하였습니다..다시 시도해주세요");
                 }
             } else {
                 throw new unknownError();

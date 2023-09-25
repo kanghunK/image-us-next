@@ -9,11 +9,7 @@ import {
     USERDATA_KEY,
     useUserData,
 } from "@/states/stores/userData";
-import {
-    NetworkError,
-    alertErrorMessage,
-    unknownError,
-} from "@/lib/exceptions";
+import { NetworkError, unknownError } from "@/lib/exceptions";
 import { getToken } from "@/utils/getToken";
 
 export function useRoom() {
@@ -58,9 +54,12 @@ export function useRoom() {
                 } catch (error: unknown) {
                     if (window.navigator.onLine) {
                         if (error instanceof AxiosError) {
-                            if (error.status === 401 || error.status === 403) {
-                                throw new alertErrorMessage(
-                                    "올바른 요청이 아닙니다..다시시도 해주세요!"
+                            if (
+                                error.response?.status === 401 ||
+                                error.response?.status === 403
+                            ) {
+                                console.error(
+                                    "Error: 올바른 요청이 아닙니다..다시시도 해주세요!"
                                 );
                             } else {
                                 throw new unknownError();
@@ -102,17 +101,17 @@ export function useRoom() {
             );
 
             roomListMutate();
+            alert("성공적으로 방을 생성하였습니다!");
             setLoading(false);
         } catch (error) {
             if (error instanceof AxiosError) {
-                if (error.status === 401 || error.status === 403) {
-                    throw new alertErrorMessage(
-                        "올바른 요청이 아닙니다..다시시도 해주세요!"
-                    );
+                if (
+                    error.response?.status === 401 ||
+                    error.response?.status === 403
+                ) {
+                    alert("올바른 요청이 아닙니다..다시시도 해주세요!");
                 } else {
-                    throw new alertErrorMessage(
-                        "방 생성에 실패했습니다..다시시도 해주세요!"
-                    );
+                    alert("방 생성에 실패했습니다..다시시도 해주세요!");
                 }
             } else {
                 throw new unknownError();
@@ -140,18 +139,18 @@ export function useRoom() {
             );
 
             roomListMutate();
+            alert("성공적으로 방에서 나갔습니다!");
 
             setLoading(false);
         } catch (error) {
             if (error instanceof AxiosError) {
-                if (error.status === 401 || error.status === 403) {
-                    throw new alertErrorMessage(
-                        "올바른 요청이 아닙니다..다시시도 해주세요!"
-                    );
+                if (
+                    error.response?.status === 401 ||
+                    error.response?.status === 403
+                ) {
+                    alert("올바른 요청이 아닙니다..다시시도 해주세요!");
                 } else {
-                    throw new alertErrorMessage(
-                        "방에서 나가지 못하였습니다..다시시도 해주세요!"
-                    );
+                    alert("방에서 나가지 못하였습니다..다시시도 해주세요!");
                 }
             } else {
                 throw new unknownError();
@@ -181,20 +180,18 @@ export function useRoom() {
             );
 
             roomListMutate();
-
             alert("성공적으로 초대하였습니다!");
 
             setLoading(false);
         } catch (error) {
             if (error instanceof AxiosError) {
-                if (error.status === 401 || error.status === 403) {
-                    throw new alertErrorMessage(
-                        "올바른 요청이 아닙니다..다시시도 해주세요!"
-                    );
-                } else if (error.status === 402) {
-                    throw new alertErrorMessage(
-                        "방이 존재하지 않습니다...다시시도 해주세요!"
-                    );
+                if (
+                    error.response?.status === 401 ||
+                    error.response?.status === 403
+                ) {
+                    alert("올바른 요청이 아닙니다..다시시도 해주세요!");
+                } else if (error.response?.status === 402) {
+                    alert("방이 존재하지 않습니다...다시시도 해주세요!");
                 } else {
                     throw new unknownError();
                 }
@@ -220,20 +217,18 @@ export function useRoom() {
             });
 
             roomListMutate();
-
             alert("성공적으로 강퇴하였습니다!");
 
             setLoading(false);
         } catch (error) {
             if (error instanceof AxiosError) {
-                if (error.status === 401 || error.status === 403) {
-                    throw new alertErrorMessage(
-                        "올바른 요청이 아닙니다..다시시도 해주세요!"
-                    );
-                } else if (error.status === 402) {
-                    throw new alertErrorMessage(
-                        "방이 존재하지 않습니다..다시시도 해주세요!"
-                    );
+                if (
+                    error.response?.status === 401 ||
+                    error.response?.status === 403
+                ) {
+                    alert("올바른 요청이 아닙니다..다시시도 해주세요!");
+                } else if (error.response?.status === 402) {
+                    alert("방이 존재하지 않습니다..다시시도 해주세요!");
                 } else {
                     throw new unknownError();
                 }

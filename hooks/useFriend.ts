@@ -9,11 +9,7 @@ import {
     useUserData,
 } from "@/states/stores/userData";
 import customAxios from "@/lib/api";
-import {
-    NetworkError,
-    alertErrorMessage,
-    unknownError,
-} from "@/lib/exceptions";
+import { NetworkError, unknownError } from "@/lib/exceptions";
 import { getToken } from "@/utils/getToken";
 
 export function useFriend() {
@@ -53,8 +49,11 @@ export function useFriend() {
                 } catch (err: unknown) {
                     if (window.navigator.onLine) {
                         if (error instanceof AxiosError) {
-                            if (error.status === 401 || error.status === 403) {
-                                throw new alertErrorMessage(
+                            if (
+                                error.response?.status === 401 ||
+                                error.response?.status === 403
+                            ) {
+                                alert(
                                     "올바른 요청이 아닙니다..다시시도 해주세요!"
                                 );
                             }
@@ -79,7 +78,7 @@ export function useFriend() {
             const tokenData = await getToken();
             const userId = userData?.user_info?.id;
 
-            await customAxios.post(
+            const response = await customAxios.post(
                 `/user/${userId}/friend`,
                 { friend_user_id: friendId },
                 {
@@ -89,25 +88,41 @@ export function useFriend() {
                 }
             );
 
+            if (response.data === "0명 친구 생성 성공") {
+                const errorObj = new Error(
+                    "자기 자신을 친구로 추가할 수 없습니다..."
+                );
+                errorObj.name = "AddMyAccount";
+                throw errorObj;
+            }
+
             friendDataMutate();
+            alert("성공적으로 추가하였습니다!");
 
             setLoading(false);
         } catch (error) {
             if (error instanceof AxiosError) {
-                if (error.status === 401 || error.status === 403) {
-                    throw new alertErrorMessage(
-                        "올바른 요청이 아닙니다..다시시도 해주세요!"
-                    );
-                } else if (error.status === 402) {
-                    throw new alertErrorMessage("이미 등록된 유저입니다.");
-                } else if (error.status === 404) {
-                    throw new alertErrorMessage(
+                console.log("확인", error);
+                if (
+                    error.response?.status === 401 ||
+                    error.response?.status === 403
+                ) {
+                    alert("올바른 요청이 아닙니다..다시시도 해주세요!");
+                } else if (error.response?.status === 402) {
+                    alert("이미 등록된 유저입니다.");
+                } else if (error.response?.status === 404) {
+                    alert(
                         "해당 유저가 존재하지 않습니다..관리자에게 문의하세요!"
                     );
+                } else {
+                    throw new unknownError();
                 }
-                throw new unknownError();
             } else {
-                throw new unknownError();
+                if (error instanceof Error) {
+                    if (error.name === "AddMyAccount") alert(error.message);
+                } else {
+                    throw new unknownError();
+                }
             }
         }
     };
@@ -127,22 +142,22 @@ export function useFriend() {
                     delete_friend_user_id: friendId,
                 },
             });
-
             await friendDataMutate();
+            alert("성공적으로 친구목록에서 삭제하였습니다!");
 
             setLoading(false);
         } catch (error) {
             if (error instanceof AxiosError) {
-                if (error.status === 401 || error.status === 403) {
-                    throw new alertErrorMessage(
-                        "올바른 요청이 아닙니다..다시시도 해주세요!"
-                    );
-                } else if (error.status === 404) {
-                    throw new alertErrorMessage(
+                if (
+                    error.response?.status === 401 ||
+                    error.response?.status === 403
+                ) {
+                    alert("올바른 요청이 아닙니다..다시시도 해주세요!");
+                } else if (error.response?.status === 404) {
+                    alert(
                         "해당 유저가 존재하지 않습니다..관리자에게 문의하세요!"
                     );
                 }
-                throw new unknownError();
             } else {
                 throw new unknownError();
             }

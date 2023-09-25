@@ -20,8 +20,6 @@ export default function Error({
                 loginState: "logout",
             });
             router.push("/login");
-        } else if (error.name === "alertErrorMessage") {
-            alert(error.message);
         } else if (error.name === "ServerError") {
             alert(error.message);
         }

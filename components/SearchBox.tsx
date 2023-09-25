@@ -56,7 +56,6 @@ export default function SearchBox() {
 
     const onClickAddFriend = (friendData: DFriendData) => async () => {
         await addFriend(friendData.id);
-        alert("성공적으로 추가하였습니다!");
     };
 
     return (

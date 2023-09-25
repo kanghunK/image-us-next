@@ -11,7 +11,6 @@ export default function Friends() {
 
     const deleteFriend = (friendId: number) => async () => {
         await deleteMember(friendId);
-        alert("성공적으로 삭제하였습니다!");
     };
 
     return (
