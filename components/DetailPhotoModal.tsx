@@ -20,22 +20,16 @@ export default function DetailPhotoModal({
             const innerWidth = window.innerWidth;
             const innerHeight = window.innerHeight;
             const ratio = img.naturalWidth / img.naturalHeight;
-            const imgWidth = innerWidth * 0.7 > 750 ? 750 : innerWidth * 0.7;
+            const imgWidth = innerWidth * 0.7 > 550 ? 550 : innerWidth * 0.7;
             const imgHeight = innerHeight * 0.7 > 500 ? 500 : innerHeight * 0.7;
+            const maxImgWidth = imgHeight * ratio;
 
-            if (ratio >= 1) {
-                setImageCSS({
-                    width: `${imgWidth}px`,
-                    height: "auto",
-                    objectFit: "contain",
-                });
-            } else {
-                setImageCSS({
-                    width: "auto",
-                    height: `${imgHeight}px`,
-                    objectFit: "contain",
-                });
-            }
+            setImageCSS({
+                width: `${imgWidth}px`,
+                height: "auto",
+                maxWidth: `${maxImgWidth}px`,
+                objectFit: "contain",
+            });
         }, [img.naturalWidth, img.naturalHeight]);
 
         useEffect(() => {
@@ -56,7 +50,7 @@ export default function DetailPhotoModal({
     };
 
     return (
-        <Modal scroll={false} height="fit-content">
+        <Modal scroll={false} width="auto" height="fit-content">
             <Container>
                 <div className="photo_info">
                     {imageData?.user_name && (

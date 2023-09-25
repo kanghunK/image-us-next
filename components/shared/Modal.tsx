@@ -8,10 +8,11 @@ import Scrollbars from "react-custom-scrollbars-2";
 interface ModalProps {
     children: React.ReactNode;
     scroll?: boolean;
+    width?: string;
     height?: string;
 }
 
-const Modal = ({ children, scroll = true, height }: ModalProps) => {
+const Modal = ({ children, scroll = true, width, height }: ModalProps) => {
     const wrapperEl = useRef(null);
     const router = useRouter();
 
@@ -32,7 +33,7 @@ const Modal = ({ children, scroll = true, height }: ModalProps) => {
 
     return (
         <Wrapper ref={wrapperEl} onClick={onClickWrapper}>
-            <Container height={height}>
+            <Container width={width} height={height}>
                 {scroll ? <Scrollbars>{children}</Scrollbars> : children}
             </Container>
         </Wrapper>
@@ -49,13 +50,14 @@ const Wrapper = styled.div`
     top: 0;
     bottom: 0;
     z-index: 100;
+    overflow: hidden;
 `;
 
-const Container = styled.div<{ height?: string }>`
+const Container = styled.div<{ width?: string; height?: string }>`
     position: relative;
-    width: 70%;
+    width: ${({ width }) => width ?? "70%"};
     height: ${({ height }) => height ?? "70%"};
-    max-width: 600px;
+    max-width: 550px;
     box-sizing: border-box;
 
     border-radius: 10px;
