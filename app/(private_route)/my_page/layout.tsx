@@ -14,10 +14,10 @@ interface MyPageLayoutProps {
 export default function MyPageLayout({ children }: MyPageLayoutProps) {
     const [userData, setUserData] = useUserData();
 
-    const setInitialData = useCallback(async () => {
+    const setInitialData = async () => {
         if (userData?.user_info) {
             const data = await getMyPageInfo(userData?.user_info.id);
-            setUserData((prev) => ({
+            await setUserData((prev) => ({
                 ...prev,
                 imageLen: data?.imageLen,
                 roomListLen: data?.roomListLen,
@@ -26,7 +26,7 @@ export default function MyPageLayout({ children }: MyPageLayoutProps) {
                 navigationTitle: "마이 페이지",
             }));
         }
-    }, [userData, setUserData]);
+    };
 
     useEffect(() => {
         // setUserData((prev) => ({
@@ -35,7 +35,7 @@ export default function MyPageLayout({ children }: MyPageLayoutProps) {
         //     navigationTitle: "마이 페이지",
         // }));
         setInitialData();
-    }, [setInitialData]);
+    }, []);
 
     return (
         <WrapperBox>
