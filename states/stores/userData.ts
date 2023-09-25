@@ -12,7 +12,7 @@ export const USER_IMAGE_KEY = "@user/image";
 
 export const useUserData = createStore<UserData>({
     key: USERDATA_KEY,
-    initial: { loginState: "logout" },
+    initial: { loginState: "loading" },
     persistor: localStoragePersistor,
 });
 
