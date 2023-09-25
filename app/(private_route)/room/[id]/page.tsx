@@ -64,16 +64,19 @@ export default function Page({ params }: { params: { id: string } }) {
     };
 
     useEffect(() => {
+        const currentRoomData = userData?.roomList?.find(
+            (data) => "" + data.id === roomId
+        );
+        setUserData((prev) => ({
+            ...prev,
+            currentPage: PageList.ImageRoom,
+            navigationTitle: currentRoomData?.title ?? "Unknown",
+        }));
+    }, [setUserData]);
+
+    useEffect(() => {
         try {
-            const currentRoomData = userData?.roomList?.find(
-                (data) => "" + data.id === roomId
-            );
             fetchImageToList(startNum);
-            setUserData((prev) => ({
-                ...prev,
-                currentPage: PageList.ImageRoom,
-                navigationTitle: currentRoomData?.title ?? "Unknown",
-            }));
         } catch (error) {
             throw error;
         }
