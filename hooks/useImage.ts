@@ -91,7 +91,7 @@ async function imageConvertToBlob(imageList: DImageData[]) {
 }
 
 export function useImage() {
-    const [, setUserData] = useUserData();
+    const [userData, setUserData] = useUserData();
     const [, setRoomImageList] = useRoomImageList();
     const [, setUserImageList] = useUserImageList();
     const [isLoading, setLoading] = useStore({
@@ -372,6 +372,7 @@ export function useImage() {
                 created_at,
                 link: url,
                 fileName,
+                user_name: userData.user_info?.name,
             };
 
             alert("이미지를 성공적으로 업로드하였습니다!");
