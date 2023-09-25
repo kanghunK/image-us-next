@@ -13,7 +13,7 @@ import { BiUpload } from "react-icons/bi";
 import styled from "@emotion/styled";
 import { PageList } from "@/lib/enumType";
 import { useUserData } from "@/states/stores/userData";
-import { logout } from "@/utils/userFetcher";
+import { removeLocalStorageData } from "@/utils/userFetcher";
 import { lato } from "@/app/fonts";
 
 export default function NavigationBar() {
@@ -34,7 +34,7 @@ export default function NavigationBar() {
         await setUserData({
             loginState: "logout",
         });
-        logout();
+        removeLocalStorageData();
     };
 
     return (

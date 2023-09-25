@@ -9,7 +9,7 @@ import { SiNaver } from "react-icons/si";
 
 import { Button } from "@/components/shared/Button";
 import { useUserData } from "@/states/stores/userData";
-import { login, logout } from "@/utils/userFetcher";
+import { login, removeLocalStorageData } from "@/utils/userFetcher";
 import styles from "./login.module.scss";
 
 export default function Login() {
@@ -87,25 +87,24 @@ export default function Login() {
         setUserData({
             loginState: "loading",
         });
-        const userInfo = await login({
+        const isOk = await login({
             email,
             password,
         });
 
-        if (userInfo) {
+        console.log("로그인 리퀘스트", isOk);
+
+        if (isOk) {
             await setUserData((prev) => ({
                 ...prev,
                 loginState: "login",
-                user_info: userInfo,
             }));
         } else {
-            await setUserData({
-                loginState: "loading",
-            });
-            await setUserData({
+            await setUserData((prev) => ({
+                ...prev,
                 loginState: "logout",
-            });
-            logout();
+            }));
+            removeLocalStorageData();
         }
     };
 

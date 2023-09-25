@@ -25,16 +25,17 @@ const login = async ({
 
         const token = tokenData.data;
 
-        const response = await customAxios.get("/user/my", {
-            headers: {
-                Authorization: token?.access_token,
-            },
-        });
+        // const response = await customAxios.get("/user/my", {
+        //     headers: {
+        //         Authorization: token?.access_token,
+        //     },
+        // });
 
         localStoragePersistor.onSet(TOKEN_KEY, token);
 
-        const userInfo = response.data.user_info;
-        return userInfo;
+        // const userInfo = response.data.user_info;
+        // return userInfo;
+        return true;
     } catch (error: unknown) {
         if (error instanceof AxiosError) {
             if (
@@ -78,7 +79,7 @@ const socialLogin = async (coperation: string, code: string) => {
     }
 };
 
-const logout = () => {
+const removeLocalStorageData = () => {
     // 로컬스토리지에 저장된 정보 제거
     window.localStorage.removeItem(USERDATA_KEY);
     window.localStorage.removeItem(TOKEN_KEY);
@@ -123,25 +124,25 @@ const checkAuth = async () => {
     try {
         const token = await getToken();
 
-        await customAxios.get("/user/my", {
+        if (!token) throw Error();
+
+        const response = await customAxios.get("/user/my", {
             headers: {
                 Authorization: token?.access_token,
             },
         });
 
-        return true;
+        return response.data.user_info;
     } catch (err) {
         if (err instanceof AxiosError) {
             if (err.response?.status === 401) {
-                alert("사용자 권한이 없습니다..로그아웃 후 시도해주세요.");
+                console.error("Auth Error: ", err);
             } else {
-                alert("서버 문제로 잠시 후에 다시 시도 해주세요.");
+                console.error("Server Error: ", err);
             }
-        } else {
-            alert("예기치 못한 에러가 발생하였습니다..다시 시도해주세요.");
         }
-        return false;
+        return null;
     }
 };
 
-export { login, logout, changeName, checkAuth, socialLogin };
+export { login, removeLocalStorageData, changeName, checkAuth, socialLogin };
