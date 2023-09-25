@@ -5,6 +5,8 @@ import { redirect } from "next/navigation";
 import LoadingCompoent from "./Loading";
 import { checkAuth, removeLocalStorageData } from "@/utils/userFetcher";
 import { useEffect } from "react";
+import { StateMutator } from "swr-global-state";
+import { UserData } from "@/lib/types";
 
 interface WithAuthProps {
     children: React.ReactNode;
@@ -16,18 +18,20 @@ function withAuth(
 ) {
     const Auth = (props: WithAuthProps) => {
         const [userData, setUserData] = useUserData();
-
         const updateLoginState = async () => {
             const userInfo = await checkAuth();
 
             if (userInfo) {
-                setUserData((prev) => ({
+                await setUserData((prev) => ({
                     ...prev,
                     loginState: "login",
                     user_info: { ...userInfo },
                 }));
             } else {
-                setUserData((prev) => ({ ...prev, loginState: "logout" }));
+                await setUserData((prev) => ({
+                    ...prev,
+                    loginState: "logout",
+                }));
             }
         };
 
