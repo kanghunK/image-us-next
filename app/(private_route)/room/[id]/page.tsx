@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback } from "react";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import { PiUploadThin } from "react-icons/pi";
+import ReactLoading from "react-loading";
 import styled from "@emotion/styled";
 
 import { PageList } from "@/lib/enumType";
@@ -13,6 +14,8 @@ import useIntersect from "@/hooks/useIntersect";
 import { useImage } from "@/hooks/useImage";
 import { useRoomImageList } from "@/states/stores/roomData";
 import { useUserData } from "@/states/stores/userData";
+import { arvo } from "@/app/fonts";
+import ImageLoading from "@/components/shared/ImageLoading";
 
 export default function Page({ params }: { params: { id: string } }) {
     const [userData, setUserData] = useUserData();
@@ -42,15 +45,21 @@ export default function Page({ params }: { params: { id: string } }) {
 
     const fetchImageToList = async (fetchNum: number) => {
         try {
-            const newImageList = (await loadRoomImagelist(
-                roomId,
-                fetchNum
-            )) as ImageInfo[];
+            const newImageList = await loadRoomImagelist(roomId, fetchNum);
+
+            if (!newImageList) return;
 
             if (fetchNum === 0) {
                 setImageList(() => [...newImageList]);
             } else {
-                setImageList((prev) => [...prev, ...newImageList]);
+                // setImageList((prev) => [...prev, ...newImageList]);
+                setImageList((prevData) => {
+                    if (!prevData) {
+                        return [...newImageList];
+                    } else {
+                        return [...prevData, ...newImageList];
+                    }
+                });
             }
             setStartNum((prev) => prev + 12);
         } catch (error) {
@@ -87,7 +96,9 @@ export default function Page({ params }: { params: { id: string } }) {
 
     return (
         <Wrapper>
-            {imageList.length === 0 ? (
+            {!imageList ? (
+                <ImageLoading />
+            ) : imageList.length === 0 ? (
                 <NoImage>
                     <Image
                         src="/no_image.png"

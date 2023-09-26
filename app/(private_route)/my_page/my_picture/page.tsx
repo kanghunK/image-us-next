@@ -10,6 +10,7 @@ import ImageCard from "@/components/ImageCard";
 import useIntersect from "@/hooks/useIntersect";
 import { useImage } from "@/hooks/useImage";
 import { useUserData, useUserImageList } from "@/states/stores/userData";
+import ImageLoading from "@/components/shared/ImageLoading";
 
 export default function MyPicture() {
     const router = useRouter();
@@ -42,10 +43,18 @@ export default function MyPicture() {
 
             const newImageList = await loadUserImagelist(userId, fetchNum);
 
+            if (!newImageList) return;
+
             if (fetchNum === 0) {
                 setUserImageList(() => [...newImageList]);
             } else {
-                setUserImageList((prev) => [...prev, ...newImageList]);
+                setUserImageList((prevData) => {
+                    if (!prevData) {
+                        return [...newImageList];
+                    } else {
+                        return [...prevData, ...newImageList];
+                    }
+                });
             }
             setStartNum((prev) => prev + 12);
         } catch (error) {
@@ -71,7 +80,9 @@ export default function MyPicture() {
 
     return (
         <Wrapper>
-            {userImageList.length === 0 ? (
+            {!userImageList ? (
+                <ImageLoading />
+            ) : userImageList.length === 0 ? (
                 <NoImage>
                     <Image
                         src="/no_image.png"
