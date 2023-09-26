@@ -162,6 +162,7 @@ export function useImage() {
             alert("이미지를 성공적으로 삭제하였습니다!");
 
             setUserImageList((prevData) => {
+                if (!prevData) return null;
                 const newData = prevData.filter(
                     (imageData) => imageData.id !== imageId
                 );
@@ -227,7 +228,13 @@ export function useImage() {
 
             alert("이미지를 성공적으로 업로드하였습니다!");
 
-            setUserImageList((prevData) => [newData, ...prevData]);
+            setUserImageList((prevData) => {
+                if (!prevData) {
+                    return [newData];
+                } else {
+                    return [newData, ...prevData];
+                }
+            });
 
             setUserData((prev) => ({
                 ...prev,
@@ -309,6 +316,7 @@ export function useImage() {
             alert("이미지를 성공적으로 삭제하였습니다!");
 
             setRoomImageList((prevData) => {
+                if (!prevData) return null;
                 const newData = prevData.filter(
                     (imageData) => imageData.id !== imageId
                 );
@@ -377,7 +385,13 @@ export function useImage() {
 
             alert("이미지를 성공적으로 업로드하였습니다!");
 
-            setRoomImageList((prevData) => [newData, ...prevData]);
+            setRoomImageList((prevData) => {
+                if (!prevData) {
+                    return [newData];
+                } else {
+                    return [newData, ...prevData];
+                }
+            });
         } catch (error) {
             if (error instanceof AxiosError) {
                 if (

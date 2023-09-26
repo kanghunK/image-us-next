@@ -16,7 +16,7 @@ export const useUserData = createStore<UserData>({
     persistor: localStoragePersistor,
 });
 
-export const useUserImageList = createStore<ImageInfo[]>({
+export const useUserImageList = createStore<ImageInfo[] | null>({
     key: `${USER_IMAGE_KEY}-imagelist`,
-    initial: [],
+    initial: null,
 });
