@@ -16,6 +16,7 @@ export default function DetailPhoto({
 
     useEffect(() => {
         setImageData(() => {
+            if (!imageList) return;
             const currentImageData = imageList.find(
                 (data) => "" + data.id === params.imageId
             );
