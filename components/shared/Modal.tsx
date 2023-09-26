@@ -51,6 +51,7 @@ const Wrapper = styled.div`
     bottom: 0;
     z-index: 100;
     overflow: hidden;
+    background-color: rgb(0, 0, 0, 0.65);
 `;
 
 const Container = styled.div<{ width?: string; height?: string }>`
