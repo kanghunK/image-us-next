@@ -1,10 +1,8 @@
 "use client";
-
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import styled from "@emotion/styled";
 import { useUserData } from "@/states/stores/userData";
 import { getMyPageInfo } from "@/utils/getMyPageInfo";
-import { MyPageInfo } from "@/lib/types";
 import { PageList } from "@/lib/enumType";
 
 interface MyPageLayoutProps {

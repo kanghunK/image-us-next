@@ -1,6 +1,5 @@
 "use client";
-import { ReactNode, useEffect, useState } from "react";
-import { redirect } from "next/navigation";
+import { ReactNode, useState } from "react";
 import { Scrollbars } from "react-custom-scrollbars-2";
 import { AiOutlineMenuUnfold } from "react-icons/ai";
 import styled from "@emotion/styled";
@@ -9,8 +8,6 @@ import NavigationBar from "@/components/NavigationBar";
 import LeftMenu from "@/components/LeftMenu";
 import { useUserData } from "@/states/stores/userData";
 import { PageList } from "@/lib/enumType";
-import { checkAuth } from "@/utils/userFetcher";
-import LoadingCompoent from "@/components/shared/Loading";
 import withAuth from "@/components/shared/withAuth";
 
 interface Props {

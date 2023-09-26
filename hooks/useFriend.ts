@@ -4,7 +4,6 @@ import { DFriendData } from "@/lib/types";
 import localStoragePersistor from "@/states/persistors/local-storage";
 import {
     FRIEND_KEY,
-    TOKEN_KEY,
     USERDATA_KEY,
     useUserData,
 } from "@/states/stores/userData";
@@ -102,7 +101,6 @@ export function useFriend() {
             setLoading(false);
         } catch (error) {
             if (error instanceof AxiosError) {
-                console.log("확인", error);
                 if (
                     error.response?.status === 401 ||
                     error.response?.status === 403

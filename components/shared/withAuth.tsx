@@ -1,12 +1,8 @@
 import { useUserData } from "@/states/stores/userData";
-import { NextComponentType } from "next";
-import { BaseContext } from "next/dist/shared/lib/utils";
 import { redirect } from "next/navigation";
 import LoadingCompoent from "./Loading";
 import { checkAuth, removeLocalStorageData } from "@/utils/userFetcher";
 import { useEffect } from "react";
-import { StateMutator } from "swr-global-state";
-import { UserData } from "@/lib/types";
 
 interface WithAuthProps {
     children: React.ReactNode;

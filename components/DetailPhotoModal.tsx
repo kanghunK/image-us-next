@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useCallback, useEffect, useState, useRef } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import NextImage from "next/image";
 import styled from "@emotion/styled";
 import { ImageInfo } from "@/lib/types";

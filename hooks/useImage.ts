@@ -1,10 +1,5 @@
-import localStoragePersistor from "@/states/persistors/local-storage";
 import customAxios from "@/lib/api";
-import {
-    TOKEN_KEY,
-    useUserData,
-    useUserImageList,
-} from "@/states/stores/userData";
+import { useUserData, useUserImageList } from "@/states/stores/userData";
 import { AxiosCustomRequestConfig, DImageData, ImageInfo } from "@/lib/types";
 import axios, { AxiosError, AxiosRequestConfig } from "axios";
 import useStore from "swr-global-state";

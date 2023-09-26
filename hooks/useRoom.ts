@@ -3,12 +3,7 @@ import useStore from "swr-global-state";
 import customAxios from "@/lib/api";
 import { DRoomData, RoomData } from "@/lib/types";
 import localStoragePersistor from "@/states/persistors/local-storage";
-import {
-    ROOM_KEY,
-    TOKEN_KEY,
-    USERDATA_KEY,
-    useUserData,
-} from "@/states/stores/userData";
+import { ROOM_KEY, USERDATA_KEY, useUserData } from "@/states/stores/userData";
 import { NetworkError, unknownError } from "@/lib/exceptions";
 import { getToken } from "@/utils/getToken";
 

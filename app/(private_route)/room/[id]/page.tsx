@@ -1,20 +1,16 @@
 "use client";
-
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import { PiUploadThin } from "react-icons/pi";
-import ReactLoading from "react-loading";
 import styled from "@emotion/styled";
 
 import { PageList } from "@/lib/enumType";
-import { ImageInfo } from "@/lib/types";
 import ImageCard from "@/components/ImageCard";
 import useIntersect from "@/hooks/useIntersect";
 import { useImage } from "@/hooks/useImage";
 import { useRoomImageList } from "@/states/stores/roomData";
 import { useUserData } from "@/states/stores/userData";
-import { arvo } from "@/app/fonts";
 import ImageLoading from "@/components/shared/ImageLoading";
 
 export default function Page({ params }: { params: { id: string } }) {

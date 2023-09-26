@@ -92,8 +92,6 @@ export default function Login() {
             password,
         });
 
-        console.log("로그인 리퀘스트", isOk);
-
         if (isOk) {
             await setUserData((prev) => ({
                 ...prev,

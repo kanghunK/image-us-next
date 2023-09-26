@@ -10,8 +10,6 @@ import { changeName } from "@/utils/userFetcher";
 export default function Mypage() {
     const [userData, setUserData] = useUserData();
 
-    // const { changeName } = useAuth();
-
     const [nameInput, setNameInput, handleNameInput] = useInput("");
     const [nameBoxState, setNameBoxState] = useState(false);
 

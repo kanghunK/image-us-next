@@ -1,8 +1,6 @@
-import { AxiosError } from "axios";
-import useStore, { createStore } from "swr-global-state";
-import axios from "@/lib/api";
+import { createStore } from "swr-global-state";
 import localStoragePersistor from "../persistors/local-storage";
-import { DFriendData, ImageInfo, TokenData, UserData } from "@/lib/types";
+import { ImageInfo, UserData } from "@/lib/types";
 
 export const TOKEN_KEY = "@user/token";
 export const USERDATA_KEY = "@user/info";

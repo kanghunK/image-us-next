@@ -25,16 +25,8 @@ const login = async ({
 
         const token = tokenData.data;
 
-        // const response = await customAxios.get("/user/my", {
-        //     headers: {
-        //         Authorization: token?.access_token,
-        //     },
-        // });
-
         localStoragePersistor.onSet(TOKEN_KEY, token);
 
-        // const userInfo = response.data.user_info;
-        // return userInfo;
         return true;
     } catch (error: unknown) {
         if (error instanceof AxiosError) {
@@ -80,7 +72,6 @@ const socialLogin = async (coperation: string, code: string) => {
 };
 
 const removeLocalStorageData = () => {
-    // 로컬스토리지에 저장된 정보 제거
     window.localStorage.removeItem(USERDATA_KEY);
     window.localStorage.removeItem(TOKEN_KEY);
     window.localStorage.removeItem(ROOM_KEY);

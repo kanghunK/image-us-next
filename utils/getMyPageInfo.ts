@@ -1,6 +1,5 @@
 import { AxiosError } from "axios";
 import customAxios from "@/lib/api";
-import { unknownError } from "@/lib/exceptions";
 import { getToken } from "./getToken";
 
 export async function getMyPageInfo(userId: number) {
