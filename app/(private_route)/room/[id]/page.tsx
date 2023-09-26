@@ -68,7 +68,7 @@ export default function Page({ params }: { params: { id: string } }) {
     };
 
     const resetImageList = async () => {
-        setImageList([]);
+        setImageList(null);
         setImageLoadEnd(false);
     };
 

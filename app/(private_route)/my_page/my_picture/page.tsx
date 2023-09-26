@@ -63,7 +63,7 @@ export default function MyPicture() {
     };
 
     const resetImageList = async () => {
-        setUserImageList([]);
+        setUserImageList(null);
         setImageLoadEnd(false);
     };
 
