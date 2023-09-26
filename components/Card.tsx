@@ -1,4 +1,4 @@
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 import { IconContext } from "react-icons/lib";
 import { useRouter } from "next/navigation";
 import { FaUserPlus } from "react-icons/fa";
@@ -14,6 +14,7 @@ interface CardProps {
 
 export default function Card({ roomData, index }: CardProps) {
     const router = useRouter();
+    const [mouseOver, setMouseOver] = useState(false);
 
     const onClickNavigateRoom = useCallback(
         (roomId: number) => () => {
@@ -23,12 +24,14 @@ export default function Card({ roomData, index }: CardProps) {
     );
 
     return (
-        <Wrapper>
+        <Wrapper accessBoxHover={mouseOver}>
             <div className="card_body">
                 <div className="card_num">{index}</div>
                 <div
                     className="main_info"
                     onClick={onClickNavigateRoom(roomData.id)}
+                    onMouseOver={() => setMouseOver(true)}
+                    onMouseLeave={() => setMouseOver(false)}
                 >
                     <div className="title">{roomData.title}</div>
                     <div>
@@ -63,14 +66,18 @@ export default function Card({ roomData, index }: CardProps) {
     );
 }
 
-const Wrapper = styled.div`
+const Wrapper = styled.div<{ accessBoxHover: boolean }>`
     position: relative;
 
-    width: 200px;
-    border: 1px solid #f0f0f0;
+    width: 250px;
+    border: 1px solid #b8b9c9;
     border-radius: 8px;
     background: #fff;
-    box-shadow: 0px 1px 1px 1px rgba(0, 0, 0, 0.2);
+    transition: box-shadow 0.2s, border-color 0.2s;
+    ${({ accessBoxHover }) =>
+        accessBoxHover
+            ? "border-color: transparent; box-shadow: 0 1px 2px -2px rgba(0, 0, 0, 0.16), 0 3px 6px 0 rgba(0, 0, 0, 0.12), 0 5px 12px 4px rgba(0, 0, 0, 0.09);"
+            : ""}
 
     .card_body {
         display: flex;
@@ -97,13 +104,12 @@ const Wrapper = styled.div`
             cursor: pointer;
 
             &:hover {
-                background-color: wheat;
+                background-color: #f8f8ff;
             }
 
             .title {
                 margin-bottom: 8px;
                 font-weight: 600;
-                font-size: 1.2rem;
                 color: rgba(0, 0, 0, 0.88);
             }
 
