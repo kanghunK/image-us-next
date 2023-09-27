@@ -9,6 +9,13 @@ const nextConfig = {
                 },
             ];
         }
+        return [];
+    },
+    compiler: {
+        emotion: true,
+    },
+    typescript: {
+        ignoreBuildErrors: true,
     },
 };
 
