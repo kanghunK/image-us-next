@@ -6,7 +6,7 @@ import { AxiosError } from "axios";
 import { useRouter } from "next/navigation";
 
 import { Button } from "@/components/shared/Button";
-import axios from "@/lib/api";
+import customAxios from "@/lib/api";
 import useInput from "@/hooks/useInput";
 import styles from "./signup.module.scss";
 
@@ -156,7 +156,7 @@ export default function Signup() {
 
     const requestEmailAuthNum = async () => {
         try {
-            await axios.get(`/backapi/user/auth?email=${email}`);
+            await customAxios.get(`/user/auth?email=${email}`);
             countTimeLimit();
             setRequestingAuth(true);
             setErrorInfo((prev) => ({
@@ -199,7 +199,7 @@ export default function Signup() {
                     },
                 }));
             } else {
-                await axios.post(`/backapi/user/auth?email=${email}`, {
+                await customAxios.post(`/user/auth?email=${email}`, {
                     auth_password: emailAuth,
                 });
                 if (timeLimitId) {
@@ -271,8 +271,8 @@ export default function Signup() {
             return;
         }
 
-        await axios
-            .post("/backapi/user/sign-up", {
+        await customAxios
+            .post("/user/sign-up", {
                 name,
                 email,
                 password,
