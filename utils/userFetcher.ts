@@ -1,3 +1,5 @@
+"use client";
+
 import localStoragePersistor from "@/states/persistors/local-storage";
 import {
     FRIEND_KEY,
@@ -9,6 +11,7 @@ import {
 import { AxiosError } from "axios";
 import customAxios from "@/lib/api";
 import { getToken } from "./getToken";
+import { DUserInfo } from "@/lib/types";
 
 const login = async ({
     email,
@@ -59,7 +62,7 @@ const socialLogin = async (coperation: string, code: string) => {
 
         localStoragePersistor.onSet(TOKEN_KEY, oAuthData);
 
-        const userInfo = userResponse.data.user_info;
+        const userInfo: DUserInfo = userResponse.data.user_info;
 
         return userInfo;
     } catch (error) {
@@ -68,6 +71,7 @@ const socialLogin = async (coperation: string, code: string) => {
         } else {
             alert("예기치 못한 에러가 발생하였습니다..다시 시도해주세요.");
         }
+        return;
     }
 };
 

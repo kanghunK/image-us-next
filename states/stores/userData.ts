@@ -1,3 +1,5 @@
+"use client";
+
 import { createStore } from "swr-global-state";
 import localStoragePersistor from "../persistors/local-storage";
 import { ImageInfo, UserData } from "@/lib/types";

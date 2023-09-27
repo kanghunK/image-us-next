@@ -1,3 +1,5 @@
+"use client";
+
 import { ImageInfo } from "@/lib/types";
 import useStore, { createStore } from "swr-global-state";
 

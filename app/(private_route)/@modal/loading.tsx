@@ -1,3 +1,5 @@
+"use client";
+
 import Modal from "@/components/shared/Modal";
 import styles from "./styles.module.css";
 

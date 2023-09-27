@@ -1,3 +1,5 @@
+"use client";
+
 import { RootLayoutChildren } from "@/lib/types";
 import "./globals.css";
 

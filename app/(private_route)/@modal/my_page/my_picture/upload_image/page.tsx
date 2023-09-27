@@ -1,3 +1,5 @@
+"use client";
+
 import UploadImageModal from "@/components/UploadImageModal";
 import React from "react";
 
