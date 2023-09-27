@@ -108,7 +108,7 @@ export default function Mypage() {
     );
 }
 
-export const InfoSection = styled.section`
+const InfoSection = styled.section`
     min-width: 370px;
 
     h2 {
@@ -121,7 +121,7 @@ export const InfoSection = styled.section`
     }
 `;
 
-export const InfoTable = styled.table`
+const InfoTable = styled.table`
     width: 100%;
     table-layout: fixed;
 

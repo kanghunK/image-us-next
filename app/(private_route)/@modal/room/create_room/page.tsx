@@ -155,7 +155,7 @@ const CreateRoomModal = () => {
 
 export default CreateRoomModal;
 
-export const Container = styled.div`
+const Container = styled.div`
     display: flex;
     flex-direction: column;
     gap: 0.7rem;

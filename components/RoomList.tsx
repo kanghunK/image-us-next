@@ -36,7 +36,7 @@ export default function RoomList({ show }: { show: boolean }) {
     );
 }
 
-export const Container = styled.div<{ show: boolean }>`
+const Container = styled.div<{ show: boolean }>`
     display: flex;
     flex-direction: column;
     position: relative;

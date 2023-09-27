@@ -63,7 +63,7 @@ export default function Friends() {
     );
 }
 
-export const Wrapper = styled.div`
+const Wrapper = styled.div`
     min-width: 500px;
 
     border: none;

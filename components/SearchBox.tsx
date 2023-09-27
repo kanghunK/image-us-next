@@ -160,7 +160,7 @@ export default function SearchBox() {
     );
 }
 
-export const Wrapper = styled.div`
+const Wrapper = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -223,7 +223,7 @@ export const Wrapper = styled.div`
     }
 `;
 
-export const InputBox = styled.div`
+const InputBox = styled.div`
     position: relative;
     top: 5px;
 
@@ -233,7 +233,7 @@ export const InputBox = styled.div`
     margin: 0 1rem;
 `;
 
-export const PreviewBox = styled.div`
+const PreviewBox = styled.div`
     position: absolute;
 
     width: calc(100% - 40px);
@@ -288,7 +288,7 @@ export const PreviewBox = styled.div`
     }
 `;
 
-export const SearchResult = styled.div`
+const SearchResult = styled.div`
     width: 100%;
     margin-top: 30px;
 
