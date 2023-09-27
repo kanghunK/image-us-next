@@ -238,6 +238,7 @@ const IconGroup = styled.div`
 
     .user_name {
         margin: 0 1rem;
+        white-space: nowrap;
     }
 
     .backdrop {

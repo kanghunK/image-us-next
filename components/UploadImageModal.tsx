@@ -235,6 +235,7 @@ const Container = styled.div`
             background-color: #999999;
             cursor: pointer;
             margin-left: 10px;
+            white-space: nowrap;
         }
 
         input[type="file"] {
