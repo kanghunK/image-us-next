@@ -1,3 +1,5 @@
+"use client";
+
 import UploadImageModal from "@/components/UploadImageModal";
 
 export default function UploadImage({ params }: { params: { id: string } }) {
