@@ -174,7 +174,7 @@ export default function Login() {
                         </span>
                         <div className={styles.social_icon_box}>
                             <Link
-                                href={`/backapi/oauth-login?coperation=kakao`}
+                                href={`${process.env.NEXT_PUBLIC_BACKEND_URL}/backapi/oauth-login?coperation=kakao`}
                                 className={`${styles.kakao_icon} ${styles.social_icon_a}`}
                             >
                                 <IconContext.Provider
@@ -187,7 +187,7 @@ export default function Login() {
                                 </IconContext.Provider>
                             </Link>
                             <Link
-                                href="/backapi/oauth-login?coperation=naver"
+                                href={`${process.env.NEXT_PUBLIC_BACKEND_URL}/backapi/oauth-login?coperation=naver`}
                                 className={`${styles.naver_icon} ${styles.social_icon_a}`}
                             >
                                 <IconContext.Provider
