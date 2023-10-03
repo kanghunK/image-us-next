@@ -11,6 +11,9 @@ const nextConfig = {
         }
         return [];
     },
+    // output: "export",
+    distDir: "dist",
+    skipTrailingSlashRedirect: true,
     compiler: {
         emotion: true,
     },
