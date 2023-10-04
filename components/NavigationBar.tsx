@@ -14,7 +14,7 @@ import styled from "@emotion/styled";
 import { PageList } from "@/lib/enumType";
 import { useUserData } from "@/states/stores/userData";
 import { removeLocalStorageData } from "@/utils/userFetcher";
-import { lato } from "@/app/fonts";
+import { montserrat } from "@/app/fonts";
 
 export default function NavigationBar() {
     const [userData, setUserData] = useUserData();
@@ -65,7 +65,9 @@ export default function NavigationBar() {
                         </div>
                     </button>
                 </LeftButton>
-                <h2 className={lato.className}>{userData?.navigationTitle}</h2>
+                <h2 className={`${montserrat.className} title_tag`}>
+                    {userData?.navigationTitle}
+                </h2>
                 <IconGroup>
                     {userData?.currentPage === PageList.ImageRoom && (
                         <>
@@ -140,6 +142,15 @@ const Wrapper = styled.nav`
     h2 {
         margin: 0;
         white-space: nowrap;
+    }
+
+    .title_tag {
+        color: #444;
+        margin: 0;
+        padding: 0.6rem;
+        text-align: center;
+        font-size: 1.1rem;
+        font-weight: bold;
     }
 
     ul {
