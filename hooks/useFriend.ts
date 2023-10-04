@@ -18,55 +18,62 @@ export function useFriend() {
         key: `${FRIEND_KEY}-loading`,
         initial: true,
     });
-    const [data, , swrDefaultResponse] = useStore<DFriendData[] | null, any>({
-        key: FRIEND_KEY,
-        initial: null,
-        persistor: {
-            onSet: localStoragePersistor.onSet,
-            onGet: async (key) => {
-                try {
-                    const tokenData = await getToken();
-                    const userInfoData =
-                        localStoragePersistor.onGet(USERDATA_KEY);
+    const [data, , swrDefaultResponse] = useStore<DFriendData[] | null, any>(
+        {
+            key: FRIEND_KEY,
+            initial: null,
+            persistor: {
+                onSet: localStoragePersistor.onSet,
+                onGet: async (key) => {
+                    try {
+                        const tokenData = await getToken();
+                        const userInfoData =
+                            localStoragePersistor.onGet(USERDATA_KEY);
 
-                    const response = await customAxios.get(
-                        `/user/${userInfoData.user_info.id}/friendlist`,
-                        {
-                            headers: {
-                                Authorization: tokenData.access_token,
-                            },
-                        }
-                    );
-
-                    const friendList: DFriendData[] = response.data.friendlist;
-                    setUserData((prev) => ({
-                        ...prev,
-                        friends: [...friendList],
-                    }));
-
-                    return friendList;
-                } catch (err: unknown) {
-                    if (window.navigator.onLine) {
-                        if (error instanceof AxiosError) {
-                            if (
-                                error.response?.status === 401 ||
-                                error.response?.status === 403
-                            ) {
-                                alert(
-                                    "올바른 요청이 아닙니다..다시시도 해주세요!"
-                                );
+                        const response = await customAxios.get(
+                            `/user/${userInfoData.user_info.id}/friendlist`,
+                            {
+                                headers: {
+                                    Authorization: tokenData.access_token,
+                                },
                             }
-                        } else {
-                            throw new unknownError();
+                        );
+
+                        const friendList: DFriendData[] =
+                            response.data.friendlist;
+                        setUserData((prev) => ({
+                            ...prev,
+                            friends: [...friendList],
+                        }));
+
+                        return friendList;
+                    } catch (err: unknown) {
+                        if (window.navigator.onLine) {
+                            if (error instanceof AxiosError) {
+                                if (
+                                    error.response?.status === 401 ||
+                                    error.response?.status === 403
+                                ) {
+                                    alert(
+                                        "올바른 요청이 아닙니다..다시시도 해주세요!"
+                                    );
+                                }
+                            } else {
+                                throw new unknownError();
+                            }
                         }
+                        throw new NetworkError();
+                    } finally {
+                        setLoading(false);
                     }
-                    throw new NetworkError();
-                } finally {
-                    setLoading(false);
-                }
+                },
             },
         },
-    });
+        {
+            revalidateOnReconnect: false,
+            revalidateOnFocus: false,
+        }
+    );
 
     const { mutate: friendDataMutate, error } = swrDefaultResponse;
 

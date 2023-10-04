@@ -13,63 +13,74 @@ export function useRoom() {
         key: `${ROOM_KEY}-loading`,
         initial: true,
     });
-    const [data, , swrDefaultResponse] = useStore<RoomData[] | null, any>({
-        key: ROOM_KEY,
-        initial: null,
-        persistor: {
-            onSet: localStoragePersistor.onSet,
-            onGet: async (key) => {
-                try {
-                    const tokenData = await getToken();
-                    const userInfoData =
-                        localStoragePersistor.onGet(USERDATA_KEY);
+    const [data, , swrDefaultResponse] = useStore<RoomData[] | null, any>(
+        {
+            key: ROOM_KEY,
+            initial: null,
+            persistor: {
+                onSet: localStoragePersistor.onSet,
+                onGet: async (key) => {
+                    try {
+                        const tokenData = await getToken();
+                        const userInfoData =
+                            localStoragePersistor.onGet(USERDATA_KEY);
 
-                    const response = await customAxios.get(
-                        `/user/${userInfoData.user_info.id}/roomlist`,
-                        {
-                            headers: {
-                                Authorization: tokenData.access_token,
-                            },
-                        }
-                    );
+                        const response = await customAxios.get(
+                            `/user/${userInfoData.user_info.id}/roomlist`,
+                            {
+                                headers: {
+                                    Authorization: tokenData.access_token,
+                                },
+                            }
+                        );
 
-                    const roomlist: RoomData[] = response.data.roomlist.map(
-                        (roomData: DRoomData) => {
-                            const userlist = roomData.userlist.map((data) => ({
-                                id: data.id,
-                                name: data.name,
-                            }));
-                            return { ...roomData, userlist };
-                        }
-                    );
-
-                    setUserData((prev) => ({ ...prev, roomList: roomlist }));
-
-                    return roomlist;
-                } catch (error: unknown) {
-                    if (window.navigator.onLine) {
-                        if (error instanceof AxiosError) {
-                            if (
-                                error.response?.status === 401 ||
-                                error.response?.status === 403
-                            ) {
-                                console.error(
-                                    "Error: 올바른 요청이 아닙니다..다시시도 해주세요!"
+                        const roomlist: RoomData[] = response.data.roomlist.map(
+                            (roomData: DRoomData) => {
+                                const userlist = roomData.userlist.map(
+                                    (data) => ({
+                                        id: data.id,
+                                        name: data.name,
+                                    })
                                 );
+                                return { ...roomData, userlist };
+                            }
+                        );
+
+                        setUserData((prev) => ({
+                            ...prev,
+                            roomList: roomlist,
+                        }));
+
+                        return roomlist;
+                    } catch (error: unknown) {
+                        if (window.navigator.onLine) {
+                            if (error instanceof AxiosError) {
+                                if (
+                                    error.response?.status === 401 ||
+                                    error.response?.status === 403
+                                ) {
+                                    console.error(
+                                        "Error: 올바른 요청이 아닙니다..다시시도 해주세요!"
+                                    );
+                                } else {
+                                    throw new unknownError();
+                                }
                             } else {
                                 throw new unknownError();
                             }
-                        } else {
-                            throw new unknownError();
                         }
+                        throw new NetworkError();
+                    } finally {
+                        setLoading(false);
                     }
-                    throw new NetworkError();
-                } finally {
-                    setLoading(false);
-                }
+                },
             },
         },
-    });
+        {
+            revalidateOnReconnect: false,
+            revalidateOnFocus: false,
+        }
+    );
 
     const { mutate: roomListMutate, error } = swrDefaultResponse;
 
