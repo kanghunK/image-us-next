@@ -1,13 +1,6 @@
-import { Arvo, Lobster } from "next/font/google";
-import { Lato } from "next/font/google";
+import { Arvo, Lobster, Montserrat } from "next/font/google";
 
-export const lato = Lato({
-    weight: "400",
-    subsets: ["latin"],
-    display: "swap",
-});
-
-export const lobster = Lobster({
+export const montserrat = Montserrat({
     weight: "400",
     subsets: ["latin"],
     display: "swap",
