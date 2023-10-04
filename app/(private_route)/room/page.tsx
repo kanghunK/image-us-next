@@ -78,7 +78,8 @@ const CreateRoomBox = styled.div`
     cursor: pointer;
     border-radius: 0.4rem;
     color: hsla(240, 7%, 70%, 1);
-    border: 4px dashed hsla(240, 7%, 70%, 0.35);
+    background-color: #f8f8f8;
+    border: transparent;
 
     &:hover {
         background-color: hsla(240, 7%, 70%, 0.22);
