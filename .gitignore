@@ -21,7 +21,6 @@
 *.pem
 .env
 .env.*
-/public
 
 # debug
 npm-debug.log*
