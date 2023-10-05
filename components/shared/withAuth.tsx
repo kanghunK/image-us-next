@@ -1,6 +1,5 @@
 import { useUserData } from "@/states/stores/userData";
 import { redirect } from "next/navigation";
-import LoadingCompoent from "./Loading";
 import { checkAuth, removeLocalStorageData } from "@/utils/userFetcher";
 import { useEffect } from "react";
 
@@ -39,8 +38,6 @@ function withAuth(
             removeLocalStorageData();
             return redirect("/login");
         }
-
-        if (userData.loginState === "loading") return <LoadingCompoent />;
 
         return <Component {...props} />;
     };

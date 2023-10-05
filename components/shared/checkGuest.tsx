@@ -1,6 +1,5 @@
 import { useUserData } from "@/states/stores/userData";
 import { redirect } from "next/navigation";
-import LoadingCompoent from "./Loading";
 import { useEffect } from "react";
 import { checkAuth, removeLocalStorageData } from "@/utils/userFetcher";
 
@@ -32,8 +31,6 @@ const checkGuest = (
         if (userData.loginState === "login") {
             return redirect("/room");
         }
-
-        if (userData.loginState === "loading") return <LoadingCompoent />;
 
         return <Component {...props} />;
     };
