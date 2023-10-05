@@ -1,5 +1,5 @@
 "use client";
-import { ReactNode, useState } from "react";
+import { ReactNode, useState, useEffect } from "react";
 import { Scrollbars } from "react-custom-scrollbars-2";
 import { AiOutlineMenuUnfold } from "react-icons/ai";
 import styled from "@emotion/styled";
@@ -7,8 +7,8 @@ import styled from "@emotion/styled";
 import NavigationBar from "@/components/NavigationBar";
 import LeftMenu from "@/components/LeftMenu";
 import { useUserData } from "@/states/stores/userData";
-import { PageList } from "@/lib/enumType";
 import withAuth from "@/components/shared/withAuth";
+import { usePathname } from "next/navigation";
 
 interface Props {
     children: ReactNode;
@@ -17,7 +17,33 @@ interface Props {
 
 const PrivateLayout = ({ children, modal }: Props) => {
     const [userData] = useUserData();
+    const currentPath = usePathname();
+    const [navTitle, setNavTitle] = useState("");
     const [openedLeftMenu, setOpenedLeftMenu] = useState(false);
+
+    useEffect(() => {
+        const pathArr = currentPath.split("/");
+        if (
+            pathArr.includes("create_room") ||
+            pathArr.includes("invite_member")
+        )
+            return;
+
+        if (pathArr[1] === "room") {
+            if (pathArr[2]) {
+                const currentRoom = userData?.roomList?.find(
+                    (e) => "" + e.id === pathArr[2]
+                );
+                setNavTitle(currentRoom?.title ?? "");
+                return;
+            }
+            setNavTitle("방 목록");
+        } else if (pathArr[1] === "my_page") {
+            setNavTitle("마이 페이지");
+        } else {
+            setNavTitle("");
+        }
+    }, [currentPath, userData]);
 
     return (
         <div
@@ -25,11 +51,12 @@ const PrivateLayout = ({ children, modal }: Props) => {
                 height: "inherit",
             }}
         >
-            <NavigationBar />
+            <NavigationBar navTitle={navTitle} />
             <ContentSection>
-                {userData?.currentPage !== PageList.RoomMain && (
+                {navTitle !== "방 목록" && (
                     <LeftMenu
                         show={openedLeftMenu}
+                        navTitle={navTitle}
                         setLeftMenu={setOpenedLeftMenu}
                     />
                 )}
@@ -39,16 +66,13 @@ const PrivateLayout = ({ children, modal }: Props) => {
                         position: "relative",
                     }}
                 >
-                    {userData?.currentPage !== PageList.RoomMain &&
-                        !openedLeftMenu && (
-                            <MenuIcon
-                                onClick={() =>
-                                    setOpenedLeftMenu((prev) => !prev)
-                                }
-                            >
-                                <AiOutlineMenuUnfold />
-                            </MenuIcon>
-                        )}
+                    {navTitle !== "방 목록" && !openedLeftMenu && (
+                        <MenuIcon
+                            onClick={() => setOpenedLeftMenu((prev) => !prev)}
+                        >
+                            <AiOutlineMenuUnfold />
+                        </MenuIcon>
+                    )}
                     <Scrollbars universal={true}>{children}</Scrollbars>
                 </main>
             </ContentSection>

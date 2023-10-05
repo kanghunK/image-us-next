@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { IconContext } from "react-icons/lib";
 import { FaRegUser } from "react-icons/fa";
 import { usePathname, useRouter } from "next/navigation";
@@ -16,14 +16,12 @@ import { useUserData } from "@/states/stores/userData";
 import { removeLocalStorageData } from "@/utils/userFetcher";
 import { montserrat } from "@/app/fonts";
 
-export default function NavigationBar() {
+export default function NavigationBar({ navTitle }: { navTitle: string }) {
     const [userData, setUserData] = useUserData();
 
     const router = useRouter();
     const currentPath = usePathname();
     const [showUserMenu, setShowUserMenu] = useState(false);
-    const [navTitle, setNavTitle] = useState("");
-    const [isRoomMainPage, setIsRoomMainPage] = useState(false);
 
     const onClickCreateRoom = () => {
         router.push("/room/create_room");
@@ -38,15 +36,6 @@ export default function NavigationBar() {
         removeLocalStorageData();
     };
 
-    useEffect(() => {
-        if (userData?.navigationTitle) setNavTitle(userData.navigationTitle);
-        if (
-            userData?.currentPage &&
-            userData?.currentPage === PageList.RoomMain
-        )
-            setIsRoomMainPage(true);
-    }, [userData]);
-
     return (
         <Wrapper>
             <IconContext.Provider
@@ -58,18 +47,20 @@ export default function NavigationBar() {
                     <button
                         className="left_btn"
                         onClick={
-                            isRoomMainPage ? onClickCreateRoom : moveToRoom
+                            navTitle === "방 목록"
+                                ? onClickCreateRoom
+                                : moveToRoom
                         }
                     >
                         <div className="list_icon">
-                            {isRoomMainPage ? (
+                            {navTitle === "방 목록" ? (
                                 <BsCalendar2Plus />
                             ) : (
                                 <CiViewList />
                             )}
                         </div>
                         <div className="list_text">
-                            {isRoomMainPage
+                            {navTitle === "방 목록"
                                 ? "방 생성하기"
                                 : "방 목록으로 이동"}
                         </div>
@@ -79,7 +70,7 @@ export default function NavigationBar() {
                     {navTitle}
                 </h2>
                 <IconGroup>
-                    {userData?.currentPage === PageList.ImageRoom && (
+                    {navTitle !== "방 목록" && navTitle !== "마이 페이지" && (
                         <>
                             <div
                                 className="upload_icon icon_d"

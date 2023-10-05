@@ -84,6 +84,4 @@ export interface UserData extends UserInfo, MyPageInfo {
     loginState: "login" | "logout" | "loading";
     friends?: DFriendData[];
     roomList?: RoomData[];
-    currentPage?: PageList;
-    navigationTitle?: string;
 }

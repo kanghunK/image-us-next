@@ -14,7 +14,6 @@ import { useUserData } from "@/states/stores/userData";
 import ImageLoading from "@/components/shared/ImageLoading";
 
 export default function Page({ params }: { params: { id: string } }) {
-    const [userData, setUserData] = useUserData();
     const [imageList, setImageList] = useRoomImageList();
     const {
         isLoading: isImageLoading,
@@ -67,17 +66,6 @@ export default function Page({ params }: { params: { id: string } }) {
         setImageList(null);
         setImageLoadEnd(false);
     };
-
-    useEffect(() => {
-        const currentRoomData = userData?.roomList?.find(
-            (data) => "" + data.id === roomId
-        );
-        setUserData((prev) => ({
-            ...prev,
-            currentPage: PageList.ImageRoom,
-            navigationTitle: currentRoomData?.title ?? "Unknown",
-        }));
-    }, [setUserData]);
 
     useEffect(() => {
         try {

@@ -3,17 +3,14 @@ import { BiArrowFromRight } from "react-icons/bi";
 import styled from "@emotion/styled";
 import RoomList from "./RoomList";
 import MyPageMenu from "./MyPageMenu";
-import { useUserData } from "@/states/stores/userData";
-import { PageList } from "@/lib/enumType";
 
 interface Props {
     show: boolean;
+    navTitle: string;
     setLeftMenu: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export default function LeftMenu({ show, setLeftMenu }: Props) {
-    const [userData] = useUserData();
-
+export default function LeftMenu({ show, navTitle, setLeftMenu }: Props) {
     const handleCloseMenu = useCallback(
         () => setLeftMenu(false),
         [setLeftMenu]
@@ -26,7 +23,7 @@ export default function LeftMenu({ show, setLeftMenu }: Props) {
                     <BiArrowFromRight />
                 </div>
             )}
-            {userData?.currentPage === PageList.ImageRoom ? (
+            {navTitle !== "마이 페이지" ? (
                 <RoomList show={show} />
             ) : (
                 <MyPageMenu show={show} />

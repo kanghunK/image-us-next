@@ -20,8 +20,6 @@ export default function MyPageLayout({ children }: MyPageLayoutProps) {
                 imageLen: data?.imageLen,
                 roomListLen: data?.roomListLen,
                 friendlistLen: data?.friendlistLen,
-                currentPage: PageList.MyPage,
-                navigationTitle: "마이 페이지",
             }));
         }
     };

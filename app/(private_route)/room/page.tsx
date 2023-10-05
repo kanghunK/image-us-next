@@ -12,18 +12,9 @@ import styles from "./room.module.scss";
 import LoadingCompoent from "@/components/shared/Loading";
 
 export default function Room() {
-    const [userData, setUserData] = useUserData();
     const { data: roomlist, isLoading } = useRoom();
 
     const router = useRouter();
-
-    useEffect(() => {
-        setUserData((prev) => ({
-            ...prev,
-            currentPage: PageList.RoomMain,
-            navigationTitle: "방 목록",
-        }));
-    }, [setUserData]);
 
     if (isLoading || !roomlist) return <LoadingCompoent />;
 
