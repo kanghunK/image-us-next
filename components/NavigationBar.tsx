@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { IconContext } from "react-icons/lib";
 import { FaRegUser } from "react-icons/fa";
 import { usePathname, useRouter } from "next/navigation";
@@ -22,7 +22,8 @@ export default function NavigationBar() {
     const router = useRouter();
     const currentPath = usePathname();
     const [showUserMenu, setShowUserMenu] = useState(false);
-    const isRoomMainPage = userData?.currentPage === PageList.RoomMain;
+    const [navTitle, setNavTitle] = useState("");
+    const [isRoomMainPage, setIsRoomMainPage] = useState(false);
 
     const onClickCreateRoom = () => {
         router.push("/room/create_room");
@@ -36,6 +37,15 @@ export default function NavigationBar() {
         });
         removeLocalStorageData();
     };
+
+    useEffect(() => {
+        if (userData?.navigationTitle) setNavTitle(userData.navigationTitle);
+        if (
+            userData?.currentPage &&
+            userData?.currentPage === PageList.RoomMain
+        )
+            setIsRoomMainPage(true);
+    }, [userData]);
 
     return (
         <Wrapper>
@@ -66,7 +76,7 @@ export default function NavigationBar() {
                     </button>
                 </LeftButton>
                 <h2 className={`${montserrat.className} title_tag`}>
-                    {userData?.navigationTitle}
+                    {navTitle}
                 </h2>
                 <IconGroup>
                     {userData?.currentPage === PageList.ImageRoom && (

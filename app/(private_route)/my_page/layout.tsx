@@ -13,7 +13,7 @@ export default function MyPageLayout({ children }: MyPageLayoutProps) {
     const [userData, setUserData] = useUserData();
 
     const setInitialData = async () => {
-        if (userData?.user_info) {
+        if (userData.user_info && !userData?.imageLen) {
             const data = await getMyPageInfo(userData?.user_info.id);
             await setUserData((prev) => ({
                 ...prev,
@@ -27,13 +27,10 @@ export default function MyPageLayout({ children }: MyPageLayoutProps) {
     };
 
     useEffect(() => {
-        // setUserData((prev) => ({
-        //     ...prev,
-        //     currentPage: PageList.MyPage,
-        //     navigationTitle: "마이 페이지",
-        // }));
-        setInitialData();
-    }, []);
+        if (userData.loginState === "login") {
+            setInitialData();
+        }
+    }, [userData]);
 
     return (
         <WrapperBox>
