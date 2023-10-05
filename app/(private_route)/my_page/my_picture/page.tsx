@@ -41,6 +41,8 @@ export default function MyPicture() {
         try {
             const userId = userData?.user_info?.id;
 
+            if (!userId) return;
+
             const newImageList = await loadUserImagelist(userId, fetchNum);
 
             if (!newImageList) return;
@@ -76,7 +78,7 @@ export default function MyPicture() {
         return () => {
             resetImageList();
         };
-    }, []);
+    }, [userData]);
 
     return (
         <Wrapper>
