@@ -86,8 +86,8 @@ export default function MyPicture() {
                 <NoImage>
                     <Image
                         src="/no_image.png"
-                        width={500}
-                        height={500}
+                        width={300}
+                        height={300}
                         alt="이미지 없음"
                     />
                     <p style={{ fontSize: "1.2rem" }}>
@@ -127,7 +127,7 @@ const NoImage = styled.div`
 `;
 
 const Wrapper = styled.div`
-    padding: 50px 0;
+    margin-bottom: 3rem;
     box-sizing: border-box;
 `;
 
