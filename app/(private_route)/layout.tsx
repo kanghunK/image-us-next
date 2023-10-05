@@ -49,7 +49,7 @@ const PrivateLayout = ({ children, modal }: Props) => {
                                 <AiOutlineMenuUnfold />
                             </MenuIcon>
                         )}
-                    <Scrollbars>{children}</Scrollbars>
+                    <Scrollbars universal={true}>{children}</Scrollbars>
                 </main>
             </ContentSection>
             {modal}

@@ -34,7 +34,11 @@ const Modal = ({ children, scroll = true, width, height }: ModalProps) => {
     return (
         <Wrapper ref={wrapperEl} onClick={onClickWrapper}>
             <Container width={width} height={height}>
-                {scroll ? <Scrollbars>{children}</Scrollbars> : children}
+                {scroll ? (
+                    <Scrollbars universal={true}>{children}</Scrollbars>
+                ) : (
+                    children
+                )}
             </Container>
         </Wrapper>
     );

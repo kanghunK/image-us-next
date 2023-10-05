@@ -107,7 +107,7 @@ export default function InviteMemberModal({
                             멤버 목록
                         </label>
                         <div className="member_list tab_content">
-                            <Scrollbars>
+                            <Scrollbars universal={true}>
                                 <div className="container">
                                     {roomData?.userlist.map((memberData) => (
                                         <div
@@ -161,7 +161,7 @@ export default function InviteMemberModal({
                         <InviteFriendsBox className="tab_content">
                             <div className="container">
                                 <div className="check_group">
-                                    <Scrollbars>
+                                    <Scrollbars universal={true}>
                                         {!filteredMemberlist ? (
                                             <div>로딩중...</div>
                                         ) : filteredMemberlist.length === 0 ? (
@@ -251,7 +251,7 @@ export default function InviteMemberModal({
                             멤버 검색
                         </label>
                         <div className="search_member tab_content">
-                            <Scrollbars>
+                            <Scrollbars universal={true}>
                                 <SearchBox />
                             </Scrollbars>
                         </div>

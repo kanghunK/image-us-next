@@ -84,7 +84,7 @@ export default function SearchBox() {
                     <PreviewBox>
                         {searchDataList && searchDataList?.length !== 0 ? (
                             <ul className="preview_data">
-                                <Scrollbars>
+                                <Scrollbars universal={true}>
                                     {searchDataList.map((data: DFriendData) => (
                                         <li
                                             key={data.id}

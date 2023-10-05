@@ -14,7 +14,7 @@ export default function RoomList({ show }: { show: boolean }) {
     return (
         <>
             <h3>방 목록</h3>
-            <Scrollbars>
+            <Scrollbars universal={true}>
                 <Container show={show}>
                     {roomList.map((item) => {
                         const isActive = pathname === `/room/${item.id}`;
