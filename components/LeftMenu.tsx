@@ -69,7 +69,7 @@ const Wrapper = styled.div<{ show: boolean }>`
         }
     }
 
-    @media screen and (max-width: 460px) {
+    @media screen and (max-width: 750px) {
         position: absolute;
         z-index: 10;
     }
