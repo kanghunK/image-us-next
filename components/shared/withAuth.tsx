@@ -17,8 +17,6 @@ function withAuth(
             const userInfo = await checkAuth();
 
             if (userInfo) {
-                if (userData.loginState === "login") return;
-
                 await setUserData((prev) => ({
                     ...prev,
                     loginState: "login",
