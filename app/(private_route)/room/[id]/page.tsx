@@ -89,6 +89,7 @@ export default function Page({ params }: { params: { id: string } }) {
                         width={300}
                         height={300}
                         alt="이미지 없음"
+                        priority
                     />
                     <p style={{ fontSize: "1.2rem" }}>
                         등록된 이미지가 없습니다.

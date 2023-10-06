@@ -144,13 +144,10 @@ export default function UploadImageModal({ roomId }: Props) {
                                 <NextImage
                                     src={imageData.src}
                                     alt="미리보기 이미지"
+                                    fill={true}
                                     style={{
-                                        width: "100%",
-                                        height: "100%",
                                         objectFit: "contain",
                                     }}
-                                    width={300}
-                                    height={300}
                                 />
                             )
                         ) : (
@@ -194,6 +191,7 @@ const Container = styled.div`
     }
 
     .preview {
+        position: relative;
         flex: 1 0 auto;
         display: flex;
         flex-direction: column;
