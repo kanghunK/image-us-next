@@ -1,3 +1,14 @@
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+
+    min-height: 100%;
+    padding: 50px;
+    box-sizing: border-box;
+}
+
 .subtitle {
     h2 {
         position: relative;
@@ -57,4 +68,44 @@
     max-width: 800px;
     margin: 50px 0;
     gap: 3rem;
+}
+
+.no_group {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+
+    .text {
+        font-size: 1.2rem;
+    }
+}
+
+.create_room {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    width: 85%;
+    max-width: 800px;
+    margin-top: 3rem;
+    gap: 0.5rem;
+    padding: 1rem;
+
+    box-sizing: border-box;
+    user-select: none;
+    border-radius: 0.4rem;
+    color: hsla(240, 7%, 70%, 1);
+    background-color: #f8f8f8;
+    border: transparent;
+    cursor: pointer;
+
+    &:hover {
+        background-color: hsla(240, 7%, 70%, 0.22);
+    }
+
+    svg {
+        width: 35px;
+        height: 35px;
+    }
 }

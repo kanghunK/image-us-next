@@ -24,7 +24,6 @@ export function useRoom() {
                         const tokenData = await getToken();
                         const userInfoData =
                             localStoragePersistor.onGet(USERDATA_KEY);
-
                         const response = await customAxios.get(
                             `/user/${userInfoData.user_info.id}/roomlist`,
                             {

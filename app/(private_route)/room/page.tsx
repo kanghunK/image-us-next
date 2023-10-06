@@ -1,15 +1,12 @@
 "use client";
-import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { BsCalendar2Plus } from "react-icons/bs";
-import styled from "@emotion/styled";
+import Image from "next/image";
 
-import { PageList } from "@/lib/enumType";
 import Card from "@/components/Card";
 import { useRoom } from "@/hooks/useRoom";
-import { useUserData } from "@/states/stores/userData";
-import styles from "./room.module.scss";
 import LoadingCompoent from "@/components/shared/Loading";
+import styles from "./room.module.scss";
 
 export default function Room() {
     const { data: roomlist, isLoading } = useRoom();
@@ -19,10 +16,19 @@ export default function Room() {
     if (isLoading || !roomlist) return <LoadingCompoent />;
 
     return (
-        <Wrapper>
+        <div className={styles.wrapper}>
             <div className={styles.card_wrapper}>
                 {roomlist.length === 0 ? (
-                    <div>등록된 방이 없습니다...</div>
+                    <div className={styles.no_group}>
+                        <Image
+                            src="/no_group.png"
+                            width={200}
+                            height={200}
+                            alt="그룹방 없음"
+                            priority
+                        />
+                        <p className={styles.text}>등록된 방이 없습니다...</p>
+                    </div>
                 ) : (
                     roomlist.map((roomData, i) => (
                         <Card
@@ -33,51 +39,13 @@ export default function Room() {
                     ))
                 )}
             </div>
-            <CreateRoomBox onClick={() => router.push("/room/create_room")}>
+            <div
+                className={styles.create_room}
+                onClick={() => router.push("/room/create_room")}
+            >
                 <BsCalendar2Plus />
                 <div>새로운 방 만들기</div>
-            </CreateRoomBox>
-        </Wrapper>
+            </div>
+        </div>
     );
 }
-
-const Wrapper = styled.div`
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-
-    min-height: 100%;
-    padding: 50px;
-    box-sizing: border-box;
-`;
-
-const CreateRoomBox = styled.div`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-
-    width: 85%;
-    max-width: 800px;
-    margin-top: 3rem;
-    gap: 0.5rem;
-    padding: 1rem;
-
-    box-sizing: border-box;
-    user-select: none;
-    cursor: pointer;
-    border-radius: 0.4rem;
-    color: hsla(240, 7%, 70%, 1);
-    background-color: #f8f8f8;
-    border: transparent;
-
-    &:hover {
-        background-color: hsla(240, 7%, 70%, 0.22);
-    }
-
-    svg {
-        width: 35px;
-        height: 35px;
-    }
-`;
