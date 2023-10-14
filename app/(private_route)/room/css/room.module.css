@@ -53,16 +53,14 @@
 
 .card_wrapper {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 250px));
+  grid-template-columns: repeat(auto-fit, minmax(200px, 300px));
   justify-content: center;
   align-items: center;
-  text-align: center;
   place-items: center;
-  width: 85%;
   height: -moz-fit-content;
   height: fit-content;
-  max-width: 800px;
-  margin: 50px 0;
+  width: 100%;
+  max-width: 1024px;
   gap: 3rem;
 }
 

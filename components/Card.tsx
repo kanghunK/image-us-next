@@ -14,7 +14,6 @@ interface CardProps {
 
 export default function Card({ roomData, index }: CardProps) {
     const router = useRouter();
-    const [mouseOver, setMouseOver] = useState(false);
 
     const onClickNavigateRoom = useCallback(
         (roomId: number) => () => {
@@ -24,23 +23,29 @@ export default function Card({ roomData, index }: CardProps) {
     );
 
     return (
-        <Wrapper accessBoxHover={mouseOver}>
-            <div className="card_body">
-                <div className="card_num">{index}</div>
-                <div
-                    className="main_info"
-                    onClick={onClickNavigateRoom(roomData.id)}
-                    onMouseOver={() => setMouseOver(true)}
-                    onMouseLeave={() => setMouseOver(false)}
-                >
-                    <div className="title">{roomData.title}</div>
-                    <div>
+        <Wrapper>
+            <div className="info">
+                <div className="room_title_d">
+                    <span className="tag">방 제목</span>
+                    <div className="room_title">{roomData.title}</div>
+                </div>
+                <div className="member_d">
+                    <span className="tag">멤버들</span>
+                    <div className="members">
                         {roomData.userlist.slice(0, 3).map((data) => (
                             <span key={data.id} className="member">
                                 {data.name}
                             </span>
                         ))}
                         ...
+                    </div>
+                </div>
+                <div className="access_d">
+                    <div
+                        className="access_btn"
+                        onClick={onClickNavigateRoom(roomData.id)}
+                    >
+                        입장하기
                     </div>
                 </div>
                 <div className="btn_group">
@@ -50,9 +55,11 @@ export default function Card({ roomData, index }: CardProps) {
                             color: "rgba(0, 0, 0, 0.45)",
                         }}
                     >
-                        <ExitRoomBtn roomId={roomData.id} />
+                        <div className="exit_room_btn">
+                            <ExitRoomBtn roomId={roomData.id} />
+                        </div>
                         <div
-                            className="invite_icon"
+                            className="invite_member_btn"
                             onClick={() =>
                                 router.push(`room/${roomData.id}/invite_member`)
                             }
@@ -66,84 +73,140 @@ export default function Card({ roomData, index }: CardProps) {
     );
 }
 
-const Wrapper = styled.div<{ accessBoxHover: boolean }>`
-    position: relative;
+const Wrapper = styled.div`
+    float: left;
+    width: 200px;
+    overflow: hidden;
+    border-radius: 11px;
+    border: 1px solid #ddd;
 
-    width: 250px;
-    border: 1px solid #b8b9c9;
-    border-radius: 8px;
-    background: #fff;
-    transition: box-shadow 0.2s, border-color 0.2s;
-    ${({ accessBoxHover }) =>
-        accessBoxHover
-            ? "border-color: transparent; box-shadow: 0 1px 2px -2px rgba(0, 0, 0, 0.16), 0 3px 6px 0 rgba(0, 0, 0, 0.12), 0 5px 12px 4px rgba(0, 0, 0, 0.09);"
-            : ""}
+    .tag {
+        padding: 0.125rem 0.625rem;
+        margin-right: 15px;
 
-    .card_body {
-        display: flex;
-        align-items: center;
-        height: 90px;
-        border-radius: 8px;
+        border-radius: 0.25rem;
+        font-size: 0.875rem;
+        line-height: 1.25rem;
+        color: rgb(55 48 163);
+        background-color: rgb(224 231 255);
+    }
+
+    .thumb {
+        float: left;
+        width: 100%;
         overflow: hidden;
+        position: relative;
+    }
 
-        .card_num {
-            width: 30px;
-            height: 100%;
-            line-height: 90px;
-            border-right: 1px solid #f0f0f0;
+    .info {
+        float: left;
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        padding: 10px;
+        box-sizing: border-box;
+
+        .room_title_d {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            padding-left: 1rem;
+
+            .room_title {
+                margin: 0;
+                color: #000;
+                font-size: 19px;
+                font-weight: bold;
+            }
         }
 
-        .main_info {
-            flex: 1 0 auto;
+        .member_d {
             display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+            margin-top: 0.5rem;
+            padding-left: 1rem;
 
-            height: 100%;
-            cursor: pointer;
+            .members {
+                display: flex;
+                gap: 0.4rem;
 
-            &:hover {
-                background-color: #f8f8ff;
+                .member {
+                    color: #666;
+                    font-size: 14px;
+                }
+            }
+        }
+
+        .access_d {
+            margin-top: 1.5rem;
+
+            &::after {
+                display: block;
+                content: "";
+                clear: both;
             }
 
-            .title {
-                margin-bottom: 8px;
-                font-weight: 600;
-                color: rgba(0, 0, 0, 0.88);
-            }
+            .access_btn {
+                float: right;
+                display: table;
+                width: auto;
+                height: auto;
+                padding: 10px 20px;
+                background: #f6e5cb;
+                color: #000;
+                font-size: 14px;
+                border-radius: 20px;
+                transition: 0.6s;
+                cursor: pointer;
 
-            .member {
-                color: rgba(0, 0, 0, 0.45);
-
-                &:not(:last-child) {
-                    margin-right: 5px;
+                &:hover {
+                    background: #000;
+                    color: #fff;
                 }
             }
         }
 
         .btn_group {
             display: flex;
-            flex-direction: column;
-            justify-content: space-evenly;
-            align-items: center;
-            width: 50px;
-            height: 100%;
+            justify-content: space-around;
+            height: 35px;
+            margin-top: 1rem;
 
-            border-left: 1px solid #f0f0f0;
-
-            .invite_icon {
+            .exit_room_btn {
+                flex: 1;
                 display: flex;
                 justify-content: center;
-                align-items: center;
+                border-radius: 11px;
+
+                &:hover {
+                    background-color: #f07070;
+                    svg {
+                        color: white !important;
+                    }
+                }
+            }
+
+            .invite_member_btn {
                 flex: 1;
-                width: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                border-radius: 11px;
                 cursor: pointer;
 
                 &:hover {
-                    background-color: #f0f0f0;
+                    background-color: #f0c2a7;
                 }
             }
+        }
+    }
+
+    @media screen and (min-width: 400px) {
+        width: 300px;
+
+        .info {
+            padding: 20px;
         }
     }
 `;

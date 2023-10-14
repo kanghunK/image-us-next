@@ -52,19 +52,7 @@ export default function NoticeModal({
 }
 
 const Container = styled.div<{ idNum: number }>`
-    flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
     width: 100%;
-
-    &:hover {
-        background-color: #f07070;
-        svg {
-            color: white !important;
-        }
-    }
 
     .label_icon {
         display: flex;
