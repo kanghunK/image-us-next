@@ -53,6 +53,7 @@ export default function NoticeModal({
 
 const Container = styled.div<{ idNum: number }>`
     width: 100%;
+    height: 100%;
 
     .label_icon {
         display: flex;

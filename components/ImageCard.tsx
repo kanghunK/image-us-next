@@ -59,10 +59,12 @@ export default function ImageCard({ imageData, observerRef }: Props) {
                         </a>
                     </div>
                     {userData?.user_info?.id === imageData.user_id && (
-                        <DeleteImageBtn
-                            isRoom={params?.id ? true : false}
-                            imageId={imageData.id}
-                        />
+                        <div className="delete_btn">
+                            <DeleteImageBtn
+                                isRoom={params?.id ? true : false}
+                                imageId={imageData.id}
+                            />
+                        </div>
                     )}
                 </div>
             </IconContext.Provider>
@@ -90,7 +92,7 @@ const Wrapper = styled.div`
     overflow: hidden;
 
     &:hover {
-        border-color: transparent;
+        border: transparent;
         box-shadow: 0 1px 2px -2px rgba(0, 0, 0, 0.16),
             0 3px 6px 0 rgba(0, 0, 0, 0.12), 0 5px 12px 4px rgba(0, 0, 0, 0.09);
     }
@@ -121,6 +123,15 @@ const Wrapper = styled.div`
                 display: inline-block;
                 width: 100%;
                 height: 100%;
+            }
+        }
+
+        .delete_btn {
+            &:hover {
+                background-color: #f07070;
+                svg {
+                    color: white !important;
+                }
             }
         }
     }
