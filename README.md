@@ -60,6 +60,6 @@ ImageUs에서는 사진을 공유하고 싶은 그룹을 만들고 여행 사진
 
 <br />
 
--   [접속 링크](https://codakcodak.site)
+-   [접속 링크](https://hunee.site)
 
--   [임시 로그인 접속링크](https://codakcodak.site/login?email=test1@test.com&password=testuser1)
+-   [임시 로그인 접속링크](https://hunee.site/login?email=test1@test.com&password=testuser1)
