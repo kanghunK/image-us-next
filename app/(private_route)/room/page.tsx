@@ -21,13 +21,13 @@ export default function Room() {
                 {roomlist.length === 0 ? (
                     <div className={styles.no_group}>
                         <Image
-                            src="/no_group.png"
+                            src="/no_data.png"
                             width={200}
                             height={200}
                             alt="그룹방 없음"
                             priority
                         />
-                        <p className={styles.text}>등록된 방이 없습니다...</p>
+                        <p className={styles.text}>등록된 방이 없습니다!</p>
                     </div>
                 ) : (
                     roomlist.map((roomData, i) => (
