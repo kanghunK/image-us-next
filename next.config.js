@@ -2,9 +2,6 @@
 const nextConfig = {
     distDir: "dist",
     skipTrailingSlashRedirect: true,
-    experimental: {
-        appDir: true,
-    },
     compiler: {
         emotion: true,
         styledComponents: true,
