@@ -7,12 +7,11 @@ import Scrollbars from "react-custom-scrollbars-2";
 
 interface ModalProps {
     children: React.ReactNode;
-    scroll?: boolean;
     width?: string;
     height?: string;
 }
 
-const Modal = ({ children, scroll = true, width, height }: ModalProps) => {
+const Modal = ({ children, width, height }: ModalProps) => {
     const wrapperEl = useRef(null);
     const router = useRouter();
 
@@ -34,11 +33,7 @@ const Modal = ({ children, scroll = true, width, height }: ModalProps) => {
     return (
         <Wrapper ref={wrapperEl} onClick={onClickWrapper}>
             <Container width={width} height={height}>
-                {scroll ? (
-                    <Scrollbars universal={true}>{children}</Scrollbars>
-                ) : (
-                    children
-                )}
+                {children}
             </Container>
         </Wrapper>
     );

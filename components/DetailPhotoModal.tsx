@@ -50,7 +50,7 @@ export default function DetailPhotoModal({
     };
 
     return (
-        <Modal scroll={false} width="auto" height="fit-content">
+        <Modal width="auto" height="fit-content">
             <Container>
                 <div className="photo_info">
                     {imageData?.user_name && (
