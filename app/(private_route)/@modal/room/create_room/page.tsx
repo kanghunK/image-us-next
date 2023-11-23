@@ -195,7 +195,7 @@ const ModalInputBox = styled.div`
         padding: 1.5rem;
 
         border-radius: 0.5rem;
-        border: 1px solid #3b4856;
+        border: 1px solid #bdc3ca;
         box-sizing: border-box;
         overflow: auto;
 
@@ -218,10 +218,16 @@ const ModalInputBox = styled.div`
                 & + .check_shape {
                     position: relative;
                     display: inline-block;
+
                     width: 16px;
                     height: 16px;
                     margin-top: 1px;
-                    border: 3px solid #707070;
+
+                    color: rgba(0, 0, 0, 0.575);
+                    border: solid 0.06em;
+                    border-radius: 5px;
+                    box-shadow: 0 0 0.04em, 0 0.06em 0.16em -0.03em inset,
+                        0 0 0 0.07em transparent inset;
                 }
 
                 &:checked + .check_shape::after {
@@ -250,7 +256,7 @@ const ModalInputBox = styled.div`
         box-sizing: border-box;
         border-radius: 5px;
         box-shadow: none;
-        border: 1px solid #ced6e0;
+        border: 1px solid #bdc3ca;
         transition: all 0.3s ease-in-out;
         font-size: 18px;
         padding: 5px 15px;

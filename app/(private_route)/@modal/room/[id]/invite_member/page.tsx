@@ -448,11 +448,16 @@ const MemberListToInvite = styled.div`
                 & + .check_shape {
                     position: relative;
                     display: inline-block;
+
                     width: 16px;
                     height: 16px;
                     margin-top: 1px;
-                    border: 3px solid #707070;
+
+                    color: rgba(0, 0, 0, 0.575);
+                    border: solid 0.06em;
                     border-radius: 5px;
+                    box-shadow: 0 0 0.04em, 0 0.06em 0.16em -0.03em inset,
+                        0 0 0 0.07em transparent inset;
                 }
 
                 &:checked + .check_shape::after {
