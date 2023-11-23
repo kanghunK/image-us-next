@@ -115,6 +115,7 @@ const CreateRoomModal = () => {
                     {!isRequestStage ? (
                         <Button
                             onClick={onClickCheckForm}
+                            bgColor={"#7D9FEB"}
                             style={{
                                 display: "block",
                                 width: "60%",

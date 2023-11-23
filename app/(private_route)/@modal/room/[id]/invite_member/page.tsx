@@ -231,10 +231,16 @@ export default function InviteMemberModal({
                                     </Scrollbars>
                                 </div>
                                 <div className="button_group">
-                                    <Button onClick={onClickInviteMember}>
+                                    <Button
+                                        bgColor={"#7D9FEB"}
+                                        onClick={onClickInviteMember}
+                                    >
                                         초대하기
                                     </Button>
-                                    <Button onClick={() => router.back()}>
+                                    <Button
+                                        bgColor={"#7D9FEB"}
+                                        onClick={() => router.back()}
+                                    >
                                         취소
                                     </Button>
                                 </div>
@@ -524,7 +530,6 @@ const InviteFriendsBox = styled.div`
         justify-content: space-evenly;
         width: 100%;
         height: 60px;
-        box-shadow: rgba(206, 206, 206, 0.5) 0px -1px 1px 0px;
     }
 `;
 

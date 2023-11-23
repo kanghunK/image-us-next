@@ -19,12 +19,12 @@ const buttonHoverBgColor = {
     default: "#365690",
 };
 
-const Button = styled.button`
+const Button = styled.button<{ bgColor?: string }>`
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
 
-    background: ${buttonBgColor.default};
+    background: ${({ bgColor }) => bgColor ?? buttonBgColor.default};
     color: ${buttonColor.default};
 
     margin: 0;
