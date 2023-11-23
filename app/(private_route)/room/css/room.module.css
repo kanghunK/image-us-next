@@ -1,11 +1,12 @@
 .wrapper {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-around;
   align-items: center;
   min-height: 100%;
   padding: 50px;
   box-sizing: border-box;
+  overflow-x: hidden;
 }
 
 .subtitle h2 {
