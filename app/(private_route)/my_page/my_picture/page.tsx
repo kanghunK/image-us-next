@@ -10,7 +10,7 @@ import ImageCard from "@/components/ImageCard";
 import useIntersect from "@/hooks/useIntersect";
 import { useImage } from "@/hooks/useImage";
 import { useUserData, useUserImageList } from "@/states/stores/userData";
-import ImageLoading from "@/components/shared/ImageLoading";
+import DataLoading from "@/components/shared/DataLoading";
 
 export default function MyPicture() {
     const router = useRouter();
@@ -83,7 +83,7 @@ export default function MyPicture() {
     return (
         <Wrapper>
             {!userImageList ? (
-                <ImageLoading />
+                <DataLoading text="이미지" />
             ) : userImageList.length === 0 ? (
                 <NoImage>
                     <Image

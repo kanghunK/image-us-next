@@ -5,15 +5,15 @@ import Image from "next/image";
 
 import Card from "@/components/Card";
 import { useRoom } from "@/hooks/useRoom";
-import LoadingCompoent from "@/components/shared/Loading";
 import styles from "./room.module.scss";
+import DataLoading from "@/components/shared/DataLoading";
 
 export default function Room() {
     const { data: roomlist, isLoading } = useRoom();
 
     const router = useRouter();
 
-    if (isLoading || !roomlist) return <LoadingCompoent />;
+    if (isLoading || !roomlist) return <DataLoading text="데이터" />;
 
     return (
         <div className={styles.wrapper}>

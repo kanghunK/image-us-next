@@ -2,13 +2,17 @@ import { arvo } from "@/app/fonts";
 import React from "react";
 import styled from "@emotion/styled";
 
-export default function ImageLoading() {
+interface DataLoadingProps {
+    text: string;
+}
+
+export default function DataLoading({ text }: DataLoadingProps) {
     return (
         <Container>
             <div className="circle_box">
                 <div>
                     <span className={`${arvo.className} text`}>
-                        {`이미지
+                        {`${text}
 로딩중`}
                     </span>
                 </div>

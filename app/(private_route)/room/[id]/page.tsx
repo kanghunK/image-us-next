@@ -5,13 +5,11 @@ import { usePathname, useRouter } from "next/navigation";
 import { PiUploadThin } from "react-icons/pi";
 import styled from "@emotion/styled";
 
-import { PageList } from "@/lib/enumType";
 import ImageCard from "@/components/ImageCard";
 import useIntersect from "@/hooks/useIntersect";
 import { useImage } from "@/hooks/useImage";
 import { useRoomImageList } from "@/states/stores/roomData";
-import { useUserData } from "@/states/stores/userData";
-import ImageLoading from "@/components/shared/ImageLoading";
+import DataLoading from "@/components/shared/DataLoading";
 
 export default function Page({ params }: { params: { id: string } }) {
     const [imageList, setImageList] = useRoomImageList();
@@ -81,7 +79,7 @@ export default function Page({ params }: { params: { id: string } }) {
     return (
         <Wrapper>
             {!imageList ? (
-                <ImageLoading />
+                <DataLoading text="이미지" />
             ) : imageList.length === 0 ? (
                 <NoImage>
                     <Image
