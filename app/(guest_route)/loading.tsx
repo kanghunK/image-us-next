@@ -2,7 +2,7 @@
 
 import React from "react";
 import styled from "@emotion/styled";
-import LoadingCompoent from "@/components/shared/Loading";
+import LoadingCompoent from "@/components/shared/LoadingIcon";
 import { roboto } from "../fonts";
 
 export default function Loading() {
