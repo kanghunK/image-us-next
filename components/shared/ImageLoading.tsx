@@ -1,19 +1,16 @@
 import { arvo } from "@/app/fonts";
 import React from "react";
-import ReactLoading from "react-loading";
 import styled from "@emotion/styled";
 
 export default function ImageLoading() {
     return (
         <Container>
             <div className="circle_box">
-                <div className="text_box">
-                    <span className={`${arvo.className} text`}>Loading...</span>
-                    <ReactLoading
-                        type="cylon"
-                        color="#363745"
-                        className="loading"
-                    />
+                <div>
+                    <span className={`${arvo.className} text`}>
+                        {`이미지
+로딩중`}
+                    </span>
                 </div>
             </div>
         </Container>
@@ -42,19 +39,11 @@ const Container = styled.div`
         border-radius: 50%;
         background-color: #f8f8ff;
 
-        .text_box {
-            position: relative;
-
-            .text {
-                font-size: 1.2rem;
-            }
-
-            .loading {
-                position: absolute;
-                top: 20px;
-                left: 50%;
-                transform: translateX(-50%);
-            }
+        .text {
+            font-size: 1.2rem;
+            line-height: 1.8rem;
+            white-space: pre;
+            text-align: center;
         }
     }
 `;
