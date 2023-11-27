@@ -2,12 +2,16 @@
 
 import React from "react";
 import styled from "@emotion/styled";
-import ReactLoading from "react-loading";
+import ReactLoading, { LoadingType } from "react-loading";
 
-export default function LoadingCompoent() {
+interface LoadingProps {
+    loadingType: LoadingType;
+}
+
+export default function LoadingCompoent({ loadingType }: LoadingProps) {
     return (
         <Wrapper>
-            <ReactLoading type="spinningBubbles" color="black" />
+            <ReactLoading type={loadingType} color="black" />
         </Wrapper>
     );
 }
